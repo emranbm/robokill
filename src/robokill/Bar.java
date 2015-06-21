@@ -5,7 +5,6 @@ import java.awt.Point;
 import useful.Vector;
 
 /**
- * Salam hamid
  * 
  * @author Mr.Coder
  *
