@@ -194,7 +194,7 @@ public class GamePanel extends JPanel {
 	}
 
 	private void addElements() {
-		Block block = new Block(400, 300, Block.BLOCK_TYPE_3);
+		Block block = new Block(400, 300, Block.BLOCK_TYPE_1);
 		add(block);
 	}
 
