@@ -5,7 +5,7 @@ import java.awt.Point;
 import useful.Vector;
 
 /**
- * Salam hamid.
+ * Salam hamid?
  * 
  * @author Mr.Coder
  *
