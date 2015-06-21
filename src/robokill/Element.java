@@ -80,8 +80,7 @@ public abstract class Element extends JPanel {
 	 */
 	@Override
 	public void setLocation(int x, int y) {
-		if (GamePanel.getGamePanel()
-				.isElementInside(new Point(x, y), getSize()))
+		if (GamePanel.getGamePanel().isElementInside(new Point(x, y), getSize()))
 			super.setLocation(x, y);
 	}
 
