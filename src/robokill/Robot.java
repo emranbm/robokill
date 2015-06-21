@@ -168,7 +168,8 @@ public abstract class Robot extends Element {
 	}
 
 	/**
-	 * Moves in the given direction by the robot speed.
+	 * Moves in the given direction by the robot speed. Doesn't move if the next
+	 * location (according to the given direction) is passable.
 	 * 
 	 * @param dir
 	 */
@@ -210,8 +211,14 @@ public abstract class Robot extends Element {
 		}
 
 		changeBody();
-		this.setLocation(x, y);
+
+		Element collidedElement = GamePanel.getGamePanel().getCollidedElement(
+				this, new Point(x, y));
+		if (collidedElement == null) {
+			this.setLocation(x, y);
+		}
 		curMoveDirection = null;
+
 	}
 
 	/**
@@ -235,8 +242,8 @@ public abstract class Robot extends Element {
 		private Point targetPoint = new Point(0, 0);
 
 		/**
-		 * because RobotHead is added to Robot Panel so the location of it always is
-		 * (0,0) and we need to access the coordinate of parent panel!
+		 * because RobotHead is added to Robot Panel so the location of it
+		 * always is (0,0) and we need to access the coordinate of parent panel!
 		 */
 		private Robot parent;
 
@@ -298,16 +305,20 @@ public abstract class Robot extends Element {
 					- (targetPoint.getY() - 25));
 
 			if (targetPoint.getX() - (parent.getX() + this.getWidth() / 2) > 0
-					&& targetPoint.getY() - (parent.getY() + this.getHeight() / 2) <= 0)
+					&& targetPoint.getY()
+							- (parent.getY() + this.getHeight() / 2) <= 0)
 				area = 1;
 			if (targetPoint.getX() - (parent.getX() + this.getWidth() / 2) >= 0
-					&& targetPoint.getY() - (parent.getY() + this.getHeight() / 2) > 0)
+					&& targetPoint.getY()
+							- (parent.getY() + this.getHeight() / 2) > 0)
 				area = 4;
 			if (targetPoint.getX() - (parent.getX() + this.getWidth() / 2) < 0
-					&& targetPoint.getY() - (parent.getY() + this.getHeight() / 2) >= 0)
+					&& targetPoint.getY()
+							- (parent.getY() + this.getHeight() / 2) >= 0)
 				area = 3;
 			if (targetPoint.getX() - (parent.getX() + this.getWidth() / 2) <= 0
-					&& targetPoint.getY() - (parent.getY() + this.getHeight() / 2) < 0)
+					&& targetPoint.getY()
+							- (parent.getY() + this.getHeight() / 2) < 0)
 				area = 2;
 
 			double tanTeta = (double) (Y / X);

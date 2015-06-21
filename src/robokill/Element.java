@@ -1,5 +1,6 @@
 package robokill;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
@@ -62,7 +63,8 @@ public abstract class Element extends JPanel {
 	}
 
 	/**
-	 * Determines whether or not an element has collided with current element.
+	 * Determines whether or not an element has collided with the current
+	 * element.
 	 * 
 	 * @param element
 	 *            The element to check for collision.
@@ -75,8 +77,133 @@ public abstract class Element extends JPanel {
 		int elementX = element.getX();
 		int elementY = element.getY();
 
-		if (myX <= elementX + element.getWidth() || myX >= elementX)
-			if (myY <= elementY + element.getHeight() || myY >= elementY)
+		int x = myX, y = myY;
+
+		if (x <= elementX + element.getWidth() && x >= elementX)
+			if (y <= elementY + element.getHeight() && y >= elementY)
+				return true;
+
+		x = myX + this.getWidth();
+		y = myY;
+
+		if (x <= elementX + element.getWidth() && x >= elementX)
+			if (y <= elementY + element.getHeight() && y >= elementY)
+				return true;
+
+		x = myX;
+		y = myY + this.getHeight();
+
+		if (x <= elementX + element.getWidth() && x >= elementX)
+			if (y <= elementY + element.getHeight() && y >= elementY)
+				return true;
+
+		x = myX + this.getWidth();
+		y = myY + this.getHeight();
+
+		if (x <= elementX + element.getWidth() && x >= elementX)
+			if (y <= elementY + element.getHeight() && y >= elementY)
+				return true;
+
+		x = elementX;
+		y = elementY;
+
+		if (x <= myX + this.getWidth() && x >= myX)
+			if (y <= myY + this.getHeight() && y >= myY)
+				return true;
+
+		x = elementX + element.getWidth();
+		y = elementY;
+
+		if (x <= myX + this.getWidth() && x >= myX)
+			if (y <= myY + this.getHeight() && y >= myY)
+				return true;
+
+		x = elementX;
+		y = elementY + element.getHeight();
+
+		if (x <= myX + this.getWidth() && x >= myX)
+			if (y <= myY + this.getHeight() && y >= myY)
+				return true;
+
+		x = elementX + element.getWidth();
+		y = elementY + element.getHeight();
+
+		if (x <= myX + this.getWidth() && x >= myX)
+			if (y <= myY + this.getHeight() && y >= myY)
+				return true;
+
+		return false;
+	}
+
+	/**
+	 * Determines whether or not an element has collided with the current
+	 * element.
+	 * 
+	 * @param location
+	 *            The location to check if the collision is happened on.
+	 * @param size
+	 *            The size of checking area to check collision.
+	 * @return
+	 */
+	public boolean isCollided(Point location, Dimension size) {
+		int myX = this.getX();
+		int myY = this.getY();
+		int elementX = location.x;
+		int elementY = location.y;
+
+		int x = myX, y = myY;
+
+		if (x <= elementX + size.width && x >= elementX)
+			if (y <= elementY + size.height && y >= elementY)
+				return true;
+
+		x = myX + this.getWidth();
+		y = myY;
+
+		if (x <= elementX + size.width && x >= elementX)
+			if (y <= elementY + size.height && y >= elementY)
+				return true;
+
+		x = myX;
+		y = myY + this.getHeight();
+
+		if (x <= elementX + size.width && x >= elementX)
+			if (y <= elementY + size.height && y >= elementY)
+				return true;
+
+		x = myX + this.getWidth();
+		y = myY + this.getHeight();
+
+		if (x <= elementX + size.width && x >= elementX)
+			if (y <= elementY + size.height && y >= elementY)
+				return true;
+
+		x = elementX;
+		y = elementY;
+
+		if (x <= myX + this.getWidth() && x >= myX)
+			if (y <= myY + this.getHeight() && y >= myY)
+				return true;
+
+		x = elementX + size.width;
+		y = elementY;
+
+		if (x <= myX + this.getWidth() && x >= myX)
+			if (y <= myY + this.getHeight() && y >= myY)
+				return true;
+
+		x = elementX;
+		y = elementY + size.height;
+
+		if (x <= myX + this.getWidth() && x >= myX)
+			if (y <= myY + this.getHeight() && y >= myY)
+				return true;
+
+		x = elementX + size.width;
+		y = elementY + size.height;
+
+		if (x <= myX + this.getWidth() && x >= myX)
+			if (y <= myY + this.getHeight() && y >= myY)
 				return true;
 
 		return false;

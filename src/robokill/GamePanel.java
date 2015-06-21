@@ -109,13 +109,53 @@ public class GamePanel extends JPanel {
 	public Component add(Component comp) {
 		if (!(comp instanceof Bar))
 			elements.add((Element) comp);
+
+		System.out.println(comp);
+		
 		return super.add(comp);
 	}
 
+	/**
+	 * Checks if the given element is collided with an element or not. If it is
+	 * collided with an element, that element is returned. Otherwise null is
+	 * returned.
+	 * 
+	 * @param checkElement
+	 *            The element to check if any other element has collided with it
+	 *            or not.
+	 * @return Returns the element that is collided with the given element.
+	 *         Returns null if no collision has occurred.
+	 */
 	public Element getCollidedElement(Element checkElement) {
 
 		for (Element e : elements) {
-			if (e.isCollided(checkElement))
+			if (checkElement.isCollided(e) && checkElement != e)
+				return e;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Checks if the given element is collided with an element in the next pace
+	 * or not. If it is collided with an element in the next pace, that element
+	 * is returned. Otherwise null is returned.
+	 * 
+	 * @param element
+	 *            The element to check if any other element has collided with it
+	 *            or not.
+	 * @param nextLocation
+	 *            The new location of the element to check if collision has
+	 *            happened.
+	 * @return Returns the element that is collided with the given element.
+	 *         Returns null if no collision has occurred.
+	 */
+	public Element getCollidedElement(Element element, Point nextLocation) {
+
+		Dimension size = element.getSize();
+
+		for (Element e : elements) {
+			if (e.isCollided(nextLocation, size) && element != e)
 				return e;
 		}
 
