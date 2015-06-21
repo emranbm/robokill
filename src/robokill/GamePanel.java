@@ -10,7 +10,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+
 import static java.lang.Thread.sleep;
+
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,6 +42,8 @@ public class GamePanel extends JPanel {
 	private boolean isShooting = false;
 	private int curMouseX;
 	private int curMouseY;
+
+	private ArrayList<Element> elements = new ArrayList<Element>();
 
 	private final Set<Integer> keys = new HashSet<Integer>(); // related to
 																// movement of
@@ -98,6 +103,23 @@ public class GamePanel extends JPanel {
 		super.remove(comp); // To change body of generated methods, choose Tools
 							// | Templates.
 		repaint();
+	}
+
+	@Override
+	public Component add(Component comp) {
+		if (!(comp instanceof Bar))
+			elements.add((Element) comp);
+		return super.add(comp);
+	}
+
+	public Element getCollidedElement(Element checkElement) {
+
+		for (Element e : elements) {
+			if (e.isCollided(checkElement))
+				return e;
+		}
+
+		return null;
 	}
 
 	/**

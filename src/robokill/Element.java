@@ -61,6 +61,14 @@ public abstract class Element extends JPanel {
 		}
 	}
 
+	/**
+	 * Determines whether or not an element has collided with current element.
+	 * 
+	 * @param element
+	 *            The element to check for collision.
+	 * @return Return true if is in collision with the given element. Otherwise
+	 *         false.
+	 */
 	public boolean isCollided(Element element) {
 		int myX = this.getX();
 		int myY = this.getY();
@@ -80,7 +88,8 @@ public abstract class Element extends JPanel {
 	 */
 	@Override
 	public void setLocation(int x, int y) {
-		if (GamePanel.getGamePanel().isElementInside(new Point(x, y), getSize()))
+		if (GamePanel.getGamePanel()
+				.isElementInside(new Point(x, y), getSize()))
 			super.setLocation(x, y);
 	}
 
