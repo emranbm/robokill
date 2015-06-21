@@ -109,8 +109,6 @@ public class GamePanel extends JPanel {
 	public Component add(Component comp) {
 		if (!(comp instanceof Bar))
 			elements.add((Element) comp);
-
-		System.out.println(comp);
 		
 		return super.add(comp);
 	}

@@ -66,7 +66,14 @@ public class Bar extends Element implements Runnable, Damagable {
 
 		if (!GamePanel.getGamePanel().isElementInside(new Point(x, y),
 				this.getSize()))
-			damage(10);
+			damage(0);
+
+		Element collidedElement = GamePanel.getGamePanel().getCollidedElement(
+				this);
+		if (collidedElement != null && collidedElement instanceof Damagable) {
+			this.damage(0);
+			((Damagable) collidedElement).damage(10);
+		}
 	}
 
 	// A flag to stop the thread when the bar get damage.
