@@ -7,7 +7,7 @@ import useful.Vector;
 /**
  * 
  * 
- * @author Mr. Coder
+ * @author Mr.Coder
  *
  * @version 1.1
  */
