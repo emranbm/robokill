@@ -126,10 +126,10 @@ public class Player extends Robot implements Damagable {
 		falledRobot.setLocation(getLocation());
 		GamePanel.getGamePanel().add(falledRobot);
 
-		 for (int i = getSize().width; i >= 0; i -= 4) {
-		 falledRobot.setImage(ImageFactory.getScaledBufferedImage(
-		 robotImage, i, i));
-		 }
+		for (int i = getSize().width; i >= 0; i -= 4) {
+			falledRobot.setImage(ImageFactory.getScaledBufferedImage(
+					robotImage, i, i));
+		}
 	}
 
 	/**
@@ -265,5 +265,22 @@ public class Player extends Robot implements Damagable {
 		// TODO Auto-generated method stub
 		if (element instanceof Valley)
 			this.fallRobot();
+		else if (element instanceof Prize) {
+			Prize prize = (Prize) element;
+			PrizeType prizeType = prize.achievePrize();
+			//TODO siwtch on prizeType
+			switch (prizeType) {
+			case Energy:
+				break;
+			case Key:
+				break;
+			case Money:
+				break;
+			case Sheild:
+				break;
+			case Weapon:
+				break;
+			}
+		}
 	}
 }
