@@ -7,9 +7,12 @@ package robokill;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+
+import useful.Animation;
 
 /**
  *
@@ -31,7 +34,7 @@ public class GameFrame extends JFrame {
 
 		setLayout(new BorderLayout());
 		add(GamePanel.getGamePanel(), BorderLayout.CENTER);
-
+		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
