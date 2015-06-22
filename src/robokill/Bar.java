@@ -76,6 +76,14 @@ public class Bar extends Element implements Runnable, Damagable {
 		}
 	}
 
+	/**
+	 * Starts the animation as a thread.
+	 */
+	public void start() {
+		Thread t = new Thread(this);
+		t.start();
+	}
+
 	// A flag to stop the thread when the bar get damage.
 	private boolean go = true;
 
