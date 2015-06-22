@@ -84,7 +84,7 @@ public class Bar extends Element implements Runnable, Damagable {
 		while (go) {
 			this.setLocation(speedVector.transfer(this.getLocation()));
 			try {
-				Thread.sleep(30);
+				Thread.sleep(25);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

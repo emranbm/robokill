@@ -20,13 +20,14 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import useful.Animation;
 import useful.Direction;
 import useful.GlobalKeyListenerFactory;
 
 /**
  * 
  * @author HRM_Shams
- * @version 1.6
+ * @version 1.7
  */
 
 public class GamePanel extends JPanel {
@@ -109,7 +110,7 @@ public class GamePanel extends JPanel {
 	public Component add(Component comp) {
 		if (!(comp instanceof Bar))
 			elements.add((Element) comp);
-		
+
 		return super.add(comp);
 	}
 
@@ -194,6 +195,35 @@ public class GamePanel extends JPanel {
 	private void addElements() {
 		Block block = new Block(400, 300, Block.BLOCK_TYPE_1);
 		add(block);
+		
+		/**TESTING ANIMATION CLASS (temporary)**/
+		Animation robotbody = new Animation (
+				new Point(200, 350),
+				new Dimension(80,80),
+				"/images/enemy1/",
+				29,
+				30,
+				125);
+		
+		Thread animation = new Thread(robotbody);
+		super.add(robotbody);
+		animation.start();
+		/***************************/
+		
+		/***(temporary)***/
+		Animation explosion = new Animation (
+				new Point(400, 100),
+				new Dimension(130,130),
+				"/images/explosion/",
+				9,
+				30,
+				50);
+		
+		Thread animation2 = new Thread(explosion);
+		super.add(explosion);
+		animation2.start();
+		/*****************/
+		
 	}
 
 	/**
@@ -356,6 +386,8 @@ public class GamePanel extends JPanel {
 
 					// rotating the head of Robot!!
 					playerRobot.shoot(new Point(mouseX, mouseY));
+
+					try{Thread.sleep(50);}catch(Exception e){System.out.println("ERROR IN SLEEPING!");}
 				}
 				try {
 					sleep(80);
