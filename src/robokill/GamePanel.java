@@ -101,9 +101,11 @@ public class GamePanel extends JPanel {
 
 	@Override
 	public void remove(Component comp) {
-		super.remove(comp); // To change body of generated methods, choose Tools
-							// | Templates.
+		super.remove(comp);
+
 		repaint();
+
+		elements.remove(comp);
 	}
 
 	@Override
@@ -214,7 +216,7 @@ public class GamePanel extends JPanel {
 		super.add(explosion);
 		animation2.start();
 		/*****************/
-		
+
 		/**
 		 * Add Valley
 		 */
