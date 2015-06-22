@@ -214,6 +214,12 @@ public class GamePanel extends JPanel {
 		super.add(explosion);
 		animation2.start();
 		/*****************/
+		
+		/**
+		 * Add Valley
+		 */
+		Valley v = new Valley(650, 0, 350, 260);
+		add(v);
 
 	}
 

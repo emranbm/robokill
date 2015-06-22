@@ -112,17 +112,24 @@ public class Player extends Robot implements Damagable {
 	}
 
 	private void fallRobot() {
-		BufferedImage robotImage = getScreenShot(this);
+		BufferedImage robotImage = null;
+		try {
+			robotImage = ImageIO.read(getClass().getResource(
+					"/images/robotbodyimages/1.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		GamePanel.getGamePanel().remove(this);
 
 		PictureBox falledRobot = new PictureBox(robotImage);
 		falledRobot.setLocation(getLocation());
 		GamePanel.getGamePanel().add(falledRobot);
 
-		for (int i = getSize().width; i >= 0; i -= 4) {
-			falledRobot.setImage(ImageFactory.getScaledBufferedImage(
-					robotImage, i, i));
-		}
+		 for (int i = getSize().width; i >= 0; i -= 4) {
+		 falledRobot.setImage(ImageFactory.getScaledBufferedImage(
+		 robotImage, i, i));
+		 }
 	}
 
 	/**
@@ -256,6 +263,7 @@ public class Player extends Robot implements Damagable {
 	@Override
 	public void collidedWith(Element element) {
 		// TODO Auto-generated method stub
-
+		if (element instanceof Valley)
+			this.fallRobot();
 	}
 }
