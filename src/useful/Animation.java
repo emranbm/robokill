@@ -10,12 +10,14 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import robokill.GamePanel;
+
 /**
  * For using this class you must place all your images(png type) in a folder and
  * rename them from 1.png !
  * 
  * @author HRM_SHAMS
- * @version 1.2
+ * @version 1.3
  */
 public class Animation extends JPanel implements Runnable {
 
@@ -107,7 +109,11 @@ public class Animation extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		int i = 0;
-		while (i <= loopNumber) {
+		
+		if (loopNumber == 0) //this is for fixing a bug!
+			i = -1;
+		
+		while (i < loopNumber) {
 
 			while (counter < imageNumber) {
 
@@ -127,5 +133,6 @@ public class Animation extends JPanel implements Runnable {
 			if (loopNumber != 0)
 				i++;
 		}
+		GamePanel.getGamePanel().remove(this);
 	}
 }

@@ -50,6 +50,8 @@ public class GamePanel extends JPanel {
 																// movement of
 																// robot!
 
+	public boolean gameEnded = false;
+	
 	public static GamePanel getGamePanel() {
 		if (This == null)
 			This = new GamePanel();
@@ -74,7 +76,7 @@ public class GamePanel extends JPanel {
 		}
 
 		/** adding playerRobot to gamePanel **/
-		playerRobot = new Player(100, 100, 60, 60, 4);
+		playerRobot = new Player(0, 320, 60, 60, 4);
 		add(playerRobot);
 
 		/** adding mouseListener (for rotating head of robot and shooting) **/
@@ -101,9 +103,11 @@ public class GamePanel extends JPanel {
 
 	@Override
 	public void remove(Component comp) {
-		super.remove(comp); // To change body of generated methods, choose Tools
-							// | Templates.
+		super.remove(comp);
+
 		repaint();
+
+		elements.remove(comp);
 	}
 
 	@Override
@@ -195,7 +199,7 @@ public class GamePanel extends JPanel {
 	}
 
 	private void addElements() {
-		Block block = new Block(400, 300, Block.BLOCK_TYPE_1);
+		Block block = new Block(450, 300, Block.BLOCK_TYPE_1);
 		add(block);
 
 		/** TESTING ANIMATION CLASS (temporary) **/
@@ -206,19 +210,16 @@ public class GamePanel extends JPanel {
 		robotbody.start();
 		/***************************/
 
-		/*** (temporary) ***/
-		Animation explosion = new Animation(new Point(400, 100), new Dimension(
-				130, 130), "/images/explosion3/", 7, 40, 50);
+		/* Add Valleys */
+		add( new Valley(0, 0, 350, 210) );
+		add( new Valley(640, 0, 350, 210) );
+		add( new Valley(0, 480, 350, 210) );
+		add( new Valley(640, 480, 350, 210) );
 
-		super.add(explosion);
-		explosion.start();
-		/*****************/
-		
-		/**
-		 * Add Valley
-		 */
-		Valley v = new Valley(650, 0, 350, 260);
-		add(v);
+		add( new Valley(0, 210 , 170 , 50) );
+		add( new Valley(840, 210, 170, 50) );
+		add( new Valley(0, 430, 170, 50) );
+		add( new Valley(840, 430, 170, 50) );
 
 	}
 
@@ -324,7 +325,7 @@ public class GamePanel extends JPanel {
 	class RobotMovementHandler implements Runnable {
 		@Override
 		public void run() {
-			while (true) {
+			while (!gameEnded) {
 				if (keys.contains(KeyEvent.VK_W)
 						&& keys.contains(KeyEvent.VK_D)) {
 					playerRobot.move(Direction.North_East);
@@ -375,7 +376,7 @@ public class GamePanel extends JPanel {
 	 */
 	class ShootingBarsHandler implements Runnable {
 		public void run() {
-			while (true) {
+			while (!gameEnded) {
 				if (isShooting) {
 					int mouseX = curMouseX;
 					int mouseY = curMouseY;

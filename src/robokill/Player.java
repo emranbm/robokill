@@ -114,22 +114,14 @@ public class Player extends Robot implements Damagable {
 	}
 
 	private void fallRobot() {
-		BufferedImage robotImage = null;
-		try {
-			robotImage = ImageIO.read(getClass().getResource(
-					"/images/robotbodyimages/1.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		GamePanel.getGamePanel().remove(this);
 
 		Animation fallingRobot = new Animation( new Point(this.getX(),this.getY()),
 				new Dimension(130,130),
-				"/images/explosion3/",
+				"/images/fallingrobot/",
 				7,
 				50,
-				0);
+				1);
 		
 		GamePanel.getGamePanel().add(fallingRobot);
 		fallingRobot.start();
@@ -269,8 +261,25 @@ public class Player extends Robot implements Damagable {
 		// TODO Auto-generated method stub
 		if (element instanceof Valley)
 		{
+			GamePanel.getGamePanel().gameEnded = true;
 			this.fallRobot();
-System.out.println("access");			
+		}
+		else if (element instanceof Prize) {
+			Prize prize = (Prize) element;
+			PrizeType prizeType = prize.achievePrize();
+			//TODO siwtch on prizeType
+			switch (prizeType) {
+			case Energy:
+				break;
+			case Key:
+				break;
+			case Money:
+				break;
+			case Sheild:
+				break;
+			case Weapon:
+				break;
+			}
 		}
 	}
 }
