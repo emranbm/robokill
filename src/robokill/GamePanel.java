@@ -208,11 +208,10 @@ public class GamePanel extends JPanel {
 
 		/*** (temporary) ***/
 		Animation explosion = new Animation(new Point(400, 100), new Dimension(
-				130, 130), "/images/explosion/", 9, 30, 10);
+				130, 130), "/images/explosion3/", 7, 40, 50);
 
-		Thread animation2 = new Thread(explosion);
 		super.add(explosion);
-		animation2.start();
+		explosion.start();
 		/*****************/
 		
 		/**

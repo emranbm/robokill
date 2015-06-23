@@ -5,6 +5,7 @@
  */
 package robokill;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import useful.Animation;
 import useful.ImageFactory;
 import useful.PictureBox;
 
@@ -122,14 +124,16 @@ public class Player extends Robot implements Damagable {
 		}
 		GamePanel.getGamePanel().remove(this);
 
-		PictureBox falledRobot = new PictureBox(robotImage);
-		falledRobot.setLocation(getLocation());
-		GamePanel.getGamePanel().add(falledRobot);
+		Animation fallingRobot = new Animation( new Point(this.getX(),this.getY()),
+				new Dimension(130,130),
+				"/images/explosion3/",
+				7,
+				50,
+				0);
+		
+		GamePanel.getGamePanel().add(fallingRobot);
+		fallingRobot.start();
 
-		 for (int i = getSize().width; i >= 0; i -= 4) {
-		 falledRobot.setImage(ImageFactory.getScaledBufferedImage(
-		 robotImage, i, i));
-		 }
 	}
 
 	/**
@@ -264,6 +268,9 @@ public class Player extends Robot implements Damagable {
 	public void collidedWith(Element element) {
 		// TODO Auto-generated method stub
 		if (element instanceof Valley)
+		{
 			this.fallRobot();
+System.out.println("access");			
+		}
 	}
 }
