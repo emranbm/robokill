@@ -116,13 +116,10 @@ public class Player extends Robot implements Damagable {
 	private void fallRobot() {
 		GamePanel.getGamePanel().remove(this);
 
-		Animation fallingRobot = new Animation( new Point(this.getX(),this.getY()),
-				new Dimension(130,130),
-				"/images/fallingrobot/",
-				7,
-				50,
-				1);
-		
+		Animation fallingRobot = new Animation(new Point(this.getX(),
+				this.getY()), new Dimension(130, 130), "/images/fallingrobot/",
+				7, 50, 1);
+
 		GamePanel.getGamePanel().add(fallingRobot);
 		fallingRobot.start();
 
@@ -259,24 +256,27 @@ public class Player extends Robot implements Damagable {
 	@Override
 	public void collidedWith(Element element) {
 		// TODO Auto-generated method stub
-		if (element instanceof Valley)
-		{
+		if (element instanceof Valley) {
 			GamePanel.getGamePanel().gameEnded = true;
 			this.fallRobot();
 			GamePanel.getGamePanel().statusPanel.reduceHealth(100);
-		}
-		else if (element instanceof Prize) {
+		} else if (element instanceof Prize) {
 			Prize prize = (Prize) element;
 			PrizeType prizeType = prize.achievePrize();
-			//TODO siwtch on prizeType
+			// TODO siwtch on prizeType
+
+			GamePanel gamePanel = GamePanel.getGamePanel();
+
 			switch (prizeType) {
 			case Energy:
+				gamePanel.statusPanel.increaseHealth(10);
 				break;
 			case Key:
 				break;
 			case Money:
 				break;
 			case Sheild:
+				gamePanel.statusPanel.increaseShield(10);
 				break;
 			case Weapon:
 				break;
