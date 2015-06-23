@@ -15,7 +15,7 @@ import javax.swing.JPanel;
  * 
  * @author Mr. Coder
  *
- * @version: 1.4
+ * @version: 1.5
  */
 public abstract class Element extends JPanel {
 
@@ -74,63 +74,17 @@ public abstract class Element extends JPanel {
 	public boolean isCollided(Element element) {
 		int myX = this.getX();
 		int myY = this.getY();
+		
 		int elementX = element.getX();
 		int elementY = element.getY();
-
-		int x = myX, y = myY;
-
-		if (x <= elementX + element.getWidth() && x >= elementX)
-			if (y <= elementY + element.getHeight() && y >= elementY)
+		int elementWidth = element.getWidth();
+		int elementHeight = element.getHeight();
+		
+		/*********/
+		if (myX <= elementX + elementWidth ^ myX + getWidth() <= elementX)
+			if (myY <= elementY + elementHeight ^ myY + getHeight() <= elementY)
 				return true;
-
-		x = myX + this.getWidth();
-		y = myY;
-
-		if (x <= elementX + element.getWidth() && x >= elementX)
-			if (y <= elementY + element.getHeight() && y >= elementY)
-				return true;
-
-		x = myX;
-		y = myY + this.getHeight();
-
-		if (x <= elementX + element.getWidth() && x >= elementX)
-			if (y <= elementY + element.getHeight() && y >= elementY)
-				return true;
-
-		x = myX + this.getWidth();
-		y = myY + this.getHeight();
-
-		if (x <= elementX + element.getWidth() && x >= elementX)
-			if (y <= elementY + element.getHeight() && y >= elementY)
-				return true;
-
-		x = elementX;
-		y = elementY;
-
-		if (x <= myX + this.getWidth() && x >= myX)
-			if (y <= myY + this.getHeight() && y >= myY)
-				return true;
-
-		x = elementX + element.getWidth();
-		y = elementY;
-
-		if (x <= myX + this.getWidth() && x >= myX)
-			if (y <= myY + this.getHeight() && y >= myY)
-				return true;
-
-		x = elementX;
-		y = elementY + element.getHeight();
-
-		if (x <= myX + this.getWidth() && x >= myX)
-			if (y <= myY + this.getHeight() && y >= myY)
-				return true;
-
-		x = elementX + element.getWidth();
-		y = elementY + element.getHeight();
-
-		if (x <= myX + this.getWidth() && x >= myX)
-			if (y <= myY + this.getHeight() && y >= myY)
-				return true;
+		/*********/
 
 		return false;
 	}
@@ -151,61 +105,13 @@ public abstract class Element extends JPanel {
 		int elementX = location.x;
 		int elementY = location.y;
 
-		int x = myX, y = myY;
-
-		if (x <= elementX + size.width && x >= elementX)
-			if (y <= elementY + size.height && y >= elementY)
+		
+		/*********/
+		if (myX <= elementX + size.width ^ myX + getWidth() <= elementX)
+			if (myY <= elementY + size.height ^ myY + getHeight() <= elementY)
 				return true;
-
-		x = myX + this.getWidth();
-		y = myY;
-
-		if (x <= elementX + size.width && x >= elementX)
-			if (y <= elementY + size.height && y >= elementY)
-				return true;
-
-		x = myX;
-		y = myY + this.getHeight();
-
-		if (x <= elementX + size.width && x >= elementX)
-			if (y <= elementY + size.height && y >= elementY)
-				return true;
-
-		x = myX + this.getWidth();
-		y = myY + this.getHeight();
-
-		if (x <= elementX + size.width && x >= elementX)
-			if (y <= elementY + size.height && y >= elementY)
-				return true;
-
-		x = elementX;
-		y = elementY;
-
-		if (x <= myX + this.getWidth() && x >= myX)
-			if (y <= myY + this.getHeight() && y >= myY)
-				return true;
-
-		x = elementX + size.width;
-		y = elementY;
-
-		if (x <= myX + this.getWidth() && x >= myX)
-			if (y <= myY + this.getHeight() && y >= myY)
-				return true;
-
-		x = elementX;
-		y = elementY + size.height;
-
-		if (x <= myX + this.getWidth() && x >= myX)
-			if (y <= myY + this.getHeight() && y >= myY)
-				return true;
-
-		x = elementX + size.width;
-		y = elementY + size.height;
-
-		if (x <= myX + this.getWidth() && x >= myX)
-			if (y <= myY + this.getHeight() && y >= myY)
-				return true;
-
+		/*********/
+		
 		return false;
 	}
 
