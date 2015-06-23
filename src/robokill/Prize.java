@@ -52,7 +52,7 @@ public class Prize extends Element {
 	 * 
 	 * @return The type of prize.
 	 */
-	public PrizeType achievePrize() {
+	public synchronized PrizeType achievePrize() {
 		GamePanel.getGamePanel().remove(this);
 		return type;
 	}

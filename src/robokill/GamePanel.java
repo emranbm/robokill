@@ -131,7 +131,7 @@ public class GamePanel extends JPanel {
 	 * @return Returns the element that is collided with the given element.
 	 *         Returns null if no collision has occurred.
 	 */
-	public synchronized Element getCollidedElement(Element checkElement) {
+	public Element getCollidedElement(Element checkElement) {
 
 		for (Element e : elements) {
 			if (checkElement.isCollided(e) && checkElement != e)
