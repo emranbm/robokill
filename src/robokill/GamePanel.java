@@ -76,7 +76,7 @@ public class GamePanel extends JPanel {
 		}
 
 		/** adding playerRobot to gamePanel **/
-		playerRobot = new Player(0, 320, 60, 60, 4);
+		playerRobot = new Player(0, 320, 60, 60, 6);
 		add(playerRobot);
 
 		/** adding mouseListener (for rotating head of robot and shooting) **/
