@@ -16,6 +16,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import useful.ImageFactory;
+import useful.PictureBox;
+
 /**
  *
  * @author HRM_Shams
@@ -25,7 +28,7 @@ public class Player extends Robot implements Damagable {
 
 	private static final long serialVersionUID = 1L;
 	public RobotHead robotHead;
-	
+
 	public Player(int x, int y, int width, int height, int speed) {
 		super(x, y, width, height, speed, "images/RobotH.png");
 
@@ -108,30 +111,33 @@ public class Player extends Robot implements Damagable {
 		return firstBarLocation;
 	}
 
-	private void showFalling(Graphics2D g2d)
-	{
-		
-	}
-	
-	private void fallRobot()
-	{
+	private void fallRobot() {
 		BufferedImage robotImage = getScreenShot(this);
-		JPanel panel  ;
+		GamePanel.getGamePanel().remove(this);
+
+		PictureBox falledRobot = new PictureBox(robotImage);
+		falledRobot.setLocation(getLocation());
+		GamePanel.getGamePanel().add(falledRobot);
+
+		for (int i = getSize().width; i >= 0; i -= 4) {
+			falledRobot.setImage(ImageFactory.getScaledBufferedImage(
+					robotImage, i, i));
+		}
 	}
-	
+
 	/**
 	 * this method is used when falling robot in valey!
+	 * 
 	 * @param panel
 	 * @return
 	 */
-	private BufferedImage getScreenShot(JPanel panel){
-        BufferedImage bi = new BufferedImage(
-            panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        panel.paint(bi.getGraphics());
-        return bi;
-    }
+	private BufferedImage getScreenShot(JPanel panel) {
+		BufferedImage bi = new BufferedImage(panel.getWidth(),
+				panel.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		panel.paint(bi.getGraphics());
+		return bi;
+	}
 
-	
 	/**
 	 *
 	 * @author HRM_Shams
@@ -250,6 +256,6 @@ public class Player extends Robot implements Damagable {
 	@Override
 	public void collidedWith(Element element) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

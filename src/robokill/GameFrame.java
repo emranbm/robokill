@@ -13,6 +13,7 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 import useful.Animation;
+import useful.ImageFactory;
 
 /**
  *
@@ -46,5 +47,4 @@ public class GameFrame extends JFrame {
         d = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation( (d.width/2)-(getWidth()/2) , (d.height/2)-(getHeight()/2) );        
     }
-
 }
