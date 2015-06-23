@@ -9,19 +9,22 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import useful.Animation;
+
 /**
  * 
  * A parent for all elements in the game panel.
  * 
  * @author Mr. Coder
  *
- * @version: 1.5
+ * @version: 1.6
  */
 public abstract class Element extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
 	private Image defaultImage;
+	private Animation animation;
 
 	/**
 	 * 
@@ -39,20 +42,62 @@ public abstract class Element extends JPanel {
 	 *            not start with "/"
 	 */
 	public Element(int x, int y, int width, int height, String imagePath) {
-		super();
+		super(null);
 		setBounds(x, y, width, height);
 		setImage(imagePath);
 
 		setOpaque(false);
 	}
 
+	/**
+	 * 
+	 * @param x
+	 *            X location of the element
+	 * @param y
+	 *            Y location of the element
+	 * @param width
+	 *            Element width
+	 * @param height
+	 *            Element height
+	 * @param animation
+	 *            The animation of the element to show
+	 */
+	public Element(int x, int y, int width, int height, Animation animation) {
+		super(null);
+		setBounds(x, y, width, height);
+		setOpaque(false);
+
+		animation.setLocation(0, 0);
+		animation.setSize(getSize());
+		this.animation = animation;
+		add(animation);
+	}
+
+	/**
+	 * 
+	 * @param x
+	 *            X location of the element
+	 * @param y
+	 *            Y location of the element
+	 * @param width
+	 *            Element width
+	 * @param height
+	 *            Element height
+	 */
 	public Element(int x, int y, int width, int height) {
-		super();
+		super(null);
 		setBounds(x, y, width, height);
 		setOpaque(false);
 
 	}
 
+	/**
+	 * Sets the default image of the element.
+	 * 
+	 * @param imagePath
+	 *            The path of the element starting inside the src folder and
+	 *            doesn't start with "/". Example: "images/image.png"
+	 */
 	public void setImage(String imagePath) {
 		try {
 			this.defaultImage = ImageIO.read(getClass().getResource(
@@ -60,6 +105,15 @@ public abstract class Element extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Starts the animation of the element if exits. If the element doesn't have
+	 * an animation, nothing happens.
+	 */
+	public void startAnimation() {
+		if (animation != null)
+			animation.start();
 	}
 
 	/**
@@ -74,12 +128,12 @@ public abstract class Element extends JPanel {
 	public boolean isCollided(Element element) {
 		int myX = this.getX();
 		int myY = this.getY();
-		
+
 		int elementX = element.getX();
 		int elementY = element.getY();
 		int elementWidth = element.getWidth();
 		int elementHeight = element.getHeight();
-		
+
 		/*********/
 		if (myX <= elementX + elementWidth ^ myX + getWidth() <= elementX)
 			if (myY <= elementY + elementHeight ^ myY + getHeight() <= elementY)
@@ -105,13 +159,12 @@ public abstract class Element extends JPanel {
 		int elementX = location.x;
 		int elementY = location.y;
 
-		
 		/*********/
 		if (myX <= elementX + size.width ^ myX + getWidth() <= elementX)
 			if (myY <= elementY + size.height ^ myY + getHeight() <= elementY)
 				return true;
 		/*********/
-		
+
 		return false;
 	}
 
