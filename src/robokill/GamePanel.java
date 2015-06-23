@@ -200,7 +200,7 @@ public class GamePanel extends JPanel {
 
 		/** TESTING ANIMATION CLASS (temporary) **/
 		Animation robotbody = new Animation(new Point(200, 350), new Dimension(
-				80, 80), "/images/enemy1/", 29, 30, 125);
+				80, 80), "/images/enemy1/", 29, 30, 0);
 
 		add(robotbody);
 		robotbody.start();
@@ -208,7 +208,7 @@ public class GamePanel extends JPanel {
 
 		/*** (temporary) ***/
 		Animation explosion = new Animation(new Point(400, 100), new Dimension(
-				130, 130), "/images/explosion/", 9, 30, 50);
+				130, 130), "/images/explosion/", 9, 30, 10);
 
 		Thread animation2 = new Thread(explosion);
 		super.add(explosion);

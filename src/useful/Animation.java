@@ -15,7 +15,7 @@ import javax.swing.JPanel;
  * rename them from 1.png !
  * 
  * @author HRM_SHAMS
- * @version 1.1
+ * @version 1.2
  */
 public class Animation extends JPanel implements Runnable {
 
@@ -28,12 +28,14 @@ public class Animation extends JPanel implements Runnable {
 	private int loopNumber;
 
 	/**
-	 * 
+	 * @param location
+	 * @param size
 	 * @param address
 	 *            is the address of images that starts from src folder ! Example
 	 *            : "/images/explosion/"
 	 * @param imagesNumber
 	 * @param delay
+	 * @param loopNumber if loopNumber be 0 the loop is infinite !
 	 */
 	public Animation(Point location, Dimension size, String address,
 			int imagesNumber, int delay, int loopNumber) {
@@ -59,6 +61,36 @@ public class Animation extends JPanel implements Runnable {
 	}
 
 	/**
+	 * 
+	 * @param address
+	 * 				is the address of images that starts from src folder ! Example
+	 *            	: "/images/explosion/"
+	 * @param imagesNumber
+	 * @param delay
+	 * @param loopNumber if loopNumber be 0 the loop is infinite !
+	 */
+	public Animation(String address,int imagesNumber, int delay, int loopNumber) {
+		setOpaque(false);
+
+		this.delay = delay;
+		this.imageNumber = imagesNumber;
+		this.loopNumber = loopNumber;
+
+		images = new BufferedImage[imagesNumber];
+
+		for (int i = 0; i < imagesNumber; i++) {
+			try {
+				images[i] = ImageIO.read(getClass().getResource(
+						address + (i + 1) + ".png"));
+			} catch (IOException e) {
+				System.err.println("Error in reading image file");
+			}
+		}
+
+	}
+
+	
+	/**
 	 * Starts the animation as a thread.
 	 */
 	public void start() {
@@ -74,7 +106,8 @@ public class Animation extends JPanel implements Runnable {
 
 	@Override
 	public void run() {
-		for (int i = 1; i <= loopNumber; i++) {
+		int i = 0;
+		while (i <= loopNumber) {
 
 			while (counter < imageNumber) {
 
@@ -91,6 +124,8 @@ public class Animation extends JPanel implements Runnable {
 			}
 			counter = 0;
 
+			if (loopNumber != 0)
+				i++;
 		}
 	}
 }
