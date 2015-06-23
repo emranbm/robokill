@@ -11,25 +11,26 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import useful.Animation;
-import useful.ImageFactory;
-import useful.PictureBox;
 
 /**
  *
  * @author HRM_Shams
- * @version : 1.3
+ * @author Mr. Coder
+ * @version : 1.4
  */
 public class Player extends Robot implements Damagable {
 
 	private static final long serialVersionUID = 1L;
+
 	public RobotHead robotHead;
+
+	private int barType = Bar.BAR_TYPE_1;
 
 	public Player(int x, int y, int width, int height, int speed) {
 		super(x, y, width, height, speed, "images/RobotH.png");
@@ -41,7 +42,7 @@ public class Player extends Robot implements Damagable {
 
 	@Override
 	public void damage(int amount) {
-		;
+		GamePanel.getGamePanel().statusPanel.reduceHealth(amount);
 	}
 
 	/**
@@ -55,8 +56,9 @@ public class Player extends Robot implements Damagable {
 
 		int[] firstBarLoction = setFirstBarLocation(target);
 
+		// TODO Implement bar power.
 		Bar bar = new Bar(new Point(firstBarLoction[0], firstBarLoction[1]),
-				target, Bar.BAR_TYPE_1, Bar.BAR_POWER_LIGHT);
+				target, barType, Bar.BAR_POWER_LIGHT);
 
 		GamePanel.getGamePanel().add(bar);
 		bar.start();
@@ -116,30 +118,48 @@ public class Player extends Robot implements Damagable {
 	private void fallRobot() {
 		GamePanel.getGamePanel().remove(this);
 
-		Animation fallingRobot = new Animation( new Point(this.getX(),this.getY()),
-				new Dimension(130,130),
-				"/images/fallingrobot/",
-				7,
-				50,
-				1,
-				true);
-		
+		Animation fallingRobot = new Animation(new Point(this.getX(),
+				this.getY()), new Dimension(130, 130), "/images/fallingrobot/",
+				7, 50, 1, true);
+
 		GamePanel.getGamePanel().add(fallingRobot);
 		fallingRobot.start();
 
 	}
+	
 
-	/**
-	 * this method is used when falling robot in valey!
-	 * 
-	 * @param panel
-	 * @return
-	 */
-	private BufferedImage getScreenShot(JPanel panel) {
-		BufferedImage bi = new BufferedImage(panel.getWidth(),
-				panel.getHeight(), BufferedImage.TYPE_INT_ARGB);
-		panel.paint(bi.getGraphics());
-		return bi;
+	@Override
+	public void collidedWith(Element element) {
+		if (element instanceof Valley) {
+			GamePanel.getGamePanel().gameEnded = true;
+			this.fallRobot();
+			GamePanel.getGamePanel().statusPanel.reduceHealth(100);
+		} else if (element instanceof Prize) {
+			Prize prize = (Prize) element;
+			PrizeType prizeType = prize.achievePrize();
+
+			GamePanel gamePanel = GamePanel.getGamePanel();
+
+			switch (prizeType) {
+			case Energy:
+				gamePanel.statusPanel.increaseHealth(10);
+				break;
+			case Key:
+				gamePanel.openTheDoors();
+				break;
+			case Money:
+				// TODO Money++
+				break;
+			case Sheild:
+				gamePanel.statusPanel.increaseShield(10);
+				break;
+			case Weapon:
+				barType = Bar.BAR_TYPE_2;
+				break;
+			}
+		}else if (element instanceof Door){
+			((Door)element).passToNextRoom();
+		}
 	}
 
 	/**
@@ -254,37 +274,6 @@ public class Player extends Robot implements Damagable {
 			g2d.transform(tx);
 			g2d.drawImage(robotImage, 0, 0, this);
 			g2d.setTransform(record);
-		}
-	}
-
-	@Override
-	public void collidedWith(Element element) {
-		// TODO Auto-generated method stub
-		if (element instanceof Valley) {
-			GamePanel.getGamePanel().gameEnded = true;
-			this.fallRobot();
-			GamePanel.getGamePanel().statusPanel.reduceHealth(100);
-		} else if (element instanceof Prize) {
-			Prize prize = (Prize) element;
-			PrizeType prizeType = prize.achievePrize();
-			// TODO siwtch on prizeType
-
-			GamePanel gamePanel = GamePanel.getGamePanel();
-
-			switch (prizeType) {
-			case Energy:
-				gamePanel.statusPanel.increaseHealth(10);
-				break;
-			case Key:
-				break;
-			case Money:
-				break;
-			case Sheild:
-				gamePanel.statusPanel.increaseShield(10);
-				break;
-			case Weapon:
-				break;
-			}
 		}
 	}
 }
