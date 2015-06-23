@@ -27,7 +27,8 @@ import useful.GlobalKeyListenerFactory;
 /**
  * 
  * @author HRM_Shams
- * @version 1.7
+ * @author Mr. Coder
+ * @version 1.8
  */
 
 public class GamePanel extends JPanel {
@@ -43,6 +44,7 @@ public class GamePanel extends JPanel {
 	private int curMouseY;
 
 	private ArrayList<Element> elements = new ArrayList<Element>();
+	private ArrayList<Door> doors = new ArrayList<Door>();
 
 	private final Set<Integer> keys = new HashSet<Integer>(); // related to
 																// movement of
@@ -98,6 +100,46 @@ public class GamePanel extends JPanel {
 		addElements();
 	}// end of constructor !!
 
+	/**
+	 * Adds the elements to the game panel.
+	 */
+	private void addElements() {
+		Block block = new Block(450, 300, Block.BLOCK_TYPE_1);
+		add(block);
+
+		/** TESTING ANIMATION CLASS (temporary) **/
+		Animation robotbody = new Animation(new Point(200, 350), new Dimension(
+				80, 80), "/images/enemy1/", 29, 30, 0, false);
+
+		add(robotbody);
+		// robotbody.start();
+		/***************************/
+
+		/* Add Valleys */
+		add(new Valley(0, 0, 350, 210));
+		add(new Valley(640, 0, 350, 210));
+		add(new Valley(0, 480, 350, 210));
+		add(new Valley(640, 480, 350, 210));
+
+		add(new Valley(0, 210, 170, 50));
+		add(new Valley(840, 210, 170, 50));
+		add(new Valley(0, 430, 170, 50));
+		add(new Valley(840, 430, 170, 50));
+
+		/** status bar **/
+		add(statusPanel);
+		/**************/
+
+		/* add door */
+		Door door = new Door(960, 301, "3");
+		add(door);
+		doors.add(door);
+
+		/* Sample Box */
+		add(new Box(300, 300));
+	}
+
+	@Override
 	public void paintComponent(Graphics g) {
 		g.drawImage(background, 0, 0, this);
 	}
@@ -132,7 +174,7 @@ public class GamePanel extends JPanel {
 	 * @return Returns the element that is collided with the given element.
 	 *         Returns null if no collision has occurred.
 	 */
-	public Element getCollidedElement(Element checkElement) {
+	public synchronized Element getCollidedElement(Element checkElement) {
 
 		for (Element e : elements) {
 			if (checkElement.isCollided(e) && checkElement != e)
@@ -199,42 +241,14 @@ public class GamePanel extends JPanel {
 			return false;
 	}
 
-	private void addElements() {
-		Block block = new Block(450, 300, Block.BLOCK_TYPE_1);
-		add(block);
-
-		/** TESTING ANIMATION CLASS (temporary) **/
-		Animation robotbody = new Animation(new Point(200, 350), new Dimension(
-				80, 80), "/images/enemy1/", 29, 30, 0 , false);
-
-		add(robotbody);
-	//	robotbody.start();
-		/***************************/
-
-		/* Add Valleys */
-		add(new Valley(0, 0, 350, 210));
-		add(new Valley(640, 0, 350, 210));
-		add(new Valley(0, 480, 350, 210));
-		add(new Valley(640, 480, 350, 210));
-
-		add(new Valley(0, 210, 170, 50));
-		add(new Valley(840, 210, 170, 50));
-		add(new Valley(0, 430, 170, 50));
-		add(new Valley(840, 430, 170, 50));
-
-		/** status bar **/
-		add(statusPanel);
-		/**************/
-
-		/**add door**/
-		Door door = new Door(960 , 301 , "3");
-		add (door);
-		door.open();
-		/************/
-		
-		/** Sample Box **/
-		add(new Box(300, 300));
-		/******************/
+	// TODO Check if all the enemies are killed and key is achieved, the open.
+	// Otherwise do nothing.
+	/**
+	 * Opens all of the doors.
+	 */
+	public void openTheDoors() {
+		for (Door door : doors)
+			door.open();
 	}
 
 	/**
