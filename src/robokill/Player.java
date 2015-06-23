@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -24,7 +25,7 @@ public class Player extends Robot implements Damagable {
 
 	private static final long serialVersionUID = 1L;
 	public RobotHead robotHead;
-
+	
 	public Player(int x, int y, int width, int height, int speed) {
 		super(x, y, width, height, speed, "images/RobotH.png");
 
@@ -107,6 +108,30 @@ public class Player extends Robot implements Damagable {
 		return firstBarLocation;
 	}
 
+	private void showFalling(Graphics2D g2d)
+	{
+		
+	}
+	
+	private void fallRobot()
+	{
+		BufferedImage robotImage = getScreenShot(this);
+		JPanel panel  ;
+	}
+	
+	/**
+	 * this method is used when falling robot in valey!
+	 * @param panel
+	 * @return
+	 */
+	private BufferedImage getScreenShot(JPanel panel){
+        BufferedImage bi = new BufferedImage(
+            panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        panel.paint(bi.getGraphics());
+        return bi;
+    }
+
+	
 	/**
 	 *
 	 * @author HRM_Shams
