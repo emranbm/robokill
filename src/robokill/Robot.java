@@ -2,14 +2,12 @@ package robokill;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
 
 import useful.Direction;
 
@@ -28,7 +26,6 @@ public abstract class Robot extends Element {
 	private Direction curMoveDirection;
 	private int bodyLevel = 1;
 	private int rotateDegree = 0; // for rotating the bodyimage!
-
 
 	/**
 	 * @param x
@@ -55,7 +52,6 @@ public abstract class Robot extends Element {
 		} catch (IOException e) {
 			System.err.println("Error in loading image!");
 		}
-
 	}
 
 	@Override
@@ -210,12 +206,16 @@ public abstract class Robot extends Element {
 
 		Element collidedElement = GamePanel.getGamePanel().getCollidedElement(
 				this, new Point(x, y));
-		if (collidedElement == null) {
+		if (collidedElement == null)
 			this.setLocation(x, y);
-		}
+		else
+			collidedWith(collidedElement);
+			
 		curMoveDirection = null;
 
 	}
+	
+	public abstract void collidedWith(Element element);
 
 	/**
 	 * this method will be implements in classes Player and Enemy based on their

@@ -246,4 +246,10 @@ public class Player extends Robot implements Damagable {
 			g2d.setTransform(record);
 		}
 	}
+
+	@Override
+	public void collidedWith(Element element) {
+		// TODO Auto-generated method stub
+		
+	}
 }

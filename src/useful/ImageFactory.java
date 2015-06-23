@@ -7,6 +7,13 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 
+/**
+ * A class to deal with images. Implemented methods for scaling.
+ * 
+ * @author Mr. Coder
+ *
+ * @version 1.0
+ */
 public abstract class ImageFactory {
 
 	/**
@@ -26,6 +33,17 @@ public abstract class ImageFactory {
 				Image.SCALE_DEFAULT));
 	}
 
+	/**
+	 * Scales an image into a custom width and height.
+	 * 
+	 * @param img
+	 *            The image to be scaled.
+	 * @param width
+	 *            The desired width.
+	 * @param height
+	 *            The desired height.
+	 * @return
+	 */
 	public static BufferedImage getScaledBufferedImage(BufferedImage img,
 			int width, int height) {
 		int w = img.getWidth();
