@@ -116,10 +116,14 @@ public class Player extends Robot implements Damagable {
 	private void fallRobot() {
 		GamePanel.getGamePanel().remove(this);
 
-		Animation fallingRobot = new Animation(new Point(this.getX(),
-				this.getY()), new Dimension(130, 130), "/images/fallingrobot/",
-				7, 50, 1);
-
+		Animation fallingRobot = new Animation( new Point(this.getX(),this.getY()),
+				new Dimension(130,130),
+				"/images/fallingrobot/",
+				7,
+				50,
+				1,
+				true);
+		
 		GamePanel.getGamePanel().add(fallingRobot);
 		fallingRobot.start();
 

@@ -76,7 +76,8 @@ public class GamePanel extends JPanel {
 		}
 
 		/** adding playerRobot to gamePanel **/
-		playerRobot = new Player(0, 320, 60, 60, 6);
+
+		playerRobot = new Player(0, 320, 60, 60, 4);
 		add(playerRobot);
 
 		/** adding mouseListener (for rotating head of robot and shooting) **/
@@ -204,10 +205,10 @@ public class GamePanel extends JPanel {
 
 		/** TESTING ANIMATION CLASS (temporary) **/
 		Animation robotbody = new Animation(new Point(200, 350), new Dimension(
-				80, 80), "/images/enemy1/", 29, 30, 0);
+				80, 80), "/images/enemy1/", 29, 30, 0 , false);
 
 		add(robotbody);
-		robotbody.start();
+	//	robotbody.start();
 		/***************************/
 
 		/* Add Valleys */
@@ -225,6 +226,12 @@ public class GamePanel extends JPanel {
 		add(statusPanel);
 		/**************/
 
+		/**add door**/
+		Door door = new Door(960 , 301 , "3");
+		add (door);
+		door.open();
+		/************/
+		
 		/** Sample Box **/
 		add(new Box(300, 300));
 		/******************/

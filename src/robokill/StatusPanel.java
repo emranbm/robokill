@@ -85,6 +85,9 @@ public class StatusPanel extends JPanel {
 				int curY = healthBar.getY();
 
 				for (int i = 1; i <= increaseAmount; i++) {
+					
+					if (healthBar.getLocation().x == 26) break;
+					
 					curX++;
 					healthBar.setLocation(curX, curY);
 
@@ -141,6 +144,8 @@ public class StatusPanel extends JPanel {
 				int curY = shieldBar.getY();
 
 				for (int i = 1; i <= increaseAmount; i++) {
+					if (shieldBar.getLocation().x == 126) break;
+
 					curX++;
 					shieldBar.setLocation(curX, curY);
 
@@ -236,8 +241,8 @@ public class StatusPanel extends JPanel {
 		BufferedImage image;
 
 		public HealthBar() {
-			setSize(111, 27);
-			setLocation(35, 0);
+			setSize(121, 27);
+			setLocation(26, 0);
 			setOpaque(false);
 
 			try {

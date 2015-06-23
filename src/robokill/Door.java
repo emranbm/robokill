@@ -1,5 +1,8 @@
 package robokill;
 
+import java.awt.Dimension;
+import java.awt.Point;
+
 import useful.Animation;
 import useful.Direction;
 
@@ -7,8 +10,8 @@ import useful.Direction;
  * The door element.
  * 
  * @author Mr. Coder
- *
- * @version 1.0
+ * @author HRM_SHAMS
+ * @version 1.1
  */
 public class Door extends Element {
 
@@ -24,14 +27,20 @@ public class Door extends Element {
 	 *            X location of the door.
 	 * @param y
 	 *            Y location of the door.
-	 * @param animation
-	 *            The animation for opening the door.
+	 * @param type
+	 *            can be 1:west door 2:north door 3:east door 4:south door
 	 */
-	public Door(int x, int y, Animation animation) {
+	public Door(int x, int y, String type) {
 		super(x, y, 1, 1);
 
-		this.animation = animation;
-
+		animation = new Animation(new Point(x,y) , 
+				new Dimension(41,98) ,
+				"/images/doors/" + type + "/" ,
+				5 ,
+				200 ,
+				1 ,
+				false) ; // the size of a door image is 41 x 98
+		
 		setSize(animation.getSize());
 		animation.setLocation(0, 0);
 		add(animation);

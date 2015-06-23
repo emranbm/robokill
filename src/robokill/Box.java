@@ -31,7 +31,9 @@ public class Box extends Element implements Damagable {
 			// Adds a random prize in its location.
 			PrizeType[] prizeTypes = PrizeType.values();
 			Random rand = new Random();
-			int index = rand.nextInt(prizeTypes.length);
+			// Last index is key. So excluded from random.
+			// ==> prizeTypes.length - 1
+			int index = rand.nextInt(prizeTypes.length - 1);
 			GamePanel.getGamePanel().add(
 					new Prize(getX(), getY(), prizeTypes[index]));
 			GamePanel.getGamePanel().remove(this);
