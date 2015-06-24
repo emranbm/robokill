@@ -22,7 +22,7 @@ import useful.Animation;
  *
  * @author HRM_Shams
  * @author Mr. Coder
- * @version : 1.4
+ * @version : 1.5
  */
 public class Player extends Robot implements Damagable {
 
@@ -33,7 +33,7 @@ public class Player extends Robot implements Damagable {
 	private int barType = Bar.BAR_TYPE_1;
 
 	public Player(int x, int y, int width, int height, int speed) {
-		super(x, y, width, height, speed, "images/RobotH.png");
+		super(x, y, width, height, speed, "/images/robotbodyimages/" , 12);
 
 		robotHead = new RobotHead("images/RobotH.png", this);
 		robotHead.setBounds(0, 0, 60, 60);
@@ -51,6 +51,7 @@ public class Player extends Robot implements Damagable {
 	 * 
 	 * @param target
 	 */
+	
 	@Override
 	public void shoot(Point target) {
 
@@ -148,7 +149,7 @@ public class Player extends Robot implements Damagable {
 				gamePanel.openTheDoors();
 				break;
 			case Money:
-				// TODO Money++
+				GamePanel.getGamePanel().statusPanel.addMoney(100);
 				break;
 			case Sheild:
 				gamePanel.statusPanel.increaseShield(10);
@@ -159,6 +160,11 @@ public class Player extends Robot implements Damagable {
 			}
 		}else if (element instanceof Door){
 			((Door)element).passToNextRoom();
+		}
+		else if (element instanceof Enemy)
+		{
+			((Enemy)element).damage(100);
+			this.damage(20);
 		}
 	}
 

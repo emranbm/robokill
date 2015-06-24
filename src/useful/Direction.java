@@ -2,5 +2,5 @@ package useful;
 
 public enum Direction {
 
-	North, South, West, East, North_West, North_East, South_West, South_East;
+	North, North_East , East , South_East , South , South_West, West,  North_West   ;
 }

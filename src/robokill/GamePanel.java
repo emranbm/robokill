@@ -41,7 +41,7 @@ public class GamePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static GamePanel This;
 
-	private Player playerRobot; // the panel of playerRobot!
+	public Player playerRobot; // the panel of playerRobot!
 	private BufferedImage background;
 
 	private boolean isShooting = false;
@@ -154,14 +154,6 @@ public class GamePanel extends JPanel {
 		Block block = new Block(450, 300, Block.BLOCK_TYPE_1);
 		add(block);
 
-		/** TESTING ANIMATION CLASS (temporary) **/
-		Animation robotbody = new Animation(new Point(200, 350), new Dimension(
-				80, 80), "/images/enemy1/", 29, 30, 0, false);
-
-		add(robotbody);
-		robotbody.start();
-		/***************************/
-
 		/* Add Valleys */
 		add(new Valley(0, 0, 350, 210));
 		add(new Valley(640, 0, 350, 210));
@@ -202,6 +194,13 @@ public class GamePanel extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+			
+		/**enemy**/
+		Enemy enemy = new Enemy(800, 301, 80, 80, 1, "1");
+		add(enemy);
+		enemy.go();
+		/*********/
+
 	}
 
 	@Override

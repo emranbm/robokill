@@ -29,7 +29,9 @@ public class Box extends Element implements Damagable {
 		health -= amount;
 		if (health <= 0) {
 			// Adds a random prize in its location.
-			GamePanel.getGamePanel().add(new Prize(getX(), getY()));
+
+			GamePanel.getGamePanel().add(new Prize(getX()+getWidth()/2-15, getY()+getHeight()/2-15));
+
 			GamePanel.getGamePanel().remove(this);
 		}
 	}

@@ -1,23 +1,33 @@
 package robokill;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
  * 
  * @author HRM_SHAMS
- * @version 1.3
+ * @version 1.4
  */
 
 public class StatusPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	private int health = 100;
+	private int shield = 0;
+	private int money = 0;
+	private int keys = 0 ; //this field saves number of keys!
+
+	private MoneyPanel moneyPanel = new MoneyPanel();
+	
 	private Gooshe gooshe = new Gooshe();
 	private HealthBar healthBar = new HealthBar();
 	private BarBackground healthBackground = new BarBackground(new Point(26, 0));
@@ -31,6 +41,7 @@ public class StatusPanel extends JPanel {
 		setOpaque(false);
 		setLayout(null);
 
+		add(moneyPanel);
 		add(new GoosheRight());
 
 		add(gooshe);
@@ -42,6 +53,12 @@ public class StatusPanel extends JPanel {
 		add(shieldBackground);
 	}
 
+	public void addMoney(int amount)
+	{
+		money += amount;
+		moneyPanel.setMoneyLabel(money);
+	}
+	
 	/**
 	 * Reduces the health of the player.
 	 * 
@@ -51,6 +68,10 @@ public class StatusPanel extends JPanel {
 	public synchronized void reduceHealth(int reducePercent) {
 		new Thread() {
 			public void run() {
+				health -= reducePercent;
+				if (health < 0 )
+					health = 0;
+
 				int reduceAmount = (int) ((double) (reducePercent / 100.0) * 117);
 
 				int curX = healthBar.getX();
@@ -79,6 +100,10 @@ public class StatusPanel extends JPanel {
 	public synchronized void increaseHealth(int increasePercent) {
 		new Thread() {
 			public void run() {
+				health += increasePercent;
+				if (health > 100 )
+					health = 100;
+
 				int increaseAmount = (int) ((double) (increasePercent / 100.0) * 117);
 
 				int curX = healthBar.getX();
@@ -110,6 +135,10 @@ public class StatusPanel extends JPanel {
 	public synchronized void reduceShield(int reducePercent) {
 		new Thread() {
 			public void run() {
+				shield -= reducePercent;
+				if (shield < 0 )
+					shield = 0;
+				
 				int reduceAmount = (int) ((double) (reducePercent / 100) * 117);
 
 				int curX = shieldBar.getX();
@@ -138,6 +167,10 @@ public class StatusPanel extends JPanel {
 	public synchronized void increaseShield(int increasePercent) {
 		new Thread() {
 			public void run() {
+				shield += increasePercent;
+				if (shield > 100 )
+					shield = 100;
+				
 				int increaseAmount = (int) ((double) (increasePercent / 100) * 117);
 
 				int curX = shieldBar.getX();
@@ -182,6 +215,29 @@ public class StatusPanel extends JPanel {
 			g.drawImage(image, 0, 0, null);
 		}
 
+	}
+	
+	class MoneyPanel extends JPanel{
+		
+		public JLabel moneyLabel;
+		
+		public MoneyPanel()
+		{
+			setLocation(903, 6);
+			setSize(58,20);
+			setOpaque(false);
+			setLayout(new GridLayout(1,1));
+			
+			moneyLabel = new JLabel("0.0 $");
+			moneyLabel.setForeground(Color.white);
+			add (moneyLabel);
+		}
+		
+		public void setMoneyLabel(int amount)
+		{
+			String money = Integer.toString(amount);
+			moneyLabel.setText(money+".0 $");
+		}
 	}
 
 	class Gooshe extends JPanel {
