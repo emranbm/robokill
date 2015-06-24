@@ -1,5 +1,7 @@
 package robokill;
 
+import static java.lang.Thread.sleep;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -10,12 +12,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
-import static java.lang.Thread.sleep;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -58,8 +60,10 @@ public class GamePanel extends JPanel {
 	public StatusPanel statusPanel = new StatusPanel();
 
 	public static GamePanel getGamePanel() {
-		if (This == null)
+		if (This == null) {
+			System.out.println(0);
 			This = new GamePanel();
+		}
 
 		return This;
 	}
@@ -100,7 +104,19 @@ public class GamePanel extends JPanel {
 		shootingBars.start();
 
 		/** adding elements to GamePanel **/
-		addElements();
+		// addElements();
+
+		try {
+			InputStream in = getClass().getResourceAsStream("/data/room.dat");
+			ObjectInputStream ois = new ObjectInputStream(in);
+			Room room = (Room) ois.readObject();
+			ois.close();
+			rearrange(room);
+		} catch (IOException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}// end of constructor !!
 
 	/**
@@ -115,14 +131,20 @@ public class GamePanel extends JPanel {
 		for (int i = elements.size() - 1; i >= 0; i--)
 			// FIXME Redundancy: The search in elements is done two times. see
 			// remove method...
-			remove(elements.get(i));
+			if (!(elements.get(i) instanceof Robot))
+				remove(elements.get(i));
 
 		doors = room.getDoors();
 
-		for (Element element : room.getElements())
-			add(element);
+		for (Door door : doors)
+			door.revalidateImage();
 
-		playerRobot.setLocation(room.getPlayerLocation());
+		for (Element element : room.getElements()) {
+			add(element);
+			element.revalidateImage();
+		}
+
+		// playerRobot.setLocation(room.getPlayerLocation());
 	}
 
 	/**
@@ -137,7 +159,7 @@ public class GamePanel extends JPanel {
 				80, 80), "/images/enemy1/", 29, 30, 0, false);
 
 		add(robotbody);
-		// robotbody.start();
+		robotbody.start();
 		/***************************/
 
 		/* Add Valleys */
@@ -162,13 +184,18 @@ public class GamePanel extends JPanel {
 
 		/* Sample Box */
 		add(new Box(300, 300));
-		
+
 		Room room = new Room(0);
 		room.setDoors(doors);
-		room.setElements(elements);
+
+		for (Element element : elements)
+			if (!(element instanceof Robot))
+				room.addElement(element);
+
 		room.setPlayerLocation(playerRobot.getLocation());
 		try {
-			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("C:/Users/Mr. Coder/Desktop/room.dat"));
+			ObjectOutputStream oos = new ObjectOutputStream(
+					new FileOutputStream("C:/Users/Mr. Coder/Desktop/room.dat"));
 			oos.writeObject(room);
 			oos.close();
 		} catch (IOException e) {
