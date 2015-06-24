@@ -48,6 +48,7 @@ public class GamePanel extends JPanel {
 
 	private ArrayList<Element> elements = new ArrayList<Element>();
 	private ArrayList<Door> doors = new ArrayList<Door>();
+	private Room currentRoom;
 
 	private final Set<Integer> keys = new HashSet<Integer>(); // related to
 																// movement of
@@ -91,6 +92,12 @@ public class GamePanel extends JPanel {
 		playerRobot = new Player(0, 320, 60, 60, 6);
 		add(playerRobot);
 
+		/** enemy **/
+		Enemy enemy = new Enemy(800, 301, 80, 80, 1, Enemy.ENEMY_TYPE_1);
+		add(enemy);
+		// enemy.go();
+		/*********/
+
 		/** adding mouseListener (for rotating head of robot and shooting) **/
 		addMouseListenersForRobot();
 
@@ -109,15 +116,17 @@ public class GamePanel extends JPanel {
 		// addElements();
 
 		try {
-			InputStream in = getClass().getResourceAsStream("/data/room.dat");
+			InputStream in = getClass().getResourceAsStream("/data/room 0.dat");
 			ObjectInputStream ois = new ObjectInputStream(in);
-			Room room = (Room) ois.readObject();
+			currentRoom = (Room) ois.readObject();
 			ois.close();
-			rearrange(room);
+			rearrange(currentRoom);
 		} catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		openTheDoors();
 
 	}// end of constructor !!
 
@@ -128,7 +137,7 @@ public class GamePanel extends JPanel {
 	 * @param room
 	 *            The room for applying new properties.
 	 */
-	private void rearrange(Room room) {
+	public void rearrange(Room room) {
 		/* Remove all elements from gamePanel */
 		for (int i = elements.size() - 1; i >= 0; i--)
 			// FIXME Redundancy: The search in elements is done two times. see
@@ -146,7 +155,9 @@ public class GamePanel extends JPanel {
 			element.revalidateImage();
 		}
 
-		// playerRobot.setLocation(room.getPlayerLocation());
+		playerRobot.setLocation(room.getPlayerLocation());
+
+		repaint();
 	}
 
 	/**
@@ -310,6 +321,16 @@ public class GamePanel extends JPanel {
 	public void openTheDoors() {
 		for (Door door : doors)
 			door.open();
+	}
+
+	/**
+	 * Gets the current room id. Id is a unique integer to make rooms
+	 * distinguishable.
+	 * 
+	 * @return Returns the current room id.
+	 */
+	public int getRoomId() {
+		return currentRoom.getId();
 	}
 
 	/**
