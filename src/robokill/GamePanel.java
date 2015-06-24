@@ -12,7 +12,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +24,6 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import useful.Animation;
 import useful.Direction;
 import useful.GlobalKeyListenerFactory;
 
@@ -194,8 +192,8 @@ public class GamePanel extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-			
-		/**enemy**/
+
+		/** enemy **/
 		Enemy enemy = new Enemy(800, 301, 80, 80, 1, "1");
 		add(enemy);
 		enemy.go();

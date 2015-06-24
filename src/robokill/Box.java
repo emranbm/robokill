@@ -1,6 +1,5 @@
 package robokill;
 
-import java.util.Random;
 
 /**
  * An element representing a non-passable box which is damagable and may contain

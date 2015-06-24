@@ -13,6 +13,8 @@ import useful.Direction;
  */
 public class Enemy extends Robot implements Runnable , Damagable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private int health = 100;
 	public boolean robotIsDied = false;
 	
