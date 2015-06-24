@@ -10,6 +10,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import static java.lang.Thread.sleep;
 
@@ -101,6 +104,28 @@ public class GamePanel extends JPanel {
 	}// end of constructor !!
 
 	/**
+	 * Removes all the elements from the game panel and applies the given room
+	 * properties.
+	 * 
+	 * @param room
+	 *            The room for applying new properties.
+	 */
+	private void rearrange(Room room) {
+		/* Remove all elements from gamePanel */
+		for (int i = elements.size() - 1; i >= 0; i--)
+			// FIXME Redundancy: The search in elements is done two times. see
+			// remove method...
+			remove(elements.get(i));
+
+		doors = room.getDoors();
+
+		for (Element element : room.getElements())
+			add(element);
+
+		playerRobot.setLocation(room.getPlayerLocation());
+	}
+
+	/**
 	 * Adds the elements to the game panel.
 	 */
 	private void addElements() {
@@ -137,6 +162,19 @@ public class GamePanel extends JPanel {
 
 		/* Sample Box */
 		add(new Box(300, 300));
+		
+		Room room = new Room(0);
+		room.setDoors(doors);
+		room.setElements(elements);
+		room.setPlayerLocation(playerRobot.getLocation());
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("C:/Users/Mr. Coder/Desktop/room.dat"));
+			oos.writeObject(room);
+			oos.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
