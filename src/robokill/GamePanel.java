@@ -82,6 +82,10 @@ public class GamePanel extends JPanel {
 			e.printStackTrace();
 		}
 
+		/** status bar **/
+		add(statusPanel);
+		/**************/
+
 		/** adding playerRobot to gamePanel **/
 
 		playerRobot = new Player(0, 320, 60, 60, 6);
@@ -163,10 +167,6 @@ public class GamePanel extends JPanel {
 		add(new Valley(0, 430, 170, 50));
 		add(new Valley(840, 430, 170, 50));
 
-		/** status bar **/
-		add(statusPanel);
-		/**************/
-
 		/* add door */
 		Door door = new Door(960, 301, "3");
 		add(door);
@@ -237,7 +237,6 @@ public class GamePanel extends JPanel {
 	 *         Returns null if no collision has occurred.
 	 */
 	public synchronized Element getCollidedElement(Element checkElement) {
-
 		for (Element e : elements) {
 			if (checkElement.isCollided(e) && checkElement != e)
 				return e;
