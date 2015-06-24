@@ -206,10 +206,10 @@ public class GamePanel extends JPanel {
 
 		/** TESTING ANIMATION CLASS (temporary) **/
 		Animation robotbody = new Animation(new Point(200, 350), new Dimension(
-				80, 80), "/images/enemy1/", 29, 30, 0);
+				80, 80), "/images/enemy1/", 29, 30, 0 , false);
 
 		add(robotbody);
-		robotbody.start();
+	//	robotbody.start();
 		/***************************/
 
 		/* Add Valleys */
@@ -227,6 +227,11 @@ public class GamePanel extends JPanel {
 		add (statusPanel);
 		/**************/
 
+		/**add door**/
+		Door door = new Door(960 , 301 , "3");
+		add (door);
+		door.open();
+		/************/
 	}
 
 	/**

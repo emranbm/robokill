@@ -121,7 +121,8 @@ public class Player extends Robot implements Damagable {
 				"/images/fallingrobot/",
 				7,
 				50,
-				1);
+				1,
+				true);
 		
 		GamePanel.getGamePanel().add(fallingRobot);
 		fallingRobot.start();

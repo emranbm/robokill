@@ -28,6 +28,7 @@ public class Animation extends JPanel implements Runnable {
 	private int delay;
 	private int counter = 0;
 	private int loopNumber;
+	private boolean deleteIt ;
 
 	/**
 	 * @param location
@@ -40,7 +41,7 @@ public class Animation extends JPanel implements Runnable {
 	 * @param loopNumber if loopNumber be 0 the loop is infinite !
 	 */
 	public Animation(Point location, Dimension size, String address,
-			int imagesNumber, int delay, int loopNumber) {
+			int imagesNumber, int delay, int loopNumber , boolean deleteIt) {
 		setSize(size);
 		setLocation(location);
 		setOpaque(false);
@@ -48,7 +49,8 @@ public class Animation extends JPanel implements Runnable {
 		this.delay = delay;
 		this.imageNumber = imagesNumber;
 		this.loopNumber = loopNumber;
-
+		this.deleteIt = deleteIt;
+		
 		images = new BufferedImage[imagesNumber];
 
 		for (int i = 0; i < imagesNumber; i++) {
@@ -71,12 +73,13 @@ public class Animation extends JPanel implements Runnable {
 	 * @param delay
 	 * @param loopNumber if loopNumber be 0 the loop is infinite !
 	 */
-	public Animation(String address,int imagesNumber, int delay, int loopNumber) {
+	public Animation(String address,int imagesNumber, int delay, int loopNumber , boolean deleteIt) {
 		setOpaque(false);
 
 		this.delay = delay;
 		this.imageNumber = imagesNumber;
 		this.loopNumber = loopNumber;
+		this.deleteIt = deleteIt;
 
 		images = new BufferedImage[imagesNumber];
 
@@ -126,13 +129,15 @@ public class Animation extends JPanel implements Runnable {
 				}
 
 				counter++;
-
 			}
+
 			counter = 0;
 
 			if (loopNumber != 0)
 				i++;
 		}
+		
+		if (deleteIt == true)
 		GamePanel.getGamePanel().remove(this);
 	}
 }
