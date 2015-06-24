@@ -10,7 +10,7 @@ import useful.Animation;
  * 
  * @author Mr. Coder
  * @author HRM_SHAMS
- * @version 1.3
+ * @version 1.4
  */
 public class Door extends Element {
 
@@ -18,7 +18,7 @@ public class Door extends Element {
 
 	public static final int WIDTH = 50, DEPTH = 10;
 
-	private Animation animation;
+	// private Animation animation;
 	private boolean isOpened = false;
 
 	/**
@@ -33,15 +33,16 @@ public class Door extends Element {
 	public Door(int x, int y, String type) {
 		super(x, y, 1, 1);
 
-		animation = new Animation(new Point(x, y), new Dimension(41, 98),
-				"/images/doors/" + type + "/", 5, 200, 1, false); // the size of
-																	// a door
-																	// image is
-																	// 41 x 98
-
+		Animation animation = new Animation(new Point(x, y), new Dimension(41,
+				98), "/images/doors/" + type + "/", 5, 200, 1, false);// the
+																		// size
+																		// of a
+																		// door
+																		// image
+																		// is
+																		// 41x98
 		setSize(animation.getSize());
-		animation.setLocation(0, 0);
-		add(animation);
+		setAnimation(animation);
 	}
 
 	/**
@@ -49,7 +50,7 @@ public class Door extends Element {
 	 */
 	public void open() {
 		isOpened = true;
-		animation.start();
+		startAnimation();
 	}
 
 	/**
