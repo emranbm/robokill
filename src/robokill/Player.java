@@ -263,6 +263,7 @@ public class Player extends Robot implements Damagable {
 		{
 			GamePanel.getGamePanel().gameEnded = true;
 			this.fallRobot();
+			GamePanel.getGamePanel().statusPanel.reduceHealth(100);
 		}
 		else if (element instanceof Prize) {
 			Prize prize = (Prize) element;

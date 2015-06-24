@@ -45,6 +45,6 @@ public class GameFrame extends JFrame {
         /**set the frame in center of window**/
         Dimension d = new Dimension();
         d = Toolkit.getDefaultToolkit().getScreenSize();
-        setLocation( (d.width/2)-(getWidth()/2) , (d.height/2)-(getHeight()/2) );        
+        setLocation( (d.width/2)-(getWidth()/2) , (d.height/2)-(getHeight()/2)-20  );        
     }
 }

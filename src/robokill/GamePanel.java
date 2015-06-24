@@ -52,6 +52,8 @@ public class GamePanel extends JPanel {
 
 	public boolean gameEnded = false;
 	
+	public StatusPanel statusPanel= new StatusPanel();
+	
 	public static GamePanel getGamePanel() {
 		if (This == null)
 			This = new GamePanel();
@@ -220,6 +222,10 @@ public class GamePanel extends JPanel {
 		add( new Valley(840, 210, 170, 50) );
 		add( new Valley(0, 430, 170, 50) );
 		add( new Valley(840, 430, 170, 50) );
+		
+		/**status bar**/
+		add (statusPanel);
+		/**************/
 
 	}
 
