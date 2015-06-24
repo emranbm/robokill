@@ -194,16 +194,16 @@ public abstract class Element extends JPanel {
 		return false;
 	}
 
-	/**
-	 * Sets the location of the element. If the location is out of the
-	 * {@link robokill.GamePanel GamePanel}, nothing happens.
-	 */
-	@Override
-	public void setLocation(int x, int y) {
-		if (GamePanel.getGamePanel()
-				.isElementInside(new Point(x, y), getSize()))
-			super.setLocation(x, y);
-	}
+//	/**
+//	 * Sets the location of the element. If the location is out of the
+//	 * {@link robokill.GamePanel GamePanel}, nothing happens.
+//	 */
+//	@Override
+//	public void setLocation(int x, int y) {
+//		if (GamePanel.getGamePanel()
+//				.isElementInside(new Point(x, y), getSize()))
+//			super.setLocation(x, y);
+//	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
