@@ -1,23 +1,29 @@
 package robokill;
 
+import java.awt.Image;
 import java.awt.Point;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 /**
  * A class to save the properties of a room.
  * 
  * @author Mr. Coder
- * @version 1.0
+ * @version 1.2
  */
 public class Room implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3L;
 
 	private int id;
 	private ArrayList<Element> elements = new ArrayList<Element>();
 	private ArrayList<Door> doors = new ArrayList<Door>();
+	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	private Point playerLocation;
+	private String backgroundImagePath;
 
 	/**
 	 * 
@@ -44,8 +50,26 @@ public class Room implements Serializable {
 		return playerLocation;
 	}
 
+	public ArrayList<Enemy> getEnemies() {
+		return enemies;
+	}
+
 	public void addElement(Element element) {
 		elements.add(element);
+	}
+
+	public Image getBackgroundImage() {
+		if (backgroundImagePath == null)
+			return null;
+
+		try {
+			return ImageIO.read(getClass().getResource(
+					"/" + backgroundImagePath));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 	public void setElements(ArrayList<Element> elements) {
@@ -66,5 +90,21 @@ public class Room implements Serializable {
 
 	public void setPlayerLocation(Point playerLocation) {
 		this.playerLocation = playerLocation;
+	}
+
+	/**
+	 * 
+	 * @param backgroundImagePath
+	 *            A relative path to an image. It is inside the src folder and
+	 *            doesn't start with "/".
+	 *            <p>
+	 *            Example: "images/background.png"
+	 */
+	public void setBackgroundImagePath(String backgroundImagePath) {
+		this.backgroundImagePath = backgroundImagePath;
+	}
+
+	public void setEnemies(ArrayList<Enemy> enemies) {
+		this.enemies = enemies;
 	}
 }
