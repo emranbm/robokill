@@ -41,9 +41,6 @@ public class PictureBox extends JPanel {
 
 	@Override
 	public void paint(Graphics g) {
-		// TODO Auto-generated method stub
-		// super.paint(g);
-
 		if (img != null)
 			g.drawImage(img, 0, 0, this);
 		else {
