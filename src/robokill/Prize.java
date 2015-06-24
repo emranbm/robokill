@@ -52,7 +52,7 @@ public class Prize extends Element {
 	 * 
 	 * @return The type of prize.
 	 */
-	public PrizeType achievePrize() {
+	public synchronized PrizeType achievePrize() {
 		GamePanel.getGamePanel().remove(this);
 		return type;
 	}
@@ -66,6 +66,7 @@ public class Prize extends Element {
 	 */
 	private void setType(PrizeType type) {
 		this.type = type;
+		System.out.println(type);
 		switch (type) {
 		case Energy:
 			setImage("images/Prize energy.png");

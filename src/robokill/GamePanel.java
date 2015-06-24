@@ -36,8 +36,6 @@ public class GamePanel extends JPanel {
 	private static GamePanel This;
 
 	private Player playerRobot; // the panel of playerRobot!
-	// private Thread playerRobotThread ; // a thread that related to player
-	// robot
 	private BufferedImage background;
 
 	private boolean isShooting = false;
@@ -51,9 +49,9 @@ public class GamePanel extends JPanel {
 																// robot!
 
 	public boolean gameEnded = false;
-	
-	public StatusPanel statusPanel= new StatusPanel();
-	
+
+	public StatusPanel statusPanel = new StatusPanel();
+
 	public static GamePanel getGamePanel() {
 		if (This == null)
 			This = new GamePanel();
@@ -213,18 +211,18 @@ public class GamePanel extends JPanel {
 		/***************************/
 
 		/* Add Valleys */
-		add( new Valley(0, 0, 350, 210) );
-		add( new Valley(640, 0, 350, 210) );
-		add( new Valley(0, 480, 350, 210) );
-		add( new Valley(640, 480, 350, 210) );
+		add(new Valley(0, 0, 350, 210));
+		add(new Valley(640, 0, 350, 210));
+		add(new Valley(0, 480, 350, 210));
+		add(new Valley(640, 480, 350, 210));
 
-		add( new Valley(0, 210 , 170 , 50) );
-		add( new Valley(840, 210, 170, 50) );
-		add( new Valley(0, 430, 170, 50) );
-		add( new Valley(840, 430, 170, 50) );
-		
-		/**status bar**/
-		add (statusPanel);
+		add(new Valley(0, 210, 170, 50));
+		add(new Valley(840, 210, 170, 50));
+		add(new Valley(0, 430, 170, 50));
+		add(new Valley(840, 430, 170, 50));
+
+		/** status bar **/
+		add(statusPanel);
 		/**************/
 
 		/**add door**/
@@ -232,6 +230,9 @@ public class GamePanel extends JPanel {
 		add (door);
 		door.open();
 		/************/
+		/** Sample Box **/
+		add(new Box(300, 300));
+		/******************/
 	}
 
 	/**
