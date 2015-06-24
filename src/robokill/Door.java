@@ -2,6 +2,9 @@ package robokill;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 
 import useful.Animation;
 
@@ -73,6 +76,18 @@ public class Door extends Element {
 			return false;
 
 		// TODO Go to next room.
+		GamePanel gamePanel = GamePanel.getGamePanel();
+		int currentId = gamePanel.getRoomId();
+		InputStream newRoomInputStream = getClass().getResourceAsStream(
+				"/data/room " + (currentId + 1) + ".dat");
+		try {
+			ObjectInputStream ois = new ObjectInputStream(newRoomInputStream);
+			Room newRoom = (Room) ois.readObject();
+			ois.close();
+			gamePanel.rearrange(newRoom);
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 
 		return true;
 	}
