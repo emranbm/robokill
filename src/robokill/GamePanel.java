@@ -113,7 +113,7 @@ public class GamePanel extends JPanel {
 		shootingBars.start();
 
 		/** adding elements to GamePanel **/
-		// addElements();
+//		 addElements();
 
 		try {
 			InputStream in = getClass().getResourceAsStream("/data/room 0.dat");
@@ -122,7 +122,6 @@ public class GamePanel extends JPanel {
 			ois.close();
 			rearrange(currentRoom);
 		} catch (IOException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -164,7 +163,7 @@ public class GamePanel extends JPanel {
 	 * Adds the elements to the game panel.
 	 */
 	private void addElements() {
-		Block block = new Block(450, 300, Block.BLOCK_TYPE_1);
+		Block block = new Block(450, 300, Block.BLOCK_TYPE_2);
 		add(block);
 
 		/* Add Valleys */
@@ -184,7 +183,7 @@ public class GamePanel extends JPanel {
 		doors.add(door);
 
 		/* Sample Box */
-		add(new Box(300, 300));
+		add(new Box(450, 100));
 
 		Room room = new Room(0);
 		room.setDoors(doors);
