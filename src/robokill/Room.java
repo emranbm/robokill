@@ -2,6 +2,7 @@ package robokill;
 
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class Room implements Serializable {
 		elements.add(element);
 	}
 
-	public Image getBackgroundImage() {
+	public BufferedImage getBackgroundImage() {
 		if (backgroundImagePath == null)
 			return null;
 

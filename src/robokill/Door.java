@@ -93,7 +93,7 @@ public class Door extends Element {
 		GamePanel gamePanel = GamePanel.getGamePanel();
 		int currentId = gamePanel.getRoomId();
 		InputStream newRoomInputStream = getClass().getResourceAsStream(
-				"/data/room " + (currentId + 1) + ".dat");
+				"/data/room 3.dat"); //(currentId + 1)
 		try {
 			ObjectInputStream ois = new ObjectInputStream(newRoomInputStream);
 			Room newRoom = (Room) ois.readObject();

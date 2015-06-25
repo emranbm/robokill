@@ -41,7 +41,7 @@ public class GamePanel extends JPanel {
 
 	public Player playerRobot; // the panel of playerRobot!
 	private BufferedImage background;
-
+	
 	private boolean isShooting = false;
 	private int curMouseX;
 	private int curMouseY;
@@ -108,7 +108,7 @@ public class GamePanel extends JPanel {
 		shootingBars.start();
 
 		/** adding elements to GamePanel **/
-		// addElements();
+		 addElements();
 
 		try {
 			InputStream in = getClass().getResourceAsStream("/data/room 0.dat");
@@ -146,6 +146,9 @@ public class GamePanel extends JPanel {
 	 */
 	public void rearrange(Room room) {
 		/* Remove all elements from gamePanel */
+		
+		background = room.getBackgroundImage();
+		
 		for (int i = elements.size() - 1; i >= 0; i--)
 			if (!(elements.get(i) instanceof Player))
 				remove(elements.get(i));
@@ -174,11 +177,11 @@ public class GamePanel extends JPanel {
 	 * Adds the elements to the game panel.
 	 */
 	private void addElements() {
-		Block block = new Block(450, 300, Block.BLOCK_TYPE_1);
+/*		Block block = new Block(450, 300, Block.BLOCK_TYPE_1);
 		add(block);
 
 		/* Add Valleys */
-		add(new Valley(0, 0, 350, 210));
+/*		add(new Valley(0, 0, 350, 210));
 		add(new Valley(640, 0, 350, 210));
 		add(new Valley(0, 480, 350, 210));
 		add(new Valley(640, 480, 350, 210));
@@ -186,7 +189,7 @@ public class GamePanel extends JPanel {
 		add(new Valley(0, 210, 170, 50));
 		add(new Valley(840, 210, 170, 50));
 		add(new Valley(0, 430, 170, 50));
-		add(new Valley(840, 430, 170, 50));
+		add(new Valley(840, 430, 170, 50));*/
 
 		/* add door */
 		Door door = new Door(960, 301, "3");
@@ -210,16 +213,18 @@ public class GamePanel extends JPanel {
 				room.addElement(element);
 
 		room.setPlayerLocation(playerRobot.getLocation());
+
+		room.setBackgroundImagePath("images/GamePanelBackground.png");
+		
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(
-					new FileOutputStream("C:/Users/Mr. Coder/Desktop/room.dat"));
+					new FileOutputStream("C:/Users/h-noori/Desktop/room 0.dat"));
 			oos.writeObject(room);
 			oos.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		room.setBackgroundImagePath("images/GamePanelBackground.png");
 	}
 
 	@Override
