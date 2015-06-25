@@ -1,7 +1,9 @@
 package robokill;
 
+import java.awt.Dimension;
 import java.awt.Point;
 
+import useful.Animation;
 import useful.Direction;
 
 /**
@@ -136,6 +138,13 @@ public class Enemy extends Robot implements Runnable , Damagable {
 		if (health <= 0)
 		{
 			robotIsDied = true;
+			
+			//
+			Animation fireExplosion = new Animation(this.getLocation() ,new Dimension(85, 85) , "/images/explosion2/",7, 30,1, true);
+			GamePanel.getGamePanel().add(fireExplosion);
+			fireExplosion.start();
+			//
+			
 			GamePanel.getGamePanel().remove(this);
 		}
 	}
