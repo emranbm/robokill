@@ -92,11 +92,6 @@ public class GamePanel extends JPanel {
 		playerRobot = new Player(0, 320, 60, 60, 6);
 		add(playerRobot);
 
-		/** enemy **/
-		Enemy enemy = new Enemy(800, 301, 80, 80, 1, Enemy.ENEMY_TYPE_1);
-		add(enemy);
-		// enemy.go();
-		/*********/
 
 		/** adding mouseListener (for rotating head of robot and shooting) **/
 		addMouseListenersForRobot();
@@ -114,6 +109,11 @@ public class GamePanel extends JPanel {
 
 		/** adding elements to GamePanel **/
 //		 addElements();
+		/** enemy **/
+		Enemy enemy = new Enemy(800, 301, 80, 80, 1, Enemy.ENEMY_TYPE_1);
+		add(enemy);
+		 enemy.go();
+		/*********/
 
 		try {
 			InputStream in = getClass().getResourceAsStream("/data/room 0.dat");
@@ -325,7 +325,7 @@ public class GamePanel extends JPanel {
 	/**
 	 * Gets the current room id. Id is a unique integer to make rooms
 	 * distinguishable.
-	 * 
+	 * w
 	 * @return Returns the current room id.
 	 */
 	public int getRoomId() {
