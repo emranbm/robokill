@@ -14,7 +14,7 @@ import useful.Direction;
 /**
  * 
  * @author HRM_Shams
- * @version : 1.4
+ * @version : 1.5
  */
 public abstract class Robot extends Element {
 

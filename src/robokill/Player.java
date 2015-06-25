@@ -28,6 +28,11 @@ public class Player extends Robot implements Damagable {
 
 	private static final long serialVersionUID = 1L;
 
+	private int health = 100;
+	private int shield = 0;
+	private int money = 0;
+	private int keys = 0 ; //this field saves number of keys!
+
 	public RobotHead robotHead;
 
 	private int barType = Bar.BAR_TYPE_1;
@@ -42,7 +47,7 @@ public class Player extends Robot implements Damagable {
 
 	@Override
 	public void damage(int amount) {
-		GamePanel.getGamePanel().statusPanel.reduceHealth(amount);
+		reduceHealth(amount);
 	}
 
 	/**
@@ -51,6 +56,19 @@ public class Player extends Robot implements Damagable {
 	 * 
 	 * @param target
 	 */
+
+	private void reduceHealth(int amount)
+	{
+		this.health -= amount;
+		GamePanel.getGamePanel().statusPanel.reduceHealth(amount);
+		
+		if (health < 0)
+		{	
+			health = 0 ;
+			// do some thing when health is 0; 
+		}
+	}
+	
 	@Override
 	public void shoot(Point target) {
 
@@ -159,6 +177,12 @@ public class Player extends Robot implements Damagable {
 			}
 		}else if (element instanceof Door){
 			((Door)element).passToNextRoom();
+		}
+		else if (element instanceof Enemy)
+		{
+			GamePanel.getGamePanel().remove(element);
+			this.damage(20);
+			
 		}
 	}
 

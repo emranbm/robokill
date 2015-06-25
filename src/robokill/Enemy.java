@@ -1,6 +1,7 @@
 package robokill;
 
 import java.awt.Point;
+
 import useful.Direction;
 
 /**
@@ -8,8 +9,11 @@ import useful.Direction;
  * @author HRM_SHAMS
  * @version 1.1
  */
-public class Enemy extends Robot implements Runnable{
+public class Enemy extends Robot implements Runnable , Damagable {
 
+	private int health = 100;
+	private boolean robotIsDied = false;
+	
 	public Enemy(int x , int y , int width , int height , int speed , String enemyType)
 	{
 		super(x,y,width,height,speed,"/images/enemies/" + enemyType + "/" , 29);
@@ -96,7 +100,7 @@ public class Enemy extends Robot implements Runnable{
 	@Override
 	public void run()
 	{
-		while (true)
+		while (!robotIsDied)
 		{
 			selectDirectionAndMove();
 		//	try{
@@ -113,7 +117,11 @@ public class Enemy extends Robot implements Runnable{
 	
 	@Override
 	public void collidedWith(Element element) {
-		;
+		if (element instanceof Player)
+		{
+		this.damage(100);
+		((Player) element).damage(20);
+		}
 	}
 
 	@Override
@@ -122,4 +130,14 @@ public class Enemy extends Robot implements Runnable{
 		
 	}
 
+	@Override
+	public void damage(int amount) {
+		health = health - amount;
+		if (health <= 0)
+		{
+			robotIsDied = true;
+			GamePanel.getGamePanel().remove(this);
+		}
+	}
+	
 }
