@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import useful.Direction;
@@ -41,7 +40,7 @@ public class GamePanel extends JPanel {
 
 	public Player playerRobot; // the panel of playerRobot!
 	private BufferedImage background;
-	
+
 	private boolean isShooting = false;
 	private int curMouseX;
 	private int curMouseY;
@@ -61,7 +60,6 @@ public class GamePanel extends JPanel {
 
 	public static GamePanel getGamePanel() {
 		if (This == null) {
-			System.out.println(0);
 			This = new GamePanel();
 		}
 
@@ -76,20 +74,11 @@ public class GamePanel extends JPanel {
 		setSize(new Dimension(1024, 768));
 		setLayout(null);
 
-		/** initializing background **/
-		try {
-			background = ImageIO.read(getClass().getResource(
-					"/images/GamePanelBackground.png"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		/** status bar **/
 		add(statusPanel);
 		/**************/
 
 		/** adding playerRobot to gamePanel **/
-
 		playerRobot = new Player(0, 320, 60, 60, 6);
 		add(playerRobot);
 
@@ -145,13 +134,17 @@ public class GamePanel extends JPanel {
 	 *            The room for applying new properties.
 	 */
 	public void rearrange(Room room) {
-		/* Remove all elements from gamePanel */
-		
+
 		background = room.getBackgroundImage();
-		
-		for (int i = elements.size() - 1; i >= 0; i--)
-			if (!(elements.get(i) instanceof Player))
-				remove(elements.get(i));
+
+		/* Remove all elements from gamePanel */
+		int a = this.getComponentCount();
+		for (int i = a - 1; i >= 0; i--) {
+			Component comp = this.getComponent(i);
+			if (comp instanceof Element)
+				if (!(comp instanceof Player))
+					remove(comp);
+		}
 
 		doors = room.getDoors();
 
@@ -177,19 +170,19 @@ public class GamePanel extends JPanel {
 	 * Adds the elements to the game panel.
 	 */
 	private void addElements() {
-/*		Block block = new Block(450, 300, Block.BLOCK_TYPE_1);
-		add(block);
-
-		/* Add Valleys */
-/*		add(new Valley(0, 0, 350, 210));
-		add(new Valley(640, 0, 350, 210));
-		add(new Valley(0, 480, 350, 210));
-		add(new Valley(640, 480, 350, 210));
-
-		add(new Valley(0, 210, 170, 50));
-		add(new Valley(840, 210, 170, 50));
-		add(new Valley(0, 430, 170, 50));
-		add(new Valley(840, 430, 170, 50));*/
+		/*
+		 * Block block = new Block(450, 300, Block.BLOCK_TYPE_1); add(block);
+		 * 
+		 * /* Add Valleys
+		 */
+		/*
+		 * add(new Valley(0, 0, 350, 210)); add(new Valley(640, 0, 350, 210));
+		 * add(new Valley(0, 480, 350, 210)); add(new Valley(640, 480, 350,
+		 * 210));
+		 * 
+		 * add(new Valley(0, 210, 170, 50)); add(new Valley(840, 210, 170, 50));
+		 * add(new Valley(0, 430, 170, 50)); add(new Valley(840, 430, 170, 50));
+		 */
 
 		/* add door */
 		Door door = new Door(960, 301, "3");
@@ -215,7 +208,7 @@ public class GamePanel extends JPanel {
 		room.setPlayerLocation(playerRobot.getLocation());
 
 		room.setBackgroundImagePath("images/GamePanelBackground.png");
-		
+
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(
 					new FileOutputStream("C:/Users/h-noori/Desktop/room 0.dat"));
@@ -351,8 +344,8 @@ public class GamePanel extends JPanel {
 
 	/**
 	 * Gets the current room id. Id is a unique integer to make rooms
-	 * distinguishable.
-	 * w
+	 * distinguishable. w
+	 * 
 	 * @return Returns the current room id.
 	 */
 	public int getRoomId() {
