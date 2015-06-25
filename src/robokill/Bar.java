@@ -8,7 +8,7 @@ import useful.Vector;
  * 
  * @author Mr.Coder
  *
- * @version 1.1
+ * @version 1.2
  */
 public class Bar extends Element implements Runnable, Damagable {
 
@@ -72,7 +72,19 @@ public class Bar extends Element implements Runnable, Damagable {
 				this);
 		if (collidedElement != null && collidedElement instanceof Damagable) {
 			this.damage(0);
-			((Damagable) collidedElement).damage(10);
+			int damageAmount = (type == BAR_TYPE_1) ? 10 : 20;
+			switch (power) {
+			case BAR_POWER_LIGHT:
+				damageAmount += 2;
+				break;
+			case BAR_POWER_MEDIUM:
+				damageAmount += 4;
+				break;
+			case BAR_POWER_HEAVEY:
+				damageAmount += 6;
+				break;
+			}
+			((Damagable) collidedElement).damage(damageAmount);
 		}
 	}
 

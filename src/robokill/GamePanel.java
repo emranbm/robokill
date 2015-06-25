@@ -10,6 +10,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import static java.lang.Thread.sleep;
 
@@ -27,7 +30,8 @@ import useful.GlobalKeyListenerFactory;
 /**
  * 
  * @author HRM_Shams
- * @version 1.7
+ * @author Mr. Coder
+ * @version 1.8
  */
 
 public class GamePanel extends JPanel {
@@ -43,6 +47,7 @@ public class GamePanel extends JPanel {
 	private int curMouseY;
 
 	private ArrayList<Element> elements = new ArrayList<Element>();
+	private ArrayList<Door> doors = new ArrayList<Door>();
 
 	private final Set<Integer> keys = new HashSet<Integer>(); // related to
 																// movement of
@@ -76,7 +81,8 @@ public class GamePanel extends JPanel {
 		}
 
 		/** adding playerRobot to gamePanel **/
-		playerRobot = new Player(0, 320, 60, 60, 4);
+
+		playerRobot = new Player(0, 320, 60, 60, 6);
 		add(playerRobot);
 
 		/** adding mouseListener (for rotating head of robot and shooting) **/
@@ -97,6 +103,80 @@ public class GamePanel extends JPanel {
 		addElements();
 	}// end of constructor !!
 
+	/**
+	 * Removes all the elements from the game panel and applies the given room
+	 * properties.
+	 * 
+	 * @param room
+	 *            The room for applying new properties.
+	 */
+	private void rearrange(Room room) {
+		/* Remove all elements from gamePanel */
+		for (int i = elements.size() - 1; i >= 0; i--)
+			// FIXME Redundancy: The search in elements is done two times. see
+			// remove method...
+			remove(elements.get(i));
+
+		doors = room.getDoors();
+
+		for (Element element : room.getElements())
+			add(element);
+
+		playerRobot.setLocation(room.getPlayerLocation());
+	}
+
+	/**
+	 * Adds the elements to the game panel.
+	 */
+	private void addElements() {
+		Block block = new Block(450, 300, Block.BLOCK_TYPE_1);
+		add(block);
+
+		/* Add Valleys */
+		add(new Valley(0, 0, 350, 210));
+		add(new Valley(640, 0, 350, 210));
+		add(new Valley(0, 480, 350, 210));
+		add(new Valley(640, 480, 350, 210));
+
+		add(new Valley(0, 210, 170, 50));
+		add(new Valley(840, 210, 170, 50));
+		add(new Valley(0, 430, 170, 50));
+		add(new Valley(840, 430, 170, 50));
+
+		/** status bar **/
+		add(statusPanel);
+		/**************/
+
+		/* add door */
+		Door door = new Door(960, 301, "3");
+		add(door);
+		doors.add(door);
+
+		/* Sample Box */
+		add(new Box(300, 300));
+		
+		Room room = new Room(0);
+		room.setDoors(doors);
+		room.setElements(elements);
+		room.setPlayerLocation(playerRobot.getLocation());
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("C:/Users/Mr. Coder/Desktop/room.dat"));
+			oos.writeObject(room);
+			oos.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+		/**enemy**/
+		Enemy enemy = new Enemy(800, 301, 80, 80, 1, "1");
+		add(enemy);
+		enemy.go();
+		/*********/
+
+	}
+
+	@Override
 	public void paintComponent(Graphics g) {
 		g.drawImage(background, 0, 0, this);
 	}
@@ -131,7 +211,7 @@ public class GamePanel extends JPanel {
 	 * @return Returns the element that is collided with the given element.
 	 *         Returns null if no collision has occurred.
 	 */
-	public Element getCollidedElement(Element checkElement) {
+	public synchronized Element getCollidedElement(Element checkElement) {
 
 		for (Element e : elements) {
 			if (checkElement.isCollided(e) && checkElement != e)
@@ -198,40 +278,14 @@ public class GamePanel extends JPanel {
 			return false;
 	}
 
-	private void addElements() {
-		Block block = new Block(450, 300, Block.BLOCK_TYPE_1);
-		add(block);
-
-		/* Add Valleys */
-		add(new Valley(0, 0, 350, 210));
-		add(new Valley(640, 0, 350, 210));
-		add(new Valley(0, 480, 350, 210));
-		add(new Valley(640, 480, 350, 210));
-
-		add(new Valley(0, 210, 170, 50));
-		add(new Valley(840, 210, 170, 50));
-		add(new Valley(0, 430, 170, 50));
-		add(new Valley(840, 430, 170, 50));
-
-		/** status bar **/
-		add(statusPanel);
-		/**************/
-
-		/**add door**/
-		Door door = new Door(960 , 301 , "3");
-		add (door);
-		door.open();
-		/************/
-		
-		/** Sample Box **/
-		add(new Box(300, 300));
-		/******************/
-	
-		/**enemy**/
-		Enemy enemy = new Enemy(800, 301, 80, 80, 1, "1");
-		add(enemy);
-		enemy.go();
-		/*********/
+	// TODO Check if all the enemies are killed and key is achieved, the open.
+	// Otherwise do nothing.
+	/**
+	 * Opens all of the doors.
+	 */
+	public void openTheDoors() {
+		for (Door door : doors)
+			door.open();
 	}
 
 	/**

@@ -28,7 +28,7 @@ public class Animation extends JPanel implements Runnable {
 	private int delay;
 	private int counter = 0;
 	private int loopNumber;
-	private boolean deleteIt ;
+	private boolean deleteIt;
 
 	/**
 	 * @param location
@@ -38,10 +38,11 @@ public class Animation extends JPanel implements Runnable {
 	 *            : "/images/explosion/"
 	 * @param imagesNumber
 	 * @param delay
-	 * @param loopNumber if loopNumber be 0 the loop is infinite !
+	 * @param loopNumber
+	 *            if loopNumber be 0 the loop is infinite !
 	 */
 	public Animation(Point location, Dimension size, String address,
-			int imagesNumber, int delay, int loopNumber , boolean deleteIt) {
+			int imagesNumber, int delay, int loopNumber, boolean deleteIt) {
 		setSize(size);
 		setLocation(location);
 		setOpaque(false);
@@ -50,7 +51,7 @@ public class Animation extends JPanel implements Runnable {
 		this.imageNumber = imagesNumber;
 		this.loopNumber = loopNumber;
 		this.deleteIt = deleteIt;
-		
+
 		images = new BufferedImage[imagesNumber];
 
 		for (int i = 0; i < imagesNumber; i++) {
@@ -67,13 +68,15 @@ public class Animation extends JPanel implements Runnable {
 	/**
 	 * 
 	 * @param address
-	 * 				is the address of images that starts from src folder ! Example
-	 *            	: "/images/explosion/"
+	 *            is the address of images that starts from src folder ! Example
+	 *            : "/images/explosion/"
 	 * @param imagesNumber
 	 * @param delay
-	 * @param loopNumber if loopNumber be 0 the loop is infinite !
+	 * @param loopNumber
+	 *            if loopNumber be 0 the loop is infinite !
 	 */
-	public Animation(String address,int imagesNumber, int delay, int loopNumber , boolean deleteIt) {
+	public Animation(String address, int imagesNumber, int delay,
+			int loopNumber, boolean deleteIt) {
 		setOpaque(false);
 
 		this.delay = delay;
@@ -94,7 +97,6 @@ public class Animation extends JPanel implements Runnable {
 
 	}
 
-	
 	/**
 	 * Starts the animation as a thread.
 	 */
@@ -112,10 +114,10 @@ public class Animation extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		int i = 0;
-		
-		if (loopNumber == 0) //this is for fixing a bug!
+
+		if (loopNumber == 0) // this is for fixing a bug!
 			i = -1;
-		
+
 		while (i < loopNumber) {
 
 			while (counter < imageNumber) {
@@ -136,8 +138,10 @@ public class Animation extends JPanel implements Runnable {
 			if (loopNumber != 0)
 				i++;
 		}
-		
+
 		if (deleteIt == true)
-		GamePanel.getGamePanel().remove(this);
+			GamePanel.getGamePanel().remove(this);
+		else if (loopNumber == 1)
+			counter = imageNumber - 1;
 	}
 }
