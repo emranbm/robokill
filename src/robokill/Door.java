@@ -76,6 +76,20 @@ public class Door extends Element {
 			return false;
 
 		// TODO Go to next room.
+		Animation changeRoom = new Animation(new Point(0, 0) ,
+				new Dimension(1000, 700) , 
+				"/images/changeRoom/",
+				13 ,
+				40 ,
+				1 ,
+				true);
+		GamePanel.getGamePanel().add(changeRoom);
+		changeRoom.start();
+		
+		try{
+		Thread.sleep (20);
+		}catch(Exception e){}
+		
 		GamePanel gamePanel = GamePanel.getGamePanel();
 		int currentId = gamePanel.getRoomId();
 		InputStream newRoomInputStream = getClass().getResourceAsStream(

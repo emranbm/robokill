@@ -31,7 +31,7 @@ import useful.GlobalKeyListenerFactory;
  * 
  * @author HRM_Shams
  * @author Mr. Coder
- * @version 1.8
+ * @version 1.9
  */
 
 public class GamePanel extends JPanel {
@@ -92,6 +92,11 @@ public class GamePanel extends JPanel {
 		playerRobot = new Player(0, 320, 60, 60, 6);
 		add(playerRobot);
 
+		/** enemy **/
+		Enemy enemy = new Enemy(800, 301, 80, 80, 1, Enemy.ENEMY_TYPE_1);
+		add(enemy);
+		enemy.go();
+		/*********/
 
 		/** adding mouseListener (for rotating head of robot and shooting) **/
 		addMouseListenersForRobot();
@@ -108,12 +113,7 @@ public class GamePanel extends JPanel {
 		shootingBars.start();
 
 		/** adding elements to GamePanel **/
-//		 addElements();
-		/** enemy **/
-		Enemy enemy = new Enemy(800, 301, 80, 80, 1, Enemy.ENEMY_TYPE_1);
-		add(enemy);
-		 enemy.go();
-		/*********/
+		// addElements();
 
 		try {
 			InputStream in = getClass().getResourceAsStream("/data/room 0.dat");
@@ -130,6 +130,19 @@ public class GamePanel extends JPanel {
 	}// end of constructor !!
 
 	/**
+	 * Determines whether the GamePanel is created (before) or not.
+	 * 
+	 * @return Returns true if the game panel is created and ready. Otherwise
+	 *         false.
+	 */
+	public static boolean isGamePanelReady() {
+		if (This == null)
+			return false;
+		else
+			return true;
+	}
+
+	/**
 	 * Removes all the elements from the game panel and applies the given room
 	 * properties.
 	 * 
@@ -138,11 +151,11 @@ public class GamePanel extends JPanel {
 	 */
 	public void rearrange(Room room) {
 		/* Remove all elements from gamePanel */
-		for (int i = elements.size() - 1; i >= 0; i--)
-			// FIXME Redundancy: The search in elements is done two times. see
-			// remove method...
-			if (!(elements.get(i) instanceof Robot))
-				remove(elements.get(i));
+		// for (int i = elements.size() - 1; i >= 0; i--)
+		// // FIXME Redundancy: The search in elements is done two times. see
+		// // remove method...
+		// if (!(elements.get(i) instanceof Robot))
+		// remove(elements.get(i));
 
 		doors = room.getDoors();
 
