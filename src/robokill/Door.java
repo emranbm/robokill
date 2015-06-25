@@ -79,8 +79,8 @@ public class Door extends Element {
 		Animation changeRoom = new Animation(new Point(0, 0) ,
 				new Dimension(1000, 700) , 
 				"/images/changeRoom/",
-				13 ,
-				40 ,
+				24 ,
+				35 ,
 				1 ,
 				true);
 		GamePanel.getGamePanel().add(changeRoom);
