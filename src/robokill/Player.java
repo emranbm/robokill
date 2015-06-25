@@ -22,16 +22,11 @@ import useful.Animation;
  *
  * @author HRM_Shams
  * @author Mr. Coder
- * @version : 1.4
+ * @version : 1.5
  */
 public class Player extends Robot implements Damagable {
 
 	private static final long serialVersionUID = 1L;
-
-	private int health = 100;
-	private int shield = 0;
-	private int money = 0;
-	private int keys = 0 ; //this field saves number of keys!
 
 	public RobotHead robotHead;
 
@@ -47,7 +42,7 @@ public class Player extends Robot implements Damagable {
 
 	@Override
 	public void damage(int amount) {
-		reduceHealth(amount);
+		GamePanel.getGamePanel().statusPanel.reduceHealth(amount);
 	}
 
 	/**
@@ -56,18 +51,6 @@ public class Player extends Robot implements Damagable {
 	 * 
 	 * @param target
 	 */
-
-	private void reduceHealth(int amount)
-	{
-		this.health -= amount;
-		GamePanel.getGamePanel().statusPanel.reduceHealth(amount);
-		
-		if (health < 0)
-		{	
-			health = 0 ;
-			// do some thing when health is 0; 
-		}
-	}
 	
 	@Override
 	public void shoot(Point target) {
@@ -180,9 +163,8 @@ public class Player extends Robot implements Damagable {
 		}
 		else if (element instanceof Enemy)
 		{
-			GamePanel.getGamePanel().remove(element);
+			((Enemy)element).damage(100);
 			this.damage(20);
-			
 		}
 	}
 

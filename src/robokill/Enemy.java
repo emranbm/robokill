@@ -12,7 +12,7 @@ import useful.Direction;
 public class Enemy extends Robot implements Runnable , Damagable {
 
 	private int health = 100;
-	private boolean robotIsDied = false;
+	public boolean robotIsDied = false;
 	
 	public Enemy(int x , int y , int width , int height , int speed , String enemyType)
 	{

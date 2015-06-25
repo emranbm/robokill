@@ -11,12 +11,17 @@ import javax.swing.JPanel;
 /**
  * 
  * @author HRM_SHAMS
- * @version 1.3
+ * @version 1.4
  */
 
 public class StatusPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+
+	private int health = 100;
+	private int shield = 0;
+	private int money = 0;
+	private int keys = 0 ; //this field saves number of keys!
 
 	private Gooshe gooshe = new Gooshe();
 	private HealthBar healthBar = new HealthBar();
@@ -51,6 +56,10 @@ public class StatusPanel extends JPanel {
 	public synchronized void reduceHealth(int reducePercent) {
 		new Thread() {
 			public void run() {
+				health -= reducePercent;
+				if (health < 0 )
+					health = 0;
+
 				int reduceAmount = (int) ((double) (reducePercent / 100.0) * 117);
 
 				int curX = healthBar.getX();
@@ -79,6 +88,10 @@ public class StatusPanel extends JPanel {
 	public synchronized void increaseHealth(int increasePercent) {
 		new Thread() {
 			public void run() {
+				health += increasePercent;
+				if (health > 100 )
+					health = 100;
+
 				int increaseAmount = (int) ((double) (increasePercent / 100.0) * 117);
 
 				int curX = healthBar.getX();
@@ -110,6 +123,10 @@ public class StatusPanel extends JPanel {
 	public synchronized void reduceShield(int reducePercent) {
 		new Thread() {
 			public void run() {
+				shield -= reducePercent;
+				if (shield < 0 )
+					shield = 0;
+				
 				int reduceAmount = (int) ((double) (reducePercent / 100) * 117);
 
 				int curX = shieldBar.getX();
@@ -138,6 +155,10 @@ public class StatusPanel extends JPanel {
 	public synchronized void increaseShield(int increasePercent) {
 		new Thread() {
 			public void run() {
+				shield += increasePercent;
+				if (shield > 100 )
+					shield = 100;
+				
 				int increaseAmount = (int) ((double) (increasePercent / 100) * 117);
 
 				int curX = shieldBar.getX();
