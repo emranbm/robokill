@@ -149,7 +149,7 @@ public class Player extends Robot implements Damagable {
 				gamePanel.openTheDoors();
 				break;
 			case Money:
-				// TODO Money++
+				GamePanel.getGamePanel().statusPanel.addMoney(100);
 				break;
 			case Sheild:
 				gamePanel.statusPanel.increaseShield(10);
