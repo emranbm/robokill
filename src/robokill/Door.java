@@ -76,24 +76,20 @@ public class Door extends Element {
 			return false;
 
 		// TODO Go to next room.
-		Animation changeRoom = new Animation(new Point(0, 0) ,
-				new Dimension(1000, 700) , 
-				"/images/changeRoom/",
-				13 ,
-				40 ,
-				1 ,
-				true);
+		Animation changeRoom = new Animation(new Point(0, 0), new Dimension(
+				1000, 700), "/images/changeRoom/", 13, 40, 1, true);
 		GamePanel.getGamePanel().add(changeRoom);
 		changeRoom.start();
-		
-		try{
-		Thread.sleep (20);
-		}catch(Exception e){}
-		
+
+		try {
+			Thread.sleep(20);
+		} catch (Exception e) {
+		}
+
 		GamePanel gamePanel = GamePanel.getGamePanel();
 		int currentId = gamePanel.getRoomId();
 		InputStream newRoomInputStream = getClass().getResourceAsStream(
-				"/data/room 3.dat"); //(currentId + 1)
+				"/data/room " + (currentId + 1) + ".dat"); // ()
 		try {
 			ObjectInputStream ois = new ObjectInputStream(newRoomInputStream);
 			Room newRoom = (Room) ois.readObject();
@@ -101,6 +97,7 @@ public class Door extends Element {
 			gamePanel.rearrange(newRoom);
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
+			// TODO handle end of the Game!
 		}
 
 		return true;
