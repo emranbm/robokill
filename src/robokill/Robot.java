@@ -22,10 +22,12 @@ public abstract class Robot extends Element {
 
 	private int speed;
 
-	private BufferedImage[] bodyImage = new BufferedImage[12];
+	private BufferedImage[] bodyImage ;
 	private Direction curMoveDirection;
 	private int bodyLevel = 1;
 	private int rotateDegree = 0; // for rotating the bodyimage!
+	
+	private int imageNumbers ;
 
 	/**
 	 * @param x
@@ -38,17 +40,19 @@ public abstract class Robot extends Element {
 	 *            "[project path]/src/[imagePath]". Note that the imagePath does
 	 */
 	public Robot(int x, int y, int width, int height, int speed,
-			String imagePath) {
+			String imagePath , int imageNumber) {
 		super(x, y, width, height);
 
+		bodyImage = new BufferedImage[imageNumber];
 		setLayout(null);
 
+		this.imageNumbers = imageNumber;
 		this.speed = speed;
 
 		try {
-			for (int i = 1; i <= 12; i++)
+			for (int i = 1; i <= imageNumber; i++)
 				bodyImage[i - 1] = ImageIO.read(getClass().getResource(
-						"/images/robotbodyimages/" + i + ".png"));
+						imagePath + i + ".png"));
 		} catch (IOException e) {
 			System.err.println("Error in loading image!");
 		}
@@ -70,7 +74,7 @@ public abstract class Robot extends Element {
 		AffineTransform tx = new AffineTransform();
 		tx.rotate(rotateRadian, this.getWidth() / 2, this.getHeight() / 2);
 		g2d.transform(tx);
-		g2d.drawImage(bodyImage[bodyLevel % 12], 0, 0, this);
+		g2d.drawImage(bodyImage[bodyLevel % imageNumbers], 0, 0, this);
 		g2d.setTransform(record);
 	}
 
@@ -164,8 +168,9 @@ public abstract class Robot extends Element {
 	 * location (according to the given direction) is passable.
 	 * 
 	 * @param dir
+	 * @return true if move is done (no collision) and false else!
 	 */
-	public void move(Direction dir) {
+	public boolean move(Direction dir) {
 		curMoveDirection = dir;
 
 		int x = this.getX();
@@ -202,16 +207,22 @@ public abstract class Robot extends Element {
 			break;
 		}
 
-		changeBody();
 
 		Element collidedElement = GamePanel.getGamePanel().getCollidedElement(
 				this, new Point(x, y));
 		if (collidedElement == null)
+			{
+			changeBody();
+			curMoveDirection = null;
+
 			this.setLocation(x, y);
+			return true;
+			}
 		else
+			{
 			collidedWith(collidedElement);
-			
-		curMoveDirection = null;
+			return false;
+			}
 
 	}
 	

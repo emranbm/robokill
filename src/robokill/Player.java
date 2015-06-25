@@ -32,7 +32,7 @@ public class Player extends Robot implements Damagable {
 	public RobotHead robotHead;
 
 	public Player(int x, int y, int width, int height, int speed) {
-		super(x, y, width, height, speed, "images/RobotH.png");
+		super(x, y, width, height, speed, "/images/robotbodyimages/" , 12);
 
 		robotHead = new RobotHead("images/RobotH.png", this);
 		robotHead.setBounds(0, 0, 60, 60);
@@ -127,19 +127,6 @@ public class Player extends Robot implements Damagable {
 		GamePanel.getGamePanel().add(fallingRobot);
 		fallingRobot.start();
 
-	}
-
-	/**
-	 * this method is used when falling robot in valey!
-	 * 
-	 * @param panel
-	 * @return
-	 */
-	private BufferedImage getScreenShot(JPanel panel) {
-		BufferedImage bi = new BufferedImage(panel.getWidth(),
-				panel.getHeight(), BufferedImage.TYPE_INT_ARGB);
-		panel.paint(bi.getGraphics());
-		return bi;
 	}
 
 	/**

@@ -33,7 +33,7 @@ public class Box extends Element implements Damagable {
 			Random rand = new Random();
 			int index = rand.nextInt(prizeTypes.length);
 			GamePanel.getGamePanel().add(
-					new Prize(getX(), getY(), prizeTypes[index]));
+					new Prize(getX()+getWidth()/2-15, getY()+getHeight()/2-15, prizeTypes[index]));
 			GamePanel.getGamePanel().remove(this);
 		}
 	}
