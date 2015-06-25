@@ -147,7 +147,7 @@ public class Player extends Robot implements Damagable {
 			case Key:
 				// TODO instead of this method, the key should be placed in
 				// status panel.
-				gamePanel.openTheDoors();
+				gamePanel.tryOpeningTheDoors();
 				break;
 			case Money:
 				GamePanel.getGamePanel().statusPanel.addMoney(100);

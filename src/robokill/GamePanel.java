@@ -48,6 +48,7 @@ public class GamePanel extends JPanel {
 
 	private ArrayList<Element> elements = new ArrayList<Element>();
 	private ArrayList<Door> doors = new ArrayList<Door>();
+	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	private Room currentRoom;
 
 	private final Set<Integer> keys = new HashSet<Integer>(); // related to
@@ -92,12 +93,6 @@ public class GamePanel extends JPanel {
 		playerRobot = new Player(0, 320, 60, 60, 6);
 		add(playerRobot);
 
-		/** enemy **/
-		Enemy enemy = new Enemy(800, 301, 80, 80, 1, Enemy.ENEMY_TYPE_1);
-		add(enemy);
-		enemy.go();
-		/*********/
-
 		/** adding mouseListener (for rotating head of robot and shooting) **/
 		addMouseListenersForRobot();
 
@@ -125,7 +120,7 @@ public class GamePanel extends JPanel {
 			e.printStackTrace();
 		}
 
-		openTheDoors();
+		tryOpeningTheDoors();
 
 	}// end of constructor !!
 
@@ -151,13 +146,13 @@ public class GamePanel extends JPanel {
 	 */
 	public void rearrange(Room room) {
 		/* Remove all elements from gamePanel */
-		// for (int i = elements.size() - 1; i >= 0; i--)
-		// // FIXME Redundancy: The search in elements is done two times. see
-		// // remove method...
-		// if (!(elements.get(i) instanceof Robot))
-		// remove(elements.get(i));
+		for (int i = elements.size() - 1; i >= 0; i--)
+			if (!(elements.get(i) instanceof Player))
+				remove(elements.get(i));
 
 		doors = room.getDoors();
+
+		enemies = room.getEnemies();
 
 		for (Door door : doors)
 			door.revalidateImage();
@@ -165,6 +160,9 @@ public class GamePanel extends JPanel {
 		for (Element element : room.getElements()) {
 			add(element);
 			element.revalidateImage();
+
+			if (element instanceof Enemy)
+				((Enemy) element).go();
 		}
 
 		playerRobot.setLocation(room.getPlayerLocation());
@@ -176,7 +174,7 @@ public class GamePanel extends JPanel {
 	 * Adds the elements to the game panel.
 	 */
 	private void addElements() {
-		Block block = new Block(450, 300, Block.BLOCK_TYPE_2);
+		Block block = new Block(450, 300, Block.BLOCK_TYPE_1);
 		add(block);
 
 		/* Add Valleys */
@@ -195,14 +193,20 @@ public class GamePanel extends JPanel {
 		add(door);
 		doors.add(door);
 
+		/** enemy **/
+		Enemy enemy = new Enemy(800, 301, 80, 80, 1, Enemy.ENEMY_TYPE_1);
+		add(enemy);
+		enemy.go();
+		/*********/
+
 		/* Sample Box */
-		add(new Box(450, 100));
+		add(new Box(300, 300));
 
 		Room room = new Room(0);
 		room.setDoors(doors);
 
 		for (Element element : elements)
-			if (!(element instanceof Robot))
+			if (!(element instanceof Player))
 				room.addElement(element);
 
 		room.setPlayerLocation(playerRobot.getLocation());
@@ -212,16 +216,10 @@ public class GamePanel extends JPanel {
 			oos.writeObject(room);
 			oos.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		/** enemy **/
-		Enemy enemy = new Enemy(800, 301, 80, 80, 1, "1");
-		add(enemy);
-		enemy.go();
-		/*********/
-
+		room.setBackgroundImagePath("images/GamePanelBackground.png");
 	}
 
 	@Override
@@ -235,7 +233,13 @@ public class GamePanel extends JPanel {
 
 		repaint();
 
-		elements.remove(comp);
+		if (comp instanceof Element)
+			elements.remove(comp);
+
+		if (comp instanceof Enemy) {
+			enemies.remove(comp);
+			tryOpeningTheDoors();
+		}
 	}
 
 	@Override
@@ -243,6 +247,9 @@ public class GamePanel extends JPanel {
 		if (comp instanceof Element) {
 			if (!(comp instanceof Bar))
 				elements.add((Element) comp);
+
+			if (comp instanceof Enemy)
+				enemies.add((Enemy) comp);
 		}
 
 		return super.add(comp);
@@ -325,14 +332,16 @@ public class GamePanel extends JPanel {
 			return false;
 	}
 
-	// TODO Check if all the enemies are killed and key is achieved, the open.
+	// TODO Check if the key is achieved, then open.
 	// Otherwise do nothing.
 	/**
-	 * Opens all of the doors.
+	 * Opens all of the doors, if all the enemies are killed. Otherwise does
+	 * nothing.
 	 */
-	public void openTheDoors() {
-		for (Door door : doors)
-			door.open();
+	public void tryOpeningTheDoors() {
+		if (enemies.size() == 0)
+			for (Door door : doors)
+				door.open();
 	}
 
 	/**

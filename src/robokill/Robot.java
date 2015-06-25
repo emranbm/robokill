@@ -22,12 +22,13 @@ public abstract class Robot extends Element {
 
 	private int speed;
 
-	private BufferedImage[] bodyImage;
+	private transient BufferedImage[] bodyImage;
 	private Direction curMoveDirection;
 	private int bodyLevel = 1;
 	private int rotateDegree = 0; // for rotating the bodyimage!
 
-	private int imageNumbers;
+	private int imagesNumber;
+	private String imagePath;
 
 	/**
 	 * @param x
@@ -43,12 +44,17 @@ public abstract class Robot extends Element {
 			String imagePath, int imageNumber) {
 		super(x, y, width, height);
 
-		bodyImage = new BufferedImage[imageNumber];
 		setLayout(null);
 
-		this.imageNumbers = imageNumber;
 		this.speed = speed;
 
+		loadImages(imagePath, imageNumber);
+	}
+
+	private void loadImages(String imagePath, int imageNumber) {
+		this.imagesNumber = imageNumber;
+		this.imagePath = imagePath;
+		bodyImage = new BufferedImage[imageNumber];
 		try {
 			for (int i = 1; i <= imageNumber; i++)
 				bodyImage[i - 1] = ImageIO.read(getClass().getResource(
@@ -56,6 +62,13 @@ public abstract class Robot extends Element {
 		} catch (IOException e) {
 			System.err.println("Error in loading image!");
 		}
+	}
+
+	@Override
+	public void revalidateImage() {
+		super.revalidateImage();
+
+		loadImages(imagePath, imagesNumber);
 	}
 
 	@Override
@@ -74,7 +87,7 @@ public abstract class Robot extends Element {
 		AffineTransform tx = new AffineTransform();
 		tx.rotate(rotateRadian, this.getWidth() / 2, this.getHeight() / 2);
 		g2d.transform(tx);
-		g2d.drawImage(bodyImage[bodyLevel % imageNumbers], 0, 0, this);
+		g2d.drawImage(bodyImage[bodyLevel % imagesNumber], 0, 0, this);
 		g2d.setTransform(record);
 	}
 
@@ -214,7 +227,7 @@ public abstract class Robot extends Element {
 		changeBody();
 		if (collidedElement == null) {
 			curMoveDirection = null;
-			
+
 			if (gamePanel.isElementInside(new Point(x, y), getSize()))
 				this.setLocation(x, y);
 			return true;
