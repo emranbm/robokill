@@ -108,7 +108,7 @@ public class GamePanel extends JPanel {
 		shootingBars.start();
 
 		/** adding elements to GamePanel **/
-		 addElements();
+		// addElements();
 
 		try {
 			InputStream in = getClass().getResourceAsStream("/data/room 0.dat");
