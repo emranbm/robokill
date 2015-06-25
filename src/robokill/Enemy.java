@@ -13,6 +13,10 @@ import useful.Direction;
  */
 public class Enemy extends Robot implements Runnable , Damagable {
 
+	private static final long serialVersionUID = 1L;
+	
+	public static final String ENEMY_TYPE_1 = "1";
+	
 	private int health = 100;
 	public boolean robotIsDied = false;
 	
@@ -105,9 +109,9 @@ public class Enemy extends Robot implements Runnable , Damagable {
 		while (!robotIsDied)
 		{
 			selectDirectionAndMove();
-		//	try{
-		//		Thread.sleep(100);
-		//	}catch(Exception e){}
+//			try{
+//				Thread.sleep(100);
+//			}catch(Exception e){}
 		}
 	}
 	

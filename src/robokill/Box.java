@@ -1,6 +1,5 @@
 package robokill;
 
-import java.util.Random;
 
 /**
  * An element representing a non-passable box which is damagable and may contain
@@ -29,13 +28,9 @@ public class Box extends Element implements Damagable {
 		health -= amount;
 		if (health <= 0) {
 			// Adds a random prize in its location.
-			PrizeType[] prizeTypes = PrizeType.values();
-			Random rand = new Random();
-			// Last index is key. So excluded from random.
-			// ==> prizeTypes.length - 1
-			int index = rand.nextInt(prizeTypes.length - 1);
-			GamePanel.getGamePanel().add(
-					new Prize(getX()+getWidth()/2-15, getY()+getHeight()/2-15, prizeTypes[index]));
+
+			GamePanel.getGamePanel().add(new Prize(getX()+getWidth()/2-15, getY()+getHeight()/2-15));
+
 			GamePanel.getGamePanel().remove(this);
 		}
 	}

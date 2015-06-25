@@ -22,12 +22,12 @@ public abstract class Robot extends Element {
 
 	private int speed;
 
-	private BufferedImage[] bodyImage ;
+	private BufferedImage[] bodyImage;
 	private Direction curMoveDirection;
 	private int bodyLevel = 1;
 	private int rotateDegree = 0; // for rotating the bodyimage!
-	
-	private int imageNumbers ;
+
+	private int imageNumbers;
 
 	/**
 	 * @param x
@@ -40,7 +40,7 @@ public abstract class Robot extends Element {
 	 *            "[project path]/src/[imagePath]". Note that the imagePath does
 	 */
 	public Robot(int x, int y, int width, int height, int speed,
-			String imagePath , int imageNumber) {
+			String imagePath, int imageNumber) {
 		super(x, y, width, height);
 
 		bodyImage = new BufferedImage[imageNumber];
@@ -207,25 +207,24 @@ public abstract class Robot extends Element {
 			break;
 		}
 
+		GamePanel gamePanel = GamePanel.getGamePanel();
+		Element collidedElement = gamePanel.getCollidedElement(this, new Point(
+				x, y));
 
-		Element collidedElement = GamePanel.getGamePanel().getCollidedElement(
-				this, new Point(x, y));
-		if (collidedElement == null)
-			{
-			changeBody();
+		changeBody();
+		if (collidedElement == null) {
 			curMoveDirection = null;
-
-			this.setLocation(x, y);
+			
+			if (gamePanel.isElementInside(new Point(x, y), getSize()))
+				this.setLocation(x, y);
 			return true;
-			}
-		else
-			{
+		} else {
 			collidedWith(collidedElement);
 			return false;
-			}
+		}
 
 	}
-	
+
 	public abstract void collidedWith(Element element);
 
 	/**

@@ -17,18 +17,19 @@ import robokill.GamePanel;
  * rename them from 1.png !
  * 
  * @author HRM_SHAMS
- * @version 1.3
+ * @version 1.4
  */
 public class Animation extends JPanel implements Runnable {
 
 	private static final long serialVersionUID = 1L;
 
-	private BufferedImage[] images;
+	private transient BufferedImage[] images;
 	private int imageNumber;
 	private int delay;
 	private int counter = 0;
 	private int loopNumber;
 	private boolean deleteIt;
+	private String address;
 
 	/**
 	 * @param location
@@ -52,16 +53,7 @@ public class Animation extends JPanel implements Runnable {
 		this.loopNumber = loopNumber;
 		this.deleteIt = deleteIt;
 
-		images = new BufferedImage[imagesNumber];
-
-		for (int i = 0; i < imagesNumber; i++) {
-			try {
-				images[i] = ImageIO.read(getClass().getResource(
-						address + (i + 1) + ".png"));
-			} catch (IOException e) {
-				System.err.println("Error in reading image file");
-			}
-		}
+		loadImages(address, imagesNumber);
 
 	}
 
@@ -84,6 +76,20 @@ public class Animation extends JPanel implements Runnable {
 		this.loopNumber = loopNumber;
 		this.deleteIt = deleteIt;
 
+		loadImages(address, imagesNumber);
+
+	}
+
+	/**
+	 * Loads the images to the images array.
+	 * 
+	 * @param address
+	 *            is the address of images that starts from src folder ! Example
+	 *            : "/images/explosion/"
+	 * @param imagesNumber
+	 */
+	private void loadImages(String address, int imagesNumber) {
+		this.address = address;
 		images = new BufferedImage[imagesNumber];
 
 		for (int i = 0; i < imagesNumber; i++) {
@@ -94,7 +100,16 @@ public class Animation extends JPanel implements Runnable {
 				System.err.println("Error in reading image file");
 			}
 		}
+	}
 
+	/**
+	 * Reloads the animation images. This method is used for reloading the
+	 * animation images when it is loaded from a file as a serializable. Since
+	 * the BuffuredImage is not serializable, so after loading the element, the
+	 * images are null should be reloaded.
+	 */
+	public void revalidateImages() {
+		loadImages(address, imageNumber);
 	}
 
 	/**

@@ -33,7 +33,7 @@ public class Player extends Robot implements Damagable {
 	private int barType = Bar.BAR_TYPE_1;
 
 	public Player(int x, int y, int width, int height, int speed) {
-		super(x, y, width, height, speed, "/images/robotbodyimages/" , 12);
+		super(x, y, width, height, speed, "/images/robotbodyimages/", 12);
 
 		robotHead = new RobotHead("images/RobotH.png", this);
 		robotHead.setBounds(0, 0, 60, 60);
@@ -51,7 +51,7 @@ public class Player extends Robot implements Damagable {
 	 * 
 	 * @param target
 	 */
-	
+
 	@Override
 	public void shoot(Point target) {
 
@@ -127,7 +127,6 @@ public class Player extends Robot implements Damagable {
 		fallingRobot.start();
 
 	}
-	
 
 	@Override
 	public void collidedWith(Element element) {
@@ -146,6 +145,8 @@ public class Player extends Robot implements Damagable {
 				gamePanel.statusPanel.increaseHealth(10);
 				break;
 			case Key:
+				// TODO instead of this method, the key should be placed in
+				// status panel.
 				gamePanel.openTheDoors();
 				break;
 			case Money:
@@ -158,12 +159,10 @@ public class Player extends Robot implements Damagable {
 				barType = Bar.BAR_TYPE_2;
 				break;
 			}
-		}else if (element instanceof Door){
-			((Door)element).passToNextRoom();
-		}
-		else if (element instanceof Enemy)
-		{
-			((Enemy)element).damage(100);
+		} else if (element instanceof Door) {
+			((Door) element).passToNextRoom();
+		} else if (element instanceof Enemy) {
+			((Enemy) element).damage(100);
 			this.damage(20);
 		}
 	}

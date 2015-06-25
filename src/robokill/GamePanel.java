@@ -1,5 +1,7 @@
 package robokill;
 
+import static java.lang.Thread.sleep;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -12,10 +14,9 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
-import static java.lang.Thread.sleep;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +24,6 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import useful.Animation;
 import useful.Direction;
 import useful.GlobalKeyListenerFactory;
 
@@ -48,6 +48,7 @@ public class GamePanel extends JPanel {
 
 	private ArrayList<Element> elements = new ArrayList<Element>();
 	private ArrayList<Door> doors = new ArrayList<Door>();
+	private Room currentRoom;
 
 	private final Set<Integer> keys = new HashSet<Integer>(); // related to
 																// movement of
@@ -58,8 +59,10 @@ public class GamePanel extends JPanel {
 	public StatusPanel statusPanel = new StatusPanel();
 
 	public static GamePanel getGamePanel() {
-		if (This == null)
+		if (This == null) {
+			System.out.println(0);
 			This = new GamePanel();
+		}
 
 		return This;
 	}
@@ -80,10 +83,20 @@ public class GamePanel extends JPanel {
 			e.printStackTrace();
 		}
 
+		/** status bar **/
+		add(statusPanel);
+		/**************/
+
 		/** adding playerRobot to gamePanel **/
 
 		playerRobot = new Player(0, 320, 60, 60, 6);
 		add(playerRobot);
+
+		/** enemy **/
+		Enemy enemy = new Enemy(800, 301, 80, 80, 1, Enemy.ENEMY_TYPE_1);
+		add(enemy);
+		// enemy.go();
+		/*********/
 
 		/** adding mouseListener (for rotating head of robot and shooting) **/
 		addMouseListenersForRobot();
@@ -100,7 +113,20 @@ public class GamePanel extends JPanel {
 		shootingBars.start();
 
 		/** adding elements to GamePanel **/
-		addElements();
+//		 addElements();
+
+		try {
+			InputStream in = getClass().getResourceAsStream("/data/room 0.dat");
+			ObjectInputStream ois = new ObjectInputStream(in);
+			currentRoom = (Room) ois.readObject();
+			ois.close();
+			rearrange(currentRoom);
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		openTheDoors();
+
 	}// end of constructor !!
 
 	/**
@@ -110,26 +136,34 @@ public class GamePanel extends JPanel {
 	 * @param room
 	 *            The room for applying new properties.
 	 */
-	private void rearrange(Room room) {
+	public void rearrange(Room room) {
 		/* Remove all elements from gamePanel */
 		for (int i = elements.size() - 1; i >= 0; i--)
 			// FIXME Redundancy: The search in elements is done two times. see
 			// remove method...
-			remove(elements.get(i));
+			if (!(elements.get(i) instanceof Robot))
+				remove(elements.get(i));
 
 		doors = room.getDoors();
 
-		for (Element element : room.getElements())
+		for (Door door : doors)
+			door.revalidateImage();
+
+		for (Element element : room.getElements()) {
 			add(element);
+			element.revalidateImage();
+		}
 
 		playerRobot.setLocation(room.getPlayerLocation());
+
+		repaint();
 	}
 
 	/**
 	 * Adds the elements to the game panel.
 	 */
 	private void addElements() {
-		Block block = new Block(450, 300, Block.BLOCK_TYPE_1);
+		Block block = new Block(450, 300, Block.BLOCK_TYPE_2);
 		add(block);
 
 		/* Add Valleys */
@@ -143,32 +177,33 @@ public class GamePanel extends JPanel {
 		add(new Valley(0, 430, 170, 50));
 		add(new Valley(840, 430, 170, 50));
 
-		/** status bar **/
-		add(statusPanel);
-		/**************/
-
 		/* add door */
 		Door door = new Door(960, 301, "3");
 		add(door);
 		doors.add(door);
 
 		/* Sample Box */
-		add(new Box(300, 300));
-		
+		add(new Box(450, 100));
+
 		Room room = new Room(0);
 		room.setDoors(doors);
-		room.setElements(elements);
+
+		for (Element element : elements)
+			if (!(element instanceof Robot))
+				room.addElement(element);
+
 		room.setPlayerLocation(playerRobot.getLocation());
 		try {
-			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("C:/Users/Mr. Coder/Desktop/room.dat"));
+			ObjectOutputStream oos = new ObjectOutputStream(
+					new FileOutputStream("C:/Users/Mr. Coder/Desktop/room.dat"));
 			oos.writeObject(room);
 			oos.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-			
-		/**enemy**/
+
+		/** enemy **/
 		Enemy enemy = new Enemy(800, 301, 80, 80, 1, "1");
 		add(enemy);
 		enemy.go();
@@ -212,7 +247,6 @@ public class GamePanel extends JPanel {
 	 *         Returns null if no collision has occurred.
 	 */
 	public synchronized Element getCollidedElement(Element checkElement) {
-
 		for (Element e : elements) {
 			if (checkElement.isCollided(e) && checkElement != e)
 				return e;
@@ -286,6 +320,16 @@ public class GamePanel extends JPanel {
 	public void openTheDoors() {
 		for (Door door : doors)
 			door.open();
+	}
+
+	/**
+	 * Gets the current room id. Id is a unique integer to make rooms
+	 * distinguishable.
+	 * 
+	 * @return Returns the current room id.
+	 */
+	public int getRoomId() {
+		return currentRoom.getId();
 	}
 
 	/**

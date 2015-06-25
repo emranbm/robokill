@@ -31,7 +31,7 @@ public class Bar extends Element implements Runnable, Damagable {
 		String imagePath = "images/";
 
 		if (type == BAR_TYPE_2)
-			imagePath += "Bar 2.png";
+			imagePath += "Bar 111.png";
 		else
 			imagePath += "Bar 1.png";
 

@@ -17,14 +17,15 @@ import useful.Animation;
  * 
  * @author Mr. Coder
  *
- * @version: 1.6
+ * @version: 1.7
  */
 public abstract class Element extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private Image defaultImage;
+	private transient Image defaultImage;
 	private Animation animation;
+	private String imagePath;
 
 	/**
 	 * 
@@ -67,10 +68,7 @@ public abstract class Element extends JPanel {
 		setBounds(x, y, width, height);
 		setOpaque(false);
 
-		animation.setLocation(0, 0);
-		animation.setSize(getSize());
-		this.animation = animation;
-		add(animation);
+		setAnimation(animation);
 	}
 
 	/**
@@ -99,12 +97,40 @@ public abstract class Element extends JPanel {
 	 *            doesn't start with "/". Example: "images/image.png"
 	 */
 	public void setImage(String imagePath) {
+		this.imagePath = imagePath;
 		try {
 			this.defaultImage = ImageIO.read(getClass().getResource(
 					"/" + imagePath));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Sets the animation of the element.
+	 * 
+	 * @param animation
+	 *            The animation to be added to the element.
+	 */
+	public void setAnimation(Animation animation) {
+		animation.setLocation(0, 0);
+		animation.setSize(getSize());
+		this.animation = animation;
+		add(animation);
+	}
+
+	/**
+	 * Reloads the element image. This method is used for reloading the element
+	 * image when it is loaded from a file as a serializable. Since the
+	 * BuffuredImage is not serializable, so after loading the element, the
+	 * image is null should be reloaded.
+	 */
+	public void revalidateImage() {
+		if (imagePath != null)
+			setImage(imagePath);
+
+		if (animation != null)
+			animation.revalidateImages();
 	}
 
 	/**
@@ -168,16 +194,16 @@ public abstract class Element extends JPanel {
 		return false;
 	}
 
-	/**
-	 * Sets the location of the element. If the location is out of the
-	 * {@link robokill.GamePanel GamePanel}, nothing happens.
-	 */
-	@Override
-	public void setLocation(int x, int y) {
-		if (GamePanel.getGamePanel()
-				.isElementInside(new Point(x, y), getSize()))
-			super.setLocation(x, y);
-	}
+//	/**
+//	 * Sets the location of the element. If the location is out of the
+//	 * {@link robokill.GamePanel GamePanel}, nothing happens.
+//	 */
+//	@Override
+//	public void setLocation(int x, int y) {
+//		if (GamePanel.getGamePanel()
+//				.isElementInside(new Point(x, y), getSize()))
+//			super.setLocation(x, y);
+//	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
