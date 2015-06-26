@@ -64,8 +64,7 @@ public class Room implements Serializable {
 			return null;
 
 		try {
-			return ImageIO.read(getClass().getResource(
-					"/" + backgroundImagePath));
+			return ImageIO.read(getClass().getResource(backgroundImagePath));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

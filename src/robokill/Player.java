@@ -130,10 +130,12 @@ public class Player extends Robot implements Damagable {
 
 	@Override
 	public void collidedWith(Element element) {
+
 		if (element instanceof Valley) {
 			GamePanel.getGamePanel().gameEnded = true;
 			this.fallRobot();
 			GamePanel.getGamePanel().statusPanel.reduceHealth(100);
+		
 		} else if (element instanceof Prize) {
 			Prize prize = (Prize) element;
 			PrizeType prizeType = prize.achievePrize();
@@ -159,8 +161,10 @@ public class Player extends Robot implements Damagable {
 				barType = Bar.BAR_TYPE_2;
 				break;
 			}
+		
 		} else if (element instanceof Door) {
 			((Door) element).passToNextRoom();
+		
 		} else if (element instanceof Enemy) {
 			((Enemy) element).damage(100);
 			this.damage(20);

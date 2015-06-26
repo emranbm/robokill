@@ -23,6 +23,7 @@ import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import javax.tools.DocumentationTool.Location;
 
 import useful.Direction;
 import useful.GlobalKeyListenerFactory;
@@ -41,6 +42,7 @@ public class GamePanel extends JPanel {
 
 	public Player playerRobot; // the panel of playerRobot!
 	private BufferedImage background;
+	private String backgroundAddress = "/images/rooms/0.png";
 	
 	private boolean isShooting = false;
 	private int curMouseX;
@@ -79,7 +81,7 @@ public class GamePanel extends JPanel {
 		/** initializing background **/
 		try {
 			background = ImageIO.read(getClass().getResource(
-					"/images/GamePanelBackground.png"));
+					backgroundAddress));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -108,7 +110,7 @@ public class GamePanel extends JPanel {
 		shootingBars.start();
 
 		/** adding elements to GamePanel **/
-		 addElements();
+		// addElements();
 
 		try {
 			InputStream in = getClass().getResourceAsStream("/data/room 0.dat");
@@ -146,6 +148,7 @@ public class GamePanel extends JPanel {
 	 */
 	public void rearrange(Room room) {
 		/* Remove all elements from gamePanel */
+		playerRobot.setLocation(room.getPlayerLocation());
 		
 		background = room.getBackgroundImage();
 		
@@ -168,57 +171,86 @@ public class GamePanel extends JPanel {
 				((Enemy) element).go();
 		}
 
-		playerRobot.setLocation(room.getPlayerLocation());
-
 		repaint();
+		
+		tryOpeningTheDoors();
 	}
 
 	/**
 	 * Adds the elements to the game panel.
 	 */
 	private void addElements() {
+
+		/** set roomId **/
+		int roomId = 21;
+
+		/** Add Valleys **/
+//		add(new Valley(0, 0, 1000, 100));
+//		add(new Valley(0, 590, 1000, 130));
+//		add(new Valley(0, 635, 925, 85));
+
+		/** Add Block **/
 /*		Block block = new Block(450, 300, Block.BLOCK_TYPE_1);
 		add(block);
+		*/
+		/** Add Boxes **/
+		add(new Box(96, 100));
+		add(new Box(153, 97));
+		add(new Box(103, 154));
+		add(new Box(152, 147));
 
-		/* Add Valleys */
-/*		add(new Valley(0, 0, 350, 210));
-		add(new Valley(640, 0, 350, 210));
-		add(new Valley(0, 480, 350, 210));
-		add(new Valley(640, 480, 350, 210));
-
-		add(new Valley(0, 210, 170, 50));
-		add(new Valley(840, 210, 170, 50));
-		add(new Valley(0, 430, 170, 50));
-		add(new Valley(840, 430, 170, 50));*/
-
-		/* add door */
-		Door door = new Door(960, 301, "3");
-		add(door);
-		doors.add(door);
-
-		/** enemy **/
-		Enemy enemy = new Enemy(800, 301, 80, 80, 1, Enemy.ENEMY_TYPE_1);
+		/** Add Enemies **/
+		Enemy enemy = new Enemy(800, 150, 80, 80, 1, Enemy.ENEMY_TYPE_1);
 		add(enemy);
 		enemy.go();
-		/*********/
 
-		/* Sample Box */
-		add(new Box(300, 300));
+		Enemy enemy2 = new Enemy(800, 450, 80, 80, 1, Enemy.ENEMY_TYPE_1);
+		add(enemy2);
+		enemy2.go();
 
-		Room room = new Room(0);
-		room.setDoors(doors);
+		/** Add doors **/
+		Door door1 = new Door(5, 301, "1" , 5);
+		add(door1);
+		doors.add(door1);
+
+		Door door2 = new Door(451, 0, "2" , 1);
+		add(door2);
+		doors.add(door2);
+		
+		Door door3 = new Door(451, 650, "4" , 3);
+		add(door3);
+		doors.add(door3);
+
+		/** set playerRobot location **/
+		Point playerLocation = new Point(100,301);
+		playerRobot.setLocation(playerLocation);
+
+		/** set room background address **/
+		String roomBackgroundAddress = "/images/rooms/2.png";
+		
+		try{
+		background = ImageIO.read(getClass().getResource(
+				roomBackgroundAddress));
+		}catch(IOException e){System.out.println("error in reading image!");}
+		repaint();
+				
+		/**************************************************/
+		/*** Making a new room with desired properties! ***/
+		/******(you don't need to change bottom code)******/
+		/**************************************************/
+		Room room = new Room(roomId);
 
 		for (Element element : elements)
 			if (!(element instanceof Player))
 				room.addElement(element);
 
-		room.setPlayerLocation(playerRobot.getLocation());
-
-		room.setBackgroundImagePath("images/GamePanelBackground.png");
+		room.setDoors(doors);
+		room.setPlayerLocation(playerLocation);
+		room.setBackgroundImagePath(roomBackgroundAddress);
 		
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(
-					new FileOutputStream("C:/Users/h-noori/Desktop/room 0.dat"));
+					new FileOutputStream("C:/Users/h-noori/Desktop/rooms/room "+roomId+".dat"));
 			oos.writeObject(room);
 			oos.close();
 		} catch (IOException e) {
@@ -242,8 +274,9 @@ public class GamePanel extends JPanel {
 			elements.remove(comp);
 
 		if (comp instanceof Enemy) {
-			enemies.remove(comp);
-			tryOpeningTheDoors();
+				enemies.remove(comp);
+
+		tryOpeningTheDoors();
 		}
 	}
 

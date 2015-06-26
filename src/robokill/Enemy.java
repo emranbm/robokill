@@ -128,13 +128,11 @@ public class Enemy extends Robot implements Runnable, Damagable {
 		
 		while (!robotIsDied) {
 			selectDirectionAndMove();
-			// try{
-			// Thread.sleep(100);
-			// }catch(Exception e){}
 		}
 	}
 
 	public void go() {
+		
 		Thread enemyRobot = new Thread(this);
 		enemyRobot.start();
 	}

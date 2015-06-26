@@ -13,7 +13,7 @@ import useful.Animation;
  * 
  * @author Mr. Coder
  * @author HRM_SHAMS
- * @version 1.4
+ * @version 1.5
  */
 public class Door extends Element {
 
@@ -24,6 +24,8 @@ public class Door extends Element {
 	// private Animation animation;
 	private boolean isOpened = false;
 
+	private int roomId ;
+	
 	/**
 	 * 
 	 * @param x
@@ -33,21 +35,41 @@ public class Door extends Element {
 	 * @param type
 	 *            can be 1:west door 2:north door 3:east door 4:south door
 	 */
-	public Door(int x, int y, String type) {
+	public Door(int x, int y, String type , int roomId) {
 		super(x, y, 1, 1);
 
-		Animation animation = new Animation(new Point(x, y), new Dimension(41,
-				98), "/images/doors/" + type + "/", 5, 200, 1, false);// the
-																		// size
-																		// of a
-																		// door
-																		// image
-																		// is
-																		// 41x98
+		this.roomId = roomId;
+		
+		/****/
+		Dimension size = new Dimension(0,0);
+		if (type.equals("1") || type.equals("3"))
+			size = new Dimension(41,98);
+		else
+			size = new Dimension(98,41);
+		/****/
+		
+		Animation animation = new Animation(new Point(x, y), 
+				size,
+				"/images/doors/" + type + "/",
+				5,
+				200,
+				1,
+				false); //the size of a door image is 41x98 or 98x41
+
 		setSize(animation.getSize());
 		setAnimation(animation);
 	}
 
+	public int getRoomId()
+	{
+		return roomId;
+	}
+	
+	public void setRoomId(int roomId)
+	{
+		this.roomId = roomId;
+	}
+	
 	/**
 	 * Just plays the animation and opens the door.
 	 */
@@ -83,6 +105,7 @@ public class Door extends Element {
 				35 ,
 				1 ,
 				true);
+		
 		GamePanel.getGamePanel().add(changeRoom);
 		changeRoom.start();
 		
@@ -91,9 +114,9 @@ public class Door extends Element {
 		}catch(Exception e){}
 		
 		GamePanel gamePanel = GamePanel.getGamePanel();
-		int currentId = gamePanel.getRoomId();
+//		int currentId = gamePanel.getRoomId();
 		InputStream newRoomInputStream = getClass().getResourceAsStream(
-				"/data/room 3.dat"); //(currentId + 1)
+				"/data/room "+this.roomId+".dat"); //(currentId + 1)
 		try {
 			ObjectInputStream ois = new ObjectInputStream(newRoomInputStream);
 			Room newRoom = (Room) ois.readObject();
