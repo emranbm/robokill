@@ -98,17 +98,17 @@ public class GamePanel extends JPanel {
 		shootingBars.start();
 
 		/** adding elements to GamePanel **/
-		 addElements();
+		addElements();
 
-//		try {
-//			InputStream in = getClass().getResourceAsStream("/data/room 0.dat");
-//			ObjectInputStream ois = new ObjectInputStream(in);
-//			currentRoom = (Room) ois.readObject();
-//			ois.close();
-//			rearrange(currentRoom);
-//		} catch (IOException | ClassNotFoundException e) {
-//			e.printStackTrace();
-//		}
+		// try {
+		// InputStream in = getClass().getResourceAsStream("/data/room 0.dat");
+		// ObjectInputStream ois = new ObjectInputStream(in);
+		// currentRoom = (Room) ois.readObject();
+		// ois.close();
+		// rearrange(currentRoom);
+		// } catch (IOException | ClassNotFoundException e) {
+		// e.printStackTrace();
+		// }
 
 		tryOpeningTheDoors();
 
@@ -171,27 +171,32 @@ public class GamePanel extends JPanel {
 	 * Adds the elements to the game panel.
 	 */
 	private void addElements() {
-		
-		  Block block = new Block(450, 300, Block.BLOCK_TYPE_1); add(block);
-		  
-		 /* Add Valleys
+
+		Block block = new Block(450, 300, Block.BLOCK_TYPE_1);
+		add(block);
+
+		/*
+		 * Add Valleys
 		 */
-		
-		  add(new Valley(0, 0, 350, 210)); add(new Valley(640, 0, 350, 210));
-		  add(new Valley(0, 480, 350, 210)); add(new Valley(640, 480, 350,
-		  210));
-		  
-		  add(new Valley(0, 210, 170, 50)); add(new Valley(840, 210, 170, 50));
-		  add(new Valley(0, 430, 170, 50)); add(new Valley(840, 430, 170, 50));
-		 
+
+		add(new Valley(0, 0, 350, 210));
+		add(new Valley(640, 0, 350, 210));
+		add(new Valley(0, 480, 350, 210));
+		add(new Valley(640, 480, 350, 210));
+
+		add(new Valley(0, 210, 170, 50));
+		add(new Valley(840, 210, 170, 50));
+		add(new Valley(0, 430, 170, 50));
+		add(new Valley(840, 430, 170, 50));
 
 		try {
-			background = ImageIO.read(getClass().getResourceAsStream("/images/GamePanelBackground.png"));
+			background = ImageIO.read(getClass().getResourceAsStream(
+					"/images/GamePanelBackground.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		/* add door */
 		Door door = new Door(960, 301, "3");
 		add(door);
@@ -217,14 +222,14 @@ public class GamePanel extends JPanel {
 
 		room.setBackgroundImagePath("images/GamePanelBackground.png");
 
-//		try {
-//			ObjectOutputStream oos = new ObjectOutputStream(
-//					new FileOutputStream("C:/Users/h-noori/Desktop/room 0.dat"));
-//			oos.writeObject(room);
-//			oos.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		// try {
+		// ObjectOutputStream oos = new ObjectOutputStream(
+		// new FileOutputStream("C:/Users/h-noori/Desktop/room 0.dat"));
+		// oos.writeObject(room);
+		// oos.close();
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
 
 	}
 
