@@ -32,13 +32,15 @@ public class Run {
 			Socket client1 = serverSocket.accept();
 			BufferedReader client1input = new BufferedReader(
 					new InputStreamReader(client1.getInputStream()));
-			String client1Type = client1input.readLine();
+			// String client1Type = client1input.readLine();
+			client1.getOutputStream().write("master\r\n".getBytes());
 
 			/* Second client connects and sends its type: master OR normal */
 			Socket client2 = serverSocket.accept();
 			BufferedReader client2input = new BufferedReader(
 					new InputStreamReader(client2.getInputStream()));
-			String client2Type = client2input.readLine();
+			// String client2Type = client2input.readLine();
+			client1.getOutputStream().write("normal\r\n".getBytes());
 
 			serverSocket.close();
 
@@ -48,23 +50,28 @@ public class Run {
 			/* A thread to handle the normal client */
 			NormalHandler normalHandler;
 
-			/* Checks if the clients are not both the same type */
-			if (!client1Type.equals(client2Type)) {
-				if (client1Type.equalsIgnoreCase("master")) {
-					masterHandler = new MasterHandler(client1input,
-							client2.getOutputStream());
-					normalHandler = new NormalHandler(client1input,
-							client2.getOutputStream());
-				} else {
-					masterHandler = new MasterHandler(client2input,
-							client1.getOutputStream());
-					normalHandler = new NormalHandler(client2input,
-							client1.getOutputStream());
-				}
+			masterHandler = new MasterHandler(client1input,
+					client2.getOutputStream());
+			normalHandler = new NormalHandler(client1input,
+					client2.getOutputStream());
 
-				masterHandler.start();
-				normalHandler.start();
-			}
+			// /* Checks if the clients are not both the same type */
+			// if (!client1Type.equals(client2Type)) {
+			// if (client1Type.equalsIgnoreCase("master")) {
+			// masterHandler = new MasterHandler(client1input,
+			// client2.getOutputStream());
+			// normalHandler = new NormalHandler(client1input,
+			// client2.getOutputStream());
+			// } else {
+			// masterHandler = new MasterHandler(client2input,
+			// client1.getOutputStream());
+			// normalHandler = new NormalHandler(client2input,
+			// client1.getOutputStream());
+			// }
+
+			masterHandler.start();
+			normalHandler.start();
+			// }
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
