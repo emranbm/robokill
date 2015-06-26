@@ -26,6 +26,10 @@ public class StatusPanel extends JPanel {
 	private int money = 0;
 	private int keys = 0 ; //this field saves number of keys!
 
+<<<<<<< HEAD
+=======
+	public KeyPanel keyPanel = new KeyPanel();
+>>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
 	private MoneyPanel moneyPanel = new MoneyPanel();
 	
 	private Gooshe gooshe = new Gooshe();
@@ -41,6 +45,12 @@ public class StatusPanel extends JPanel {
 		setOpaque(false);
 		setLayout(null);
 
+<<<<<<< HEAD
+=======
+		add(keyPanel); 
+		keyPanel.setVisible(false);
+		
+>>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
 		add(moneyPanel);
 		add(new GoosheRight());
 
@@ -217,6 +227,44 @@ public class StatusPanel extends JPanel {
 
 	}
 	
+<<<<<<< HEAD
+=======
+	class KeyPanel extends JPanel{
+		private BufferedImage image;
+		
+		public KeyPanel()
+		{
+			setLocation(865,8);
+			setSize(19,18);
+			setOpaque(false);
+			
+			try{
+			image = ImageIO.read(getClass().getResource("/images/panel/key.png"));
+			}catch(IOException e){System.err.println("error in reading key image!");}
+			
+		}
+		public void paintComponent(Graphics g)
+		{
+			g.drawImage(image, 0, 0, null);
+		}
+		
+		public void addKey()
+		{
+			this.setVisible(true);	
+		}
+		
+		public void getKey()
+		{
+			this.setVisible(false);	
+		}
+		
+		public boolean hasKey()
+		{
+			return this.isVisible();	
+		}
+	}
+	
+>>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
 	class MoneyPanel extends JPanel{
 		
 		public JLabel moneyLabel;

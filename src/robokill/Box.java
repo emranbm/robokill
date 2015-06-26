@@ -1,5 +1,9 @@
 package robokill;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
 /**
  * An element representing a non-passable box which is damagable and may contain
  * a prize that can be reached when the box is destroyed.
@@ -16,6 +20,7 @@ public class Box extends Element implements Damagable {
 	public static final int BOX_WIDTH = 52, BOX_HEIGHT = 52;
 
 	private int health = 100;
+<<<<<<< HEAD
 	private Prize prize;
 
 	/**
@@ -34,6 +39,12 @@ public class Box extends Element implements Damagable {
 		prize.setLocation(getX() + getWidth() / 2 - 15, getY() + getHeight()
 				/ 2 - 15);
 		this.prize = prize;
+=======
+
+	public Box(int x, int y) {
+		super(x, y, BOX_WIDTH, BOX_HEIGHT);
+		setImage("images/Box.png");
+>>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
 	}
 
 	@Override
@@ -42,8 +53,12 @@ public class Box extends Element implements Damagable {
 		if (health <= 0) {
 			// Adds a random prize in its location.
 
+<<<<<<< HEAD
 			if (prize != null)
 				GamePanel.getGamePanel().add(prize);
+=======
+			GamePanel.getGamePanel().add(new Prize(getX()+getWidth()/2-15, getY()+getHeight()/2-15));
+>>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
 
 			GamePanel.getGamePanel().remove(this);
 		}

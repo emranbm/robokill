@@ -21,10 +21,16 @@ public class Enemy extends Robot implements Runnable, Damagable {
 	public boolean robotIsDied = false;
 
 	public Enemy(int x, int y, int width, int height, int speed,
+<<<<<<< HEAD
 			String enemyType,int id) {
 		super(x, y, width, height, speed, "/images/enemies/" + enemyType + "/",
 				29);
 		setId(id);
+=======
+			String enemyType) {
+		super(x, y, width, height, speed, "/images/enemies/" + enemyType + "/",
+				29);
+>>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
 	}
 
 	/**
@@ -129,13 +135,20 @@ public class Enemy extends Robot implements Runnable, Damagable {
 		
 		while (!robotIsDied) {
 			selectDirectionAndMove();
+<<<<<<< HEAD
 			// try{
 			// Thread.sleep(100);
 			// }catch(Exception e){}
+=======
+>>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
 		}
 	}
 
 	public void go() {
+<<<<<<< HEAD
+=======
+		
+>>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
 		Thread enemyRobot = new Thread(this);
 		enemyRobot.start();
 	}
