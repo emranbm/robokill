@@ -24,14 +24,11 @@ public class StatusPanel extends JPanel {
 	private int health = 100;
 	private int shield = 0;
 	private int money = 0;
-	private int keys = 0 ; //this field saves number of keys!
+	private int keys = 0; // this field saves number of keys!
 
-<<<<<<< HEAD
-=======
 	public KeyPanel keyPanel = new KeyPanel();
->>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
 	private MoneyPanel moneyPanel = new MoneyPanel();
-	
+
 	private Gooshe gooshe = new Gooshe();
 	private HealthBar healthBar = new HealthBar();
 	private BarBackground healthBackground = new BarBackground(new Point(26, 0));
@@ -45,12 +42,9 @@ public class StatusPanel extends JPanel {
 		setOpaque(false);
 		setLayout(null);
 
-<<<<<<< HEAD
-=======
-		add(keyPanel); 
+		add(keyPanel);
 		keyPanel.setVisible(false);
-		
->>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
+
 		add(moneyPanel);
 		add(new GoosheRight());
 
@@ -63,12 +57,11 @@ public class StatusPanel extends JPanel {
 		add(shieldBackground);
 	}
 
-	public void addMoney(int amount)
-	{
+	public void addMoney(int amount) {
 		money += amount;
 		moneyPanel.setMoneyLabel(money);
 	}
-	
+
 	/**
 	 * Reduces the health of the player.
 	 * 
@@ -79,7 +72,7 @@ public class StatusPanel extends JPanel {
 		new Thread() {
 			public void run() {
 				health -= reducePercent;
-				if (health < 0 )
+				if (health < 0)
 					health = 0;
 
 				int reduceAmount = (int) ((double) (reducePercent / 100.0) * 117);
@@ -111,7 +104,7 @@ public class StatusPanel extends JPanel {
 		new Thread() {
 			public void run() {
 				health += increasePercent;
-				if (health > 100 )
+				if (health > 100)
 					health = 100;
 
 				int increaseAmount = (int) ((double) (increasePercent / 100.0) * 117);
@@ -120,9 +113,10 @@ public class StatusPanel extends JPanel {
 				int curY = healthBar.getY();
 
 				for (int i = 1; i <= increaseAmount; i++) {
-					
-					if (healthBar.getLocation().x == 26) break;
-					
+
+					if (healthBar.getLocation().x == 26)
+						break;
+
 					curX++;
 					healthBar.setLocation(curX, curY);
 
@@ -146,9 +140,9 @@ public class StatusPanel extends JPanel {
 		new Thread() {
 			public void run() {
 				shield -= reducePercent;
-				if (shield < 0 )
+				if (shield < 0)
 					shield = 0;
-				
+
 				int reduceAmount = (int) ((double) (reducePercent / 100) * 117);
 
 				int curX = shieldBar.getX();
@@ -178,16 +172,17 @@ public class StatusPanel extends JPanel {
 		new Thread() {
 			public void run() {
 				shield += increasePercent;
-				if (shield > 100 )
+				if (shield > 100)
 					shield = 100;
-				
+
 				int increaseAmount = (int) ((double) (increasePercent / 100) * 117);
 
 				int curX = shieldBar.getX();
 				int curY = shieldBar.getY();
 
 				for (int i = 1; i <= increaseAmount; i++) {
-					if (shieldBar.getLocation().x == 126) break;
+					if (shieldBar.getLocation().x == 126)
+						break;
 
 					curX++;
 					shieldBar.setLocation(curX, curY);
@@ -226,65 +221,59 @@ public class StatusPanel extends JPanel {
 		}
 
 	}
-	
-<<<<<<< HEAD
-=======
-	class KeyPanel extends JPanel{
+
+	class KeyPanel extends JPanel {
 		private BufferedImage image;
-		
-		public KeyPanel()
-		{
-			setLocation(865,8);
-			setSize(19,18);
+
+		public KeyPanel() {
+			setLocation(865, 8);
+			setSize(19, 18);
 			setOpaque(false);
-			
-			try{
-			image = ImageIO.read(getClass().getResource("/images/panel/key.png"));
-			}catch(IOException e){System.err.println("error in reading key image!");}
-			
+
+			try {
+				image = ImageIO.read(getClass().getResource(
+						"/images/panel/key.png"));
+			} catch (IOException e) {
+				System.err.println("error in reading key image!");
+			}
+
 		}
-		public void paintComponent(Graphics g)
-		{
+
+		public void paintComponent(Graphics g) {
 			g.drawImage(image, 0, 0, null);
 		}
-		
-		public void addKey()
-		{
-			this.setVisible(true);	
+
+		public void addKey() {
+			this.setVisible(true);
 		}
-		
-		public void getKey()
-		{
-			this.setVisible(false);	
+
+		public void getKey() {
+			this.setVisible(false);
 		}
-		
-		public boolean hasKey()
-		{
-			return this.isVisible();	
+
+		public boolean hasKey() {
+			return this.isVisible();
 		}
 	}
-	
->>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
-	class MoneyPanel extends JPanel{
-		
+
+	class MoneyPanel extends JPanel {
+
 		public JLabel moneyLabel;
-		
-		public MoneyPanel()
-		{
+
+		public MoneyPanel() {
 			setLocation(903, 6);
-			setSize(58,20);
+			setSize(58, 20);
 			setOpaque(false);
-			setLayout(new GridLayout(1,1));
-			
+			setLayout(new GridLayout(1, 1));
+
 			moneyLabel = new JLabel("0.0 $");
 			moneyLabel.setForeground(Color.white);
-			add (moneyLabel);
+			add(moneyLabel);
 		}
-		
-		public void setMoneyLabel(int amount)
-		{
+
+		public void setMoneyLabel(int amount) {
 			String money = Integer.toString(amount);
-			moneyLabel.setText(money+".0 $");
+			moneyLabel.setText(money + ".0 $");
 		}
 	}
 

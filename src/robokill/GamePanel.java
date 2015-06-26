@@ -23,10 +23,6 @@ import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-<<<<<<< HEAD
-=======
-import javax.tools.DocumentationTool.Location;
->>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
 
 import useful.Direction;
 import useful.GlobalKeyListenerFactory;
@@ -45,12 +41,7 @@ public class GamePanel extends JPanel {
 
 	public Player playerRobot; // the panel of playerRobot!
 	private BufferedImage background;
-<<<<<<< HEAD
 
-=======
-	private String backgroundAddress = "/images/rooms/0.png";
-	
->>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
 	private boolean isShooting = false;
 	private int curMouseX;
 	private int curMouseY;
@@ -89,11 +80,8 @@ public class GamePanel extends JPanel {
 		/**************/
 
 		/** adding playerRobot to gamePanel **/
-<<<<<<< HEAD
+
 		playerRobot = new Player(0, 320, 60, 60, 6, 0);
-=======
-		playerRobot = new Player(0, 320, 60, 60, 6);
->>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
 		add(playerRobot);
 
 		/** adding mouseListener (for rotating head of robot and shooting) **/
@@ -111,7 +99,6 @@ public class GamePanel extends JPanel {
 		shootingBars.start();
 
 		/** adding elements to GamePanel **/
-<<<<<<< HEAD
 		addElements();
 
 		// try {
@@ -123,19 +110,6 @@ public class GamePanel extends JPanel {
 		// } catch (IOException | ClassNotFoundException e) {
 		// e.printStackTrace();
 		// }
-=======
-		// addElements();
-
-		try {
-			InputStream in = getClass().getResourceAsStream("/data/room 0.dat");
-			ObjectInputStream ois = new ObjectInputStream(in);
-			currentRoom = (Room) ois.readObject();
-			ois.close();
-			rearrange(currentRoom);
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
->>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
 
 		tryOpeningTheDoors();
 
@@ -162,12 +136,8 @@ public class GamePanel extends JPanel {
 	 *            The room for applying new properties.
 	 */
 	public void rearrange(Room room) {
-
-<<<<<<< HEAD
-=======
 		playerRobot.setLocation(room.getPlayerLocation());
-		
->>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
+
 		background = room.getBackgroundImage();
 
 		/* Remove all elements from gamePanel */
@@ -194,15 +164,9 @@ public class GamePanel extends JPanel {
 				((Enemy) element).go();
 		}
 
-<<<<<<< HEAD
-		playerRobot.setLocation(room.getPlayerLocation());
+		repaint();
 
-		repaint();
-=======
-		repaint();
-		
 		tryOpeningTheDoors();
->>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
 	}
 
 	/**
@@ -210,49 +174,6 @@ public class GamePanel extends JPanel {
 	 */
 	private void addElements() {
 
-<<<<<<< HEAD
-		Block block = new Block(450, 300, Block.BLOCK_TYPE_1);
-		add(block);
-
-		/*
-		 * Add Valleys
-		 */
-
-		add(new Valley(0, 0, 350, 210));
-		add(new Valley(640, 0, 350, 210));
-		add(new Valley(0, 480, 350, 210));
-		add(new Valley(640, 480, 350, 210));
-
-		add(new Valley(0, 210, 170, 50));
-		add(new Valley(840, 210, 170, 50));
-		add(new Valley(0, 430, 170, 50));
-		add(new Valley(840, 430, 170, 50));
-
-		try {
-			background = ImageIO.read(getClass().getResourceAsStream(
-					"/images/GamePanelBackground.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		/* add door */
-		Door door = new Door(960, 301, "3");
-		add(door);
-		doors.add(door);
-
-		/** enemy **/
-		Enemy enemy = new Enemy(800, 301, 80, 80, 1, Enemy.ENEMY_TYPE_1, 2);
-		add(enemy);
-		enemy.go();
-		/*********/
-
-		/* Sample Box */
-		add(new Box(300, 300, new Prize(PrizeType.Energy, 3)));
-
-		Room room = new Room(0);
-		room.setDoors(doors);
-=======
 		/** set roomId **/
 		int roomId = 1;
 
@@ -264,7 +185,7 @@ public class GamePanel extends JPanel {
 		add(new Valley(635, 70, 300, 95));
 		add(new Valley(585, 163, 336, 55));
 		add(new Valley(635, 232, 208, 50));
-		
+
 		add(new Valley(163, 414, 205, 30));
 		add(new Valley(82, 469, 330, 55));
 		add(new Valley(79, 535, 285, 90));
@@ -274,93 +195,80 @@ public class GamePanel extends JPanel {
 		add(new Valley(630, 535, 285, 87));
 
 		/** Add Block **/
-/*		Block block = new Block(450, 300, Block.BLOCK_TYPE_1);
-		add(block);
-		*/
+		/*
+		 * Block block = new Block(450, 300, Block.BLOCK_TYPE_1); add(block);
+		 */
 		/** Add Boxes **/
-/*		add(new Box(96, 100));
-		add(new Box(153, 97));
-		add(new Box(103, 154));
-		add(new Box(152, 147));*/
+		/*
+		 * add(new Box(96, 100)); add(new Box(153, 97)); add(new Box(103, 154));
+		 * add(new Box(152, 147));
+		 */
 
 		/** Add Enemies **/
-		Enemy enemy = new Enemy(460, 310, 80, 80, 1, Enemy.ENEMY_TYPE_1);
+		Enemy enemy = new Enemy(460, 310, 80, 80, 1, Enemy.ENEMY_TYPE_1, 2);
 		add(enemy);
 		enemy.go();
 
-/*		Enemy enemy2 = new Enemy(800, 450, 80, 80, 1, Enemy.ENEMY_TYPE_1);
-		add(enemy2);
-		enemy2.go();*/
+		/*
+		 * Enemy enemy2 = new Enemy(800, 450, 80, 80, 1, Enemy.ENEMY_TYPE_1);
+		 * add(enemy2); enemy2.go();
+		 */
 
 		/** Add doors **/
-		Door door1 = new Door(25, 301, "1" , 61);
+		Door door1 = new Door(25, 301, "1", 61);
 		add(door1);
 		doors.add(door1);
 
-		Door door2 = new Door(451, 20, "2" , 32);
+		Door door2 = new Door(451, 20, "2", 32);
 		add(door2);
 		doors.add(door2);
 
-		Door door3 = new Door(933, 301, "3" , 62);
+		Door door3 = new Door(933, 301, "3", 62);
 		add(door3);
 		doors.add(door3);
-		
-		
-		Door door4 = new Door(451, 640, "4" , 21);
+
+		Door door4 = new Door(451, 640, "4", 21);
 		add(door4);
 		doors.add(door4);
-		
+
 		/** set playerRobot location **/
-		Point playerLocation = new Point(451,550);
+		Point playerLocation = new Point(451, 550);
 		playerRobot.setLocation(playerLocation);
 
 		/** set room background address **/
 		String roomBackgroundAddress = "/images/rooms/1.png";
-		
-		try{
-		background = ImageIO.read(getClass().getResource(
-				roomBackgroundAddress));
-		}catch(IOException e){System.out.println("error in reading image!");}
+
+		try {
+			background = ImageIO.read(getClass().getResource(
+					roomBackgroundAddress));
+		} catch (IOException e) {
+			System.out.println("error in reading image!");
+		}
 		repaint();
-				
+
 		/**************************************************/
 		/*** Making a new room with desired properties! ***/
-		/******(you don't need to change bottom code)******/
+		/****** (you don't need to change bottom code) ******/
 		/**************************************************/
 		Room room = new Room(roomId);
->>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
 
 		for (Element element : elements)
 			if (!(element instanceof Player))
 				room.addElement(element);
 
-<<<<<<< HEAD
-		room.setPlayerLocation(playerRobot.getLocation());
-
-		room.setBackgroundImagePath("images/GamePanelBackground.png");
+		room.setDoors(doors);
+		room.setPlayerLocation(playerLocation);
+		room.setBackgroundImagePath(roomBackgroundAddress);
 
 		// try {
 		// ObjectOutputStream oos = new ObjectOutputStream(
-		// new FileOutputStream("C:/Users/h-noori/Desktop/room 0.dat"));
+		// new
+		// FileOutputStream("C:/Users/h-noori/Desktop/rooms/room "+roomId+".dat"));
 		// oos.writeObject(room);
 		// oos.close();
 		// } catch (IOException e) {
 		// e.printStackTrace();
 		// }
-=======
-		room.setDoors(doors);
-		room.setPlayerLocation(playerLocation);
-		room.setBackgroundImagePath(roomBackgroundAddress);
-		
-		try {
-			ObjectOutputStream oos = new ObjectOutputStream(
-					new FileOutputStream("C:/Users/h-noori/Desktop/rooms/room "+roomId+".dat"));
-			oos.writeObject(room);
-			oos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
->>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
 
 	}
 
@@ -379,14 +287,8 @@ public class GamePanel extends JPanel {
 			elements.remove(comp);
 
 		if (comp instanceof Enemy) {
-<<<<<<< HEAD
 			enemies.remove(comp);
 			tryOpeningTheDoors();
-=======
-				enemies.remove(comp);
-
-		tryOpeningTheDoors();
->>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
 		}
 	}
 
