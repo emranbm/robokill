@@ -22,7 +22,7 @@ import useful.Animation;
  *
  * @author HRM_Shams
  * @author Mr. Coder
- * @version : 1.5
+ * @version 1.5
  */
 public class Player extends Robot implements Damagable {
 
@@ -32,8 +32,10 @@ public class Player extends Robot implements Damagable {
 
 	private int barType = Bar.BAR_TYPE_1;
 
-	public Player(int x, int y, int width, int height, int speed) {
+	public Player(int x, int y, int width, int height, int speed, int id) {
 		super(x, y, width, height, speed, "/images/robotbodyimages/", 12);
+
+		setId(id);
 
 		robotHead = new RobotHead("images/RobotH.png", this);
 		robotHead.setBounds(0, 0, 60, 60);

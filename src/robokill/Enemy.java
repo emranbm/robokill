@@ -21,9 +21,10 @@ public class Enemy extends Robot implements Runnable, Damagable {
 	public boolean robotIsDied = false;
 
 	public Enemy(int x, int y, int width, int height, int speed,
-			String enemyType) {
+			String enemyType,int id) {
 		super(x, y, width, height, speed, "/images/enemies/" + enemyType + "/",
 				29);
+		setId(id);
 	}
 
 	/**
