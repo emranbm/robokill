@@ -1,5 +1,6 @@
 package client;
 
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,6 +8,11 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
+import robokill.Enemy;
+import robokill.GamePanel;
+import robokill.Prize;
+import useful.Direction;
 
 /**
  * A class to handle the communication with the server.
@@ -77,10 +83,37 @@ public class ClientCore extends Thread {
 
 	@Override
 	public void run() {
+		GamePanel gamePanel = GamePanel.getGamePanel();
 		while (true) {
 			try {
 				String command = input.readLine();
 				// TODO switch on command.
+				String[] attr = command.trim().split(" ");
+
+				int id = Integer.parseInt(attr[1]);
+
+				switch (attr[0]) {
+				case "prize":
+					// prize remove.
+					Prize prize = gamePanel.getPrizeById(id);
+					gamePanel.remove(prize);
+					break;
+				case "player":
+					// TODO player command: shoot/move
+					break;
+				case "enemy":
+					// TODO enemy command: shoot/move
+					Enemy enemy = gamePanel.getEnemyById(id);
+					if (attr[2].equals("shoot")) {
+						int x = Integer.parseInt(attr[3]);
+						int y = Integer.parseInt(attr[4]);
+						enemy.shoot(new Point(x, y));
+					} else {
+						enemy.move(Direction.valueOf(attr[3]));
+					}
+					break;
+				}
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
