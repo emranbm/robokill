@@ -79,7 +79,7 @@ public class Door extends Element {
 		Animation changeRoom = new Animation(new Point(0, 0) ,
 				new Dimension(1000, 700) , 
 				"/images/changeRoom/",
-				24 ,
+				26 ,
 				35 ,
 				1 ,
 				true);
