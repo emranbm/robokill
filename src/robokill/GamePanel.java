@@ -110,7 +110,7 @@ public class GamePanel extends JPanel {
 		shootingBars.start();
 
 		/** adding elements to GamePanel **/
-		// addElements();
+	//	 addElements();
 
 		try {
 			InputStream in = getClass().getResourceAsStream("/data/room 0.dat");
@@ -182,51 +182,68 @@ public class GamePanel extends JPanel {
 	private void addElements() {
 
 		/** set roomId **/
-		int roomId = 21;
+		int roomId = 1;
 
 		/** Add Valleys **/
-//		add(new Valley(0, 0, 1000, 100));
-//		add(new Valley(0, 590, 1000, 130));
-//		add(new Valley(0, 635, 925, 85));
+		add(new Valley(81, 70, 295, 95));
+		add(new Valley(81, 163, 330, 55));
+		add(new Valley(163, 232, 215, 30));
+
+		add(new Valley(635, 70, 300, 95));
+		add(new Valley(585, 163, 336, 55));
+		add(new Valley(635, 232, 208, 50));
+		
+		add(new Valley(163, 414, 205, 30));
+		add(new Valley(82, 469, 330, 55));
+		add(new Valley(79, 535, 285, 90));
+
+		add(new Valley(630, 411, 205, 58));
+		add(new Valley(580, 475, 336, 50));
+		add(new Valley(630, 535, 285, 87));
 
 		/** Add Block **/
 /*		Block block = new Block(450, 300, Block.BLOCK_TYPE_1);
 		add(block);
 		*/
 		/** Add Boxes **/
-		add(new Box(96, 100));
+/*		add(new Box(96, 100));
 		add(new Box(153, 97));
 		add(new Box(103, 154));
-		add(new Box(152, 147));
+		add(new Box(152, 147));*/
 
 		/** Add Enemies **/
-		Enemy enemy = new Enemy(800, 150, 80, 80, 1, Enemy.ENEMY_TYPE_1);
+		Enemy enemy = new Enemy(460, 310, 80, 80, 1, Enemy.ENEMY_TYPE_1);
 		add(enemy);
 		enemy.go();
 
-		Enemy enemy2 = new Enemy(800, 450, 80, 80, 1, Enemy.ENEMY_TYPE_1);
+/*		Enemy enemy2 = new Enemy(800, 450, 80, 80, 1, Enemy.ENEMY_TYPE_1);
 		add(enemy2);
-		enemy2.go();
+		enemy2.go();*/
 
 		/** Add doors **/
-		Door door1 = new Door(5, 301, "1" , 5);
+		Door door1 = new Door(25, 301, "1" , 61);
 		add(door1);
 		doors.add(door1);
 
-		Door door2 = new Door(451, 0, "2" , 1);
+		Door door2 = new Door(451, 20, "2" , 32);
 		add(door2);
 		doors.add(door2);
-		
-		Door door3 = new Door(451, 650, "4" , 3);
+
+		Door door3 = new Door(933, 301, "3" , 62);
 		add(door3);
 		doors.add(door3);
-
+		
+		
+		Door door4 = new Door(451, 640, "4" , 21);
+		add(door4);
+		doors.add(door4);
+		
 		/** set playerRobot location **/
-		Point playerLocation = new Point(100,301);
+		Point playerLocation = new Point(451,550);
 		playerRobot.setLocation(playerLocation);
 
 		/** set room background address **/
-		String roomBackgroundAddress = "/images/rooms/2.png";
+		String roomBackgroundAddress = "/images/rooms/1.png";
 		
 		try{
 		background = ImageIO.read(getClass().getResource(
