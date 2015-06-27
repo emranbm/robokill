@@ -108,13 +108,13 @@ public class Door extends Element {
 		
 		GamePanel.getGamePanel().add(changeRoom);
 		changeRoom.start();
-		
-		try{
-		Thread.sleep (20);
-		}catch(Exception e){}
-		
+
+		try {
+			Thread.sleep(20);
+		} catch (Exception e) {
+		}
+
 		GamePanel gamePanel = GamePanel.getGamePanel();
-//		int currentId = gamePanel.getRoomId();
 		InputStream newRoomInputStream = getClass().getResourceAsStream(
 				"/data/room "+this.roomId+".dat"); //(currentId + 1)
 		try {
@@ -124,6 +124,7 @@ public class Door extends Element {
 			gamePanel.rearrange(newRoom);
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
+			// TODO handle end of the Game!
 		}
 
 		return true;

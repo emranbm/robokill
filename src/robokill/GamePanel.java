@@ -63,7 +63,6 @@ public class GamePanel extends JPanel {
 
 	public static GamePanel getGamePanel() {
 		if (This == null) {
-			System.out.println(0);
 			This = new GamePanel();
 		}
 
@@ -78,20 +77,11 @@ public class GamePanel extends JPanel {
 		setSize(new Dimension(1024, 768));
 		setLayout(null);
 
-		/** initializing background **/
-		try {
-			background = ImageIO.read(getClass().getResource(
-					backgroundAddress));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		/** status bar **/
 		add(statusPanel);
 		/**************/
 
 		/** adding playerRobot to gamePanel **/
-
 		playerRobot = new Player(0, 320, 60, 60, 6);
 		add(playerRobot);
 
@@ -110,7 +100,7 @@ public class GamePanel extends JPanel {
 		shootingBars.start();
 
 		/** adding elements to GamePanel **/
-	//	 addElements();
+		// addElements();
 
 		try {
 			InputStream in = getClass().getResourceAsStream("/data/room 0.dat");
@@ -147,14 +137,19 @@ public class GamePanel extends JPanel {
 	 *            The room for applying new properties.
 	 */
 	public void rearrange(Room room) {
-		/* Remove all elements from gamePanel */
+
 		playerRobot.setLocation(room.getPlayerLocation());
 		
 		background = room.getBackgroundImage();
-		
-		for (int i = elements.size() - 1; i >= 0; i--)
-			if (!(elements.get(i) instanceof Player))
-				remove(elements.get(i));
+
+		/* Remove all elements from gamePanel */
+		int a = this.getComponentCount();
+		for (int i = a - 1; i >= 0; i--) {
+			Component comp = this.getComponent(i);
+			if (comp instanceof Element)
+				if (!(comp instanceof Player))
+					remove(comp);
+		}
 
 		doors = room.getDoors();
 
@@ -401,8 +396,8 @@ public class GamePanel extends JPanel {
 
 	/**
 	 * Gets the current room id. Id is a unique integer to make rooms
-	 * distinguishable.
-	 * w
+	 * distinguishable. w
+	 * 
 	 * @return Returns the current room id.
 	 */
 	public int getRoomId() {
