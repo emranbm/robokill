@@ -16,7 +16,10 @@ public class Enemy extends Robot implements Runnable, Damagable {
 	private static final long serialVersionUID = 1L;
 
 	public static final String ENEMY_TYPE_1 = "1";
+	public static final String ENEMY_TYPE_2 = "2";
+	public static final String ENEMY_TYPE_3 = "3";
 
+	private String enemyType;
 	private int health = 100;
 	public boolean robotIsDied = false;
 
@@ -25,6 +28,7 @@ public class Enemy extends Robot implements Runnable, Damagable {
 	String enemyType, int id) {
 		super(x, y, width, height, speed, "/images/enemies/" + enemyType + "/",
 				29);
+		this.enemyType = enemyType;
 		setId(id);
 	}
 
@@ -36,7 +40,7 @@ public class Enemy extends Robot implements Runnable, Damagable {
 	 */
 	public void selectDirectionAndMove() {
 		/** where is the robots ?!! **/
-		Point playerRobotLocation = GamePanel.getGamePanel().playerRobot
+		Point playerRobotLocation = GamePanel.getGamePanel().playerRobot1
 				.getLocation();
 		Point PC = new Point(playerRobotLocation.x + 30,
 				playerRobotLocation.y + 30); // width / 2 = 30 & PC =
@@ -128,9 +132,26 @@ public class Enemy extends Robot implements Runnable, Damagable {
 		while (!GamePanel.isGamePanelReady())
 			Thread.yield();
 
+		int counter = 1 ;
+		
 		while (!robotIsDied) {
 			selectDirectionAndMove();
 
+			if (this.enemyType.equals(this.ENEMY_TYPE_3)) //if enemy type == 3 -> do shooting!
+			{
+				counter ++ ;
+				
+				if (counter == 20)
+				{
+					shoot(null);
+					counter = 0;
+				}
+	
+			}
+
+			try{
+				Thread.sleep(20);
+			}catch(Exception e){}
 		}
 	}
 
@@ -150,8 +171,20 @@ public class Enemy extends Robot implements Runnable, Damagable {
 
 	@Override
 	public void shoot(Point target) {
-		// TODO Auto-generated method stub
+		
+		//discovering best direction for shooting!
+		Point rLocation = GamePanel.getGamePanel().playerRobot1.getLocation();
+		Point PC = new Point ( rLocation.x + 30 , rLocation.y + 30) ;
+		
+		int[] firstBarLoction = super.setFirstBarLocation(PC);
 
+		// TODO Implement bar power.
+		Bar bar = new Bar(new Point(firstBarLoction[0], firstBarLoction[1]),
+				PC, Bar.BAR_TYPE_1 , Bar.BAR_POWER_LIGHT);
+
+		GamePanel.getGamePanel().add(bar);
+		bar.start();
+		
 	}
 
 	@Override

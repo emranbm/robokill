@@ -39,7 +39,8 @@ public class GamePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static GamePanel This;
 
-	public Player playerRobot; // the panel of playerRobot!
+	public Player playerRobot1; // the panel of playerRobot!
+	public Player playerRobot2; // the second player (used in multiplayer!)
 	private BufferedImage background;
 
 	private boolean isShooting = false;
@@ -81,9 +82,12 @@ public class GamePanel extends JPanel {
 
 		/** adding playerRobot to gamePanel **/
 
-		playerRobot = new Player(0, 320, 60, 60, 6, 0);
-		add(playerRobot);
-
+		playerRobot1 = new Player(0, 320, 60, 60, 6, 0 , Player.Player_Type_1);
+		add(playerRobot1);
+		
+		playerRobot2 = new Player(700, 320, 60, 60, 6, 1, Player.Player_Type_2);
+		add(playerRobot2);
+		
 		/** adding mouseListener (for rotating head of robot and shooting) **/
 		addMouseListenersForRobot();
 
@@ -136,7 +140,7 @@ public class GamePanel extends JPanel {
 	 *            The room for applying new properties.
 	 */
 	public void rearrange(Room room) {
-		playerRobot.setLocation(room.getPlayerLocation());
+		playerRobot1.setLocation(room.getPlayerLocation());
 
 		background = room.getBackgroundImage();
 
@@ -233,7 +237,7 @@ public class GamePanel extends JPanel {
 
 		/** set playerRobot location **/
 		Point playerLocation = new Point(451, 550);
-		playerRobot.setLocation(playerLocation);
+		playerRobot1.setLocation(playerLocation);
 
 		/** set room background address **/
 		String roomBackgroundAddress = "/images/rooms/1.png";
@@ -423,9 +427,9 @@ public class GamePanel extends JPanel {
 			public void mousePressed(MouseEvent e) {
 				curMouseX = e.getX();
 				curMouseY = e.getY();
-				playerRobot.robotHead
+				playerRobot1.robotHead
 						.setTarget(new Point(curMouseX, curMouseY));
-				playerRobot.robotHead.repaint();
+				playerRobot1.robotHead.repaint();
 				isShooting = true;
 			}
 
@@ -451,9 +455,9 @@ public class GamePanel extends JPanel {
 				curMouseX = e.getX();
 				curMouseY = e.getY();
 
-				playerRobot.robotHead
+				playerRobot1.robotHead
 						.setTarget(new Point(curMouseX, curMouseY));
-				playerRobot.robotHead.repaint();
+				playerRobot1.robotHead.repaint();
 			}
 
 			@Override
@@ -462,8 +466,8 @@ public class GamePanel extends JPanel {
 				int mouseY = e.getY() - 25;
 
 				/*** rotating the head of Robot!! ***/
-				playerRobot.robotHead.setTarget(new Point(mouseX, mouseY));
-				playerRobot.robotHead.repaint();
+				playerRobot1.robotHead.setTarget(new Point(mouseX, mouseY));
+				playerRobot1.robotHead.repaint();
 			}
 		}); // end of mouse listener
 	}
@@ -509,38 +513,38 @@ public class GamePanel extends JPanel {
 			while (!gameEnded) {
 				if (keys.contains(KeyEvent.VK_W)
 						&& keys.contains(KeyEvent.VK_D)) {
-					playerRobot.move(Direction.North_East);
+					playerRobot1.move(Direction.North_East);
 				}
 
 				else if (keys.contains(KeyEvent.VK_W)
 						&& keys.contains(KeyEvent.VK_A)) {
-					playerRobot.move(Direction.North_West);
+					playerRobot1.move(Direction.North_West);
 				}
 
 				else if (keys.contains(KeyEvent.VK_S)
 						&& keys.contains(KeyEvent.VK_D)) {
-					playerRobot.move(Direction.South_East);
+					playerRobot1.move(Direction.South_East);
 				}
 
 				else if (keys.contains(KeyEvent.VK_S)
 						&& keys.contains(KeyEvent.VK_A)) {
-					playerRobot.move(Direction.South_West);
+					playerRobot1.move(Direction.South_West);
 				}
 
 				else if (keys.contains(KeyEvent.VK_W)) {
-					playerRobot.move(Direction.North);
+					playerRobot1.move(Direction.North);
 				}
 
 				else if (keys.contains(KeyEvent.VK_S)) {
-					playerRobot.move(Direction.South);
+					playerRobot1.move(Direction.South);
 				}
 
 				else if (keys.contains(KeyEvent.VK_A)) {
-					playerRobot.move(Direction.West);
+					playerRobot1.move(Direction.West);
 				}
 
 				else if (keys.contains(KeyEvent.VK_D)) {
-					playerRobot.move(Direction.East);
+					playerRobot1.move(Direction.East);
 				}
 				try {
 					sleep(7);
@@ -563,7 +567,7 @@ public class GamePanel extends JPanel {
 					int mouseY = curMouseY;
 
 					// rotating the head of Robot!!
-					playerRobot.shoot(new Point(mouseX, mouseY));
+					playerRobot1.shoot(new Point(mouseX, mouseY));
 
 					try {
 						Thread.sleep(50);
