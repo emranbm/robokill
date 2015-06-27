@@ -39,6 +39,7 @@ public class GamePanel extends JPanel {
 
 	private static GamePanel This;
 	private static boolean isMaster;
+	private static boolean isMultiPlayer;
 
 	/**
 	 * Creates an instance of {@link robokill.GamePanel GamePanel}. This method
@@ -46,10 +47,12 @@ public class GamePanel extends JPanel {
 	 * 
 	 * @param isMultiPlayer
 	 *            To check if the game is multi player or not.
+	 * @param isMaster
 	 * @return The instantiated {@link robokill.GamePanel GamePanel}.
 	 */
-	public static GamePanel instantiate(boolean isMultiPlayer) {
-		GamePanel.isMaster = isMultiPlayer;
+	public static GamePanel instantiate(boolean isMultiPlayer, boolean isMaster) {
+		GamePanel.isMaster = isMaster;
+		GamePanel.isMultiPlayer = isMultiPlayer;
 		return This = new GamePanel();
 	}
 
@@ -77,12 +80,20 @@ public class GamePanel extends JPanel {
 	}
 
 	/**
+	 * 
+	 * @return true if this client is master. false if not.
+	 */
+	public static boolean isMaster() {
+		return isMaster;
+	}
+
+	/**
 	 * Determines that the game is multi player or single player.
 	 * 
 	 * @return true if multi player. false if single player.
 	 */
-	public static boolean isMaster() {
-		return isMaster;
+	public static boolean isMultiPlayer() {
+		return isMultiPlayer;
 	}
 
 	// /////////////////////////End of static/////////////////

@@ -15,7 +15,8 @@ import client.ClientCore;
 /**
  * 
  * @author HRM_SHAMS
- * @version 1.1
+ * @author Mr. Coder
+ * @version 1.2
  */
 
 public class MainMenu extends JPanel {
@@ -98,9 +99,9 @@ public class MainMenu extends JPanel {
 	 * 
 	 * @param isMultiPlayer
 	 */
-	public void playGame(boolean isMultiPlayer) {
+	public void playGame(boolean isMultiPlayer, boolean isMaster) {
 		gameFrameRef.remove(this);
-		gameFrameRef.add(GamePanel.instantiate(isMultiPlayer),
+		gameFrameRef.add(GamePanel.instantiate(isMultiPlayer, isMaster),
 				BorderLayout.CENTER);
 		gameFrameRef.repaint();
 	}
@@ -158,7 +159,7 @@ public class MainMenu extends JPanel {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if (e.getSource() == mainMenuRef.singlePlayerGameBtn) {
-						mainMenuRef.playGame(false);
+						mainMenuRef.playGame(false, true);
 					} else if (e.getSource() == mainMenuRef.exitBtn) {
 						System.exit(0);
 					} else if (e.getSource() == mainMenuRef.multiPlayerBtn) {
@@ -173,8 +174,11 @@ public class MainMenu extends JPanel {
 									"Connection failed!");
 						else if (result.equals("normal")) {
 							ClientCore.getClientCore().sendCommand("start");
-							playGame(true);
+							ClientCore.getClientCore().start();
+							playGame(true, false);
 						} else if (result.equals("master")) {
+							ClientCore.getClientCore().start();
+							// Waits and listens until get start command.
 							// TODO nothing. Just a graphical waiting!
 						}
 					}
