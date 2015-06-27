@@ -1,6 +1,5 @@
 package robokill;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -14,6 +13,8 @@ import javax.swing.JPanel;
  */
 public class GameMap extends JPanel{
 
+	private static final long serialVersionUID = 1L;
+	
 	BufferedImage mapImage;
 	boolean isShowed = false; //when map showed this boolean will be true and when it hided this will be false!
 	boolean isMoving = false; //while moving the panel this will be true and after it will be false!
