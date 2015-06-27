@@ -213,6 +213,9 @@ public class GamePanel extends JPanel {
 		add(enemy);
 		enemy.go();
 
+		Enemy enemy2 = new Enemy(300, 310, 80, 80, 1, Enemy.ENEMY_TYPE_3, 3);
+		add(enemy2);
+		enemy2.go();
 		/*
 		 * Enemy enemy2 = new Enemy(800, 450, 80, 80, 1, Enemy.ENEMY_TYPE_1);
 		 * add(enemy2); enemy2.go();
