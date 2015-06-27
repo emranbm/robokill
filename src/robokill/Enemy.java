@@ -20,6 +20,8 @@ public class Enemy extends Robot implements Runnable, Damagable {
 	public static final String ENEMY_TYPE_3 = "3";
 
 	private String enemyType;
+	private static final int[] imageNumbers = {29,20,29}; //this variable needed for the constructor of this class!
+	
 	private int health = 100;
 	public boolean robotIsDied = false;
 
@@ -27,7 +29,8 @@ public class Enemy extends Robot implements Runnable, Damagable {
 
 	String enemyType, int id) {
 		super(x, y, width, height, speed, "/images/enemies/" + enemyType + "/",
-				29);
+				imageNumbers [ Integer.valueOf (enemyType) - 1 ] ); //some strange works!
+		
 		this.enemyType = enemyType;
 		setId(id);
 	}

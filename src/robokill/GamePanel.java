@@ -209,7 +209,7 @@ public class GamePanel extends JPanel {
 		 */
 
 		/** Add Enemies **/
-		Enemy enemy = new Enemy(460, 310, 80, 80, 1, Enemy.ENEMY_TYPE_1, 2);
+		Enemy enemy = new Enemy(460, 210, 80, 80, 2, Enemy.ENEMY_TYPE_2, 2);
 		add(enemy);
 		enemy.go();
 
