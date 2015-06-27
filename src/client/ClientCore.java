@@ -114,9 +114,10 @@ public class ClientCore extends Thread {
 					if (attr[2].equals("shoot")) {
 						int x = Integer.parseInt(attr[3]);
 						int y = Integer.parseInt(attr[4]);
-						gamePanel.playerRobot2.shoot(new Point(x, y));
+						gamePanel.playerRobot2.shoot(new Point(x, y), true);
 					} else {
-						gamePanel.playerRobot2.move(Direction.valueOf(attr[3]));
+						gamePanel.playerRobot2.move(Direction.valueOf(attr[3]),
+								true);
 					}
 					break;
 				case "enemy":
@@ -125,9 +126,9 @@ public class ClientCore extends Thread {
 					if (attr[2].equals("shoot")) {
 						int x = Integer.parseInt(attr[3]);
 						int y = Integer.parseInt(attr[4]);
-						enemy.shoot(new Point(x, y));
+						enemy.shoot(new Point(x, y), true);
 					} else {
-						enemy.move(Direction.valueOf(attr[3]));
+						enemy.move(Direction.valueOf(attr[3]), true);
 					}
 					break;
 				}

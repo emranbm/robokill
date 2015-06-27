@@ -33,7 +33,60 @@ import useful.GlobalKeyListenerFactory;
 public class GamePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+
+	// /////////////////////////////Static///////////////////////
+	// //////////////////////////////phase////////////////////////
+
 	private static GamePanel This;
+	private static boolean isMultiPlayer;
+
+	/**
+	 * Creates an instance of {@link robokill.GamePanel GamePanel}. This method
+	 * should just be called once, for instantiating based on the game strategy.
+	 * 
+	 * @param isMultiPlayer
+	 *            To check if the game is multi player or not.
+	 * @return The instantiated {@link robokill.GamePanel GamePanel}.
+	 */
+	public static GamePanel instantiate(boolean isMultiPlayer) {
+		GamePanel.isMultiPlayer = isMultiPlayer;
+		return This = new GamePanel();
+	}
+
+	public static GamePanel getGamePanel() {
+		if (This == null) {
+			System.err
+					.println("getGamePanel() method in GamePanel class called before GamePanel being instantiated.");
+			System.exit(1);
+		}
+
+		return This;
+	}
+
+	/**
+	 * Determines whether the GamePanel is created (before) or not.
+	 * 
+	 * @return Returns true if the game panel is created and ready. Otherwise
+	 *         false.
+	 */
+	public static boolean isGamePanelReady() {
+		if (This == null)
+			return false;
+		else
+			return true;
+	}
+
+	/**
+	 * Determines that the game is multi player or single player.
+	 * 
+	 * @return true if multi player. false if single player.
+	 */
+	public static boolean isMultiPlayer() {
+		return isMultiPlayer;
+	}
+
+	// /////////////////////////End of static/////////////////
+	// /////////////////////////phase////////////////////////
 
 	public Player playerRobot1; // the panel of playerRobot!
 	public Player playerRobot2; // the second player (used in multiplayer!)
@@ -57,14 +110,6 @@ public class GamePanel extends JPanel {
 
 	public StatusPanel statusPanel = new StatusPanel();
 
-	public static GamePanel getGamePanel() {
-		if (This == null) {
-			This = new GamePanel();
-		}
-
-		return This;
-	}
-
 	private GamePanel() {
 		super();
 
@@ -79,12 +124,12 @@ public class GamePanel extends JPanel {
 
 		/** adding playerRobot to gamePanel **/
 
-		playerRobot1 = new Player(0, 320, 60, 60, 6, 0 , Player.Player_Type_1);
+		playerRobot1 = new Player(0, 320, 60, 60, 6, 0, Player.Player_Type_1);
 		add(playerRobot1);
-		
+
 		playerRobot2 = new Player(700, 320, 60, 60, 6, 1, Player.Player_Type_2);
 		add(playerRobot2);
-		
+
 		/** adding mouseListener (for rotating head of robot and shooting) **/
 		addMouseListenersForRobot();
 
@@ -115,19 +160,6 @@ public class GamePanel extends JPanel {
 		tryOpeningTheDoors();
 
 	}// end of constructor !!
-
-	/**
-	 * Determines whether the GamePanel is created (before) or not.
-	 * 
-	 * @return Returns true if the game panel is created and ready. Otherwise
-	 *         false.
-	 */
-	public static boolean isGamePanelReady() {
-		if (This == null)
-			return false;
-		else
-			return true;
-	}
 
 	/**
 	 * Removes all the elements from the game panel and applies the given room
@@ -550,38 +582,38 @@ public class GamePanel extends JPanel {
 			while (!gameEnded) {
 				if (keys.contains(KeyEvent.VK_W)
 						&& keys.contains(KeyEvent.VK_D)) {
-					playerRobot1.move(Direction.North_East);
+					playerRobot1.move(Direction.North_East, false);
 				}
 
 				else if (keys.contains(KeyEvent.VK_W)
 						&& keys.contains(KeyEvent.VK_A)) {
-					playerRobot1.move(Direction.North_West);
+					playerRobot1.move(Direction.North_West, false);
 				}
 
 				else if (keys.contains(KeyEvent.VK_S)
 						&& keys.contains(KeyEvent.VK_D)) {
-					playerRobot1.move(Direction.South_East);
+					playerRobot1.move(Direction.South_East, false);
 				}
 
 				else if (keys.contains(KeyEvent.VK_S)
 						&& keys.contains(KeyEvent.VK_A)) {
-					playerRobot1.move(Direction.South_West);
+					playerRobot1.move(Direction.South_West, false);
 				}
 
 				else if (keys.contains(KeyEvent.VK_W)) {
-					playerRobot1.move(Direction.North);
+					playerRobot1.move(Direction.North, false);
 				}
 
 				else if (keys.contains(KeyEvent.VK_S)) {
-					playerRobot1.move(Direction.South);
+					playerRobot1.move(Direction.South, false);
 				}
 
 				else if (keys.contains(KeyEvent.VK_A)) {
-					playerRobot1.move(Direction.West);
+					playerRobot1.move(Direction.West, false);
 				}
 
 				else if (keys.contains(KeyEvent.VK_D)) {
-					playerRobot1.move(Direction.East);
+					playerRobot1.move(Direction.East, false);
 				}
 				try {
 					sleep(7);
@@ -605,13 +637,17 @@ public class GamePanel extends JPanel {
 
 					// rotating the head of Robot!!
 					Point target = new Point(mouseX, mouseY);
-					
-					//checking that bar is inside of robot Panel or not!?
-					if ( (target.x <= playerRobot1.getX()+playerRobot1.getWidth()) && (target.x >= playerRobot1.getX()) )
-						if ( (target.y <= playerRobot1.getY()+playerRobot1.getHeight()) && (target.y >= playerRobot1.getY()))
-							continue ;
-					
-					playerRobot1.shoot(target);
+
+					// checking that bar is inside of robot Panel or not!?
+					if ((target.x <= playerRobot1.getX()
+							+ playerRobot1.getWidth())
+							&& (target.x >= playerRobot1.getX()))
+						if ((target.y <= playerRobot1.getY()
+								+ playerRobot1.getHeight())
+								&& (target.y >= playerRobot1.getY()))
+							continue;
+
+					playerRobot1.shoot(target, false);
 
 					try {
 						Thread.sleep(50);

@@ -39,42 +39,33 @@ public class Prize extends Element {
 		setId(id);
 	}
 
-	// /**
-	// *
-	// * A prize with a random {@link robokill.PrizeType PrizeType}. The prize
-	// may
-	// * be Energy,Money,... but it definitely is not Key.
-	// *
-	// * @param x
-	// * X location of the prize.
-	// * @param y
-	// * Y location of the prize.
-	// */
-	// public Prize() {
-	// /*
-	// * Initial location is set to (0,0) because the location of the prize
-	// * will be modified in the Box constructor.
-	// */
-	// super(0, 0, PRIZE_WIDTH, PRIZE_HEIGHT);
-	// PrizeType[] types = new PrizeType[PrizeType.values().length - 1];
-	//
-	// for (int i = 0; i < types.length; i++) {
-	// types[i] = PrizeType.values()[i];
-	// }
-	//
-	// setType(types[new Random().nextInt(types.length)]);
-	// }
+	/**
+	 * Same as {@link robokill.Prize#achievePrize(boolean)
+	 * achievePrize(boolean)} but with default boolean parameter: false.
+	 * 
+	 * @return
+	 */
+	public synchronized PrizeType achievePrize() {
+		return achievePrize(false);
+	}
 
 	/**
 	 * Returns the prize type and removes itself from the GamePanel. See
 	 * {@link robokill.PrizeType PrizeType}
 	 * 
+	 * @param isServerCommand
+	 *            To take care if it is a server command, so there is no need to
+	 *            resend achieve command to the server.
+	 * 
 	 * @return The type of prize.
 	 */
-	public synchronized PrizeType achievePrize() {
+	public synchronized PrizeType achievePrize(boolean isServerCommand) {
 		GamePanel.getGamePanel().remove(this);
-		ClientCore.getClientCore().sendCommand(
-				CommunicationConstants.prizeAchievedCommand(this.getId()));
+
+		// send server command
+		if (!isServerCommand)
+			ClientCore.getClientCore().sendCommand(
+					CommunicationConstants.prizeAchievedCommand(this.getId()));
 		return type;
 	}
 
