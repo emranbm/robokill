@@ -17,15 +17,16 @@ import useful.Animation;
  * 
  * @author Mr. Coder
  *
- * @version: 1.7
+ * @version: 1.8
  */
 public abstract class Element extends JPanel {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 
 	private transient Image defaultImage;
 	private Animation animation;
 	private String imagePath;
+	private int id = -1;
 
 	/**
 	 * 
@@ -120,6 +121,29 @@ public abstract class Element extends JPanel {
 	}
 
 	/**
+	 * Sets an id for the element to be distinguishable from other element. Note
+	 * that the id should be a unique integer.
+	 * 
+	 * @param id
+	 *            The unique integer to be set as id.
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * Returns the id of the element, if it has been set. If the id isn't set
+	 * yet, then -1 will be returned.
+	 * <p>
+	 * Id is a unique unchanging integer that makes elements distinguishable.
+	 * 
+	 * @return Returns the id of the element if it is set. Otherwise returns -1.
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
 	 * Reloads the element image. This method is used for reloading the element
 	 * image when it is loaded from a file as a serializable. Since the
 	 * BuffuredImage is not serializable, so after loading the element, the
@@ -194,16 +218,16 @@ public abstract class Element extends JPanel {
 		return false;
 	}
 
-//	/**
-//	 * Sets the location of the element. If the location is out of the
-//	 * {@link robokill.GamePanel GamePanel}, nothing happens.
-//	 */
-//	@Override
-//	public void setLocation(int x, int y) {
-//		if (GamePanel.getGamePanel()
-//				.isElementInside(new Point(x, y), getSize()))
-//			super.setLocation(x, y);
-//	}
+	// /**
+	// * Sets the location of the element. If the location is out of the
+	// * {@link robokill.GamePanel GamePanel}, nothing happens.
+	// */
+	// @Override
+	// public void setLocation(int x, int y) {
+	// if (GamePanel.getGamePanel()
+	// .isElementInside(new Point(x, y), getSize()))
+	// super.setLocation(x, y);
+	// }
 
 	@Override
 	protected void paintComponent(Graphics g) {

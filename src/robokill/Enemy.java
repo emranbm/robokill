@@ -21,9 +21,11 @@ public class Enemy extends Robot implements Runnable, Damagable {
 	public boolean robotIsDied = false;
 
 	public Enemy(int x, int y, int width, int height, int speed,
-			String enemyType) {
+
+	String enemyType, int id) {
 		super(x, y, width, height, speed, "/images/enemies/" + enemyType + "/",
 				29);
+		setId(id);
 	}
 
 	/**
@@ -125,18 +127,19 @@ public class Enemy extends Robot implements Runnable, Damagable {
 	public void run() {
 		while (!GamePanel.isGamePanelReady())
 			Thread.yield();
-		
+
 		while (!robotIsDied) {
 			selectDirectionAndMove();
+
 		}
 	}
 
 	public void go() {
-		
+
 		Thread enemyRobot = new Thread(this);
 		enemyRobot.start();
 	}
-	
+
 	@Override
 	public void collidedWith(Element element) {
 		if (element instanceof Player) {
@@ -147,7 +150,8 @@ public class Enemy extends Robot implements Runnable, Damagable {
 
 	@Override
 	public void shoot(Point target) {
-		// TODO Auto-generated method stub		
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override

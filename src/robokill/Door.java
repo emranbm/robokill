@@ -12,8 +12,9 @@ import useful.Animation;
  * The door element.
  * 
  * @author Mr. Coder
- * @author HRM_SHAMS
- * @version 1.5
+ * @author HRM_SHAMS <<<<<<< HEAD
+ * @version 1.4 =======
+ * @version 1.5 >>>>>>> 37d5e7640140b8cf99d33b41b189fc1680565be9
  */
 public class Door extends Element {
 
@@ -24,8 +25,8 @@ public class Door extends Element {
 	// private Animation animation;
 	private boolean isOpened = false;
 
-	private int roomId ;
-	
+	private int roomId;
+
 	/**
 	 * 
 	 * @param x
@@ -35,41 +36,39 @@ public class Door extends Element {
 	 * @param type
 	 *            can be 1:west door 2:north door 3:east door 4:south door
 	 */
-	public Door(int x, int y, String type , int roomId) {
+
+	public Door(int x, int y, String type, int roomId) {
 		super(x, y, 1, 1);
 
 		this.roomId = roomId;
-		
+
 		/****/
-		Dimension size = new Dimension(0,0);
+		Dimension size = new Dimension(0, 0);
 		if (type.equals("1") || type.equals("3"))
-			size = new Dimension(41,98);
+			size = new Dimension(41, 98);
 		else
-			size = new Dimension(98,41);
+			size = new Dimension(98, 41);
 		/****/
-		
-		Animation animation = new Animation(new Point(x, y), 
-				size,
-				"/images/doors/" + type + "/",
-				5,
-				200,
-				1,
-				false); //the size of a door image is 41x98 or 98x41
+
+		Animation animation = new Animation(new Point(x, y), size,
+				"/images/doors/" + type + "/", 5, 200, 1, false); // the size of
+																	// a door
+																	// image is
+																	// 41x98 or
+																	// 98x41
 
 		setSize(animation.getSize());
 		setAnimation(animation);
 	}
 
-	public int getRoomId()
-	{
+	public int getRoomId() {
 		return roomId;
 	}
-	
-	public void setRoomId(int roomId)
-	{
+
+	public void setRoomId(int roomId) {
 		this.roomId = roomId;
 	}
-	
+
 	/**
 	 * Just plays the animation and opens the door.
 	 */
@@ -98,14 +97,10 @@ public class Door extends Element {
 			return false;
 
 		// TODO Go to next room.
-		Animation changeRoom = new Animation(new Point(0, 0) ,
-				new Dimension(1000, 700) , 
-				"/images/changeRoom/",
-				26 ,
-				35 ,
-				1 ,
-				true);
-		
+
+		Animation changeRoom = new Animation(new Point(0, 0), new Dimension(
+				1000, 700), "/images/changeRoom/", 26, 35, 1, true);
+
 		GamePanel.getGamePanel().add(changeRoom);
 		changeRoom.start();
 
@@ -115,8 +110,9 @@ public class Door extends Element {
 		}
 
 		GamePanel gamePanel = GamePanel.getGamePanel();
+
 		InputStream newRoomInputStream = getClass().getResourceAsStream(
-				"/data/room "+this.roomId+".dat"); //(currentId + 1)
+				"/data/room " + this.roomId + ".dat"); // (currentId + 1)
 		try {
 			ObjectInputStream ois = new ObjectInputStream(newRoomInputStream);
 			Room newRoom = (Room) ois.readObject();
