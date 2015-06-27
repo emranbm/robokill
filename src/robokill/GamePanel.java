@@ -100,9 +100,9 @@ public class GamePanel extends JPanel {
 		shootingBars.start();
 
 		/** adding elements to GamePanel **/
-		// addElements();
+		 addElements();
 
-		try {
+		/*try {
 			InputStream in = getClass().getResourceAsStream("/data/room 0.dat");
 			ObjectInputStream ois = new ObjectInputStream(in);
 			currentRoom = (Room) ois.readObject();
@@ -110,7 +110,7 @@ public class GamePanel extends JPanel {
 			rearrange(currentRoom);
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
-		}
+		}*/
 
 		tryOpeningTheDoors();
 
