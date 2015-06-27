@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import client.ClientCore;
 
 /**
  * 
@@ -17,9 +18,36 @@ import javax.swing.JPanel;
  * @version 1.1
  */
 
-public class MainMenu extends JPanel{
+public class MainMenu extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+
+	// /////////////static phase/////////////////////
+	private static MainMenu This;
+
+	/**
+	 * Creates an instance of {@link robokill.MainMenu MainMenu}. This method
+	 * should just be called once, at the beginning of the game.
+	 * 
+	 * @param gameFrame
+	 *            The main frame.
+	 * @return The instantiated {@link robokill.MainMenu MainMenu}.
+	 */
+	public static MainMenu instantiate(GameFrame gameFrame) {
+		return This = new MainMenu(gameFrame);
+	}
+
+	public static MainMenu getMainMenu() {
+		if (This == null) {
+			System.err
+					.println("getMainMenu() method in MainMenu class called before MainMenu being instantiated.");
+			System.exit(1);
+		}
+
+		return This;
+	}
+
+	// ///////////end of static phase////////////////
 
 	private GameFrame gameFrameRef;
 
@@ -31,7 +59,7 @@ public class MainMenu extends JPanel{
 	public Btn aboutBtn;
 	public Btn exitBtn;
 
-	public MainMenu(GameFrame gameFrameRef) {
+	private MainMenu(GameFrame gameFrameRef) {
 		this.gameFrameRef = gameFrameRef;
 
 		setSize(1000, 700);
@@ -47,9 +75,10 @@ public class MainMenu extends JPanel{
 			System.out.println("error in reading file!");
 		}
 	}
-/**
- * add buttons to panel!
- */
+
+	/**
+	 * add buttons to panel!
+	 */
 	private void setButtons() {
 		singlePlayerGameBtn = new Btn(0, 325, "playgame", this);
 		multiPlayerBtn = new Btn(0, 384, "multiplayer", this);
@@ -66,11 +95,13 @@ public class MainMenu extends JPanel{
 
 	/**
 	 * this method remove this panel and add GamePanel to Frame!
+	 * 
+	 * @param isMultiPlayer
 	 */
-	public void playGame()
-	{
+	public void playGame(boolean isMultiPlayer) {
 		gameFrameRef.remove(this);
-		gameFrameRef.add(GamePanel.instantiate(false), BorderLayout.CENTER);
+		gameFrameRef.add(GamePanel.instantiate(isMultiPlayer),
+				BorderLayout.CENTER);
 		gameFrameRef.repaint();
 	}
 
@@ -127,11 +158,26 @@ public class MainMenu extends JPanel{
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if (e.getSource() == mainMenuRef.singlePlayerGameBtn) {
-						mainMenuRef.playGame();
+						mainMenuRef.playGame(false);
 					} else if (e.getSource() == mainMenuRef.exitBtn) {
 						System.exit(0);
-					} else if (e.getSource() == mainMenuRef.multiPlayerBtn)
-						JOptionPane.showMessageDialog(mainMenuRef, "hello!");
+					} else if (e.getSource() == mainMenuRef.multiPlayerBtn) {
+						// TODO toooooooooooooo weak graphics!
+						String hostAddress = JOptionPane
+								.showInputDialog(mainMenuRef,
+										"Enter the server computer address! (The name diplayed in network)");
+						String result = ClientCore.getClientCore().connect(
+								hostAddress);
+						if (result == null)
+							JOptionPane.showMessageDialog(mainMenuRef,
+									"Connection failed!");
+						else if (result.equals("normal")) {
+							ClientCore.getClientCore().sendCommand("start");
+							playGame(true);
+						} else if (result.equals("master")) {
+							// TODO nothing. Just a graphical waiting!
+						}
+					}
 				}
 			});
 		}

@@ -52,26 +52,17 @@ public class Run {
 
 			masterHandler = new MasterHandler(client1input,
 					client2.getOutputStream());
-			normalHandler = new NormalHandler(client1input,
+			normalHandler = new NormalHandler(client2input,
 					client2.getOutputStream());
-
-			// /* Checks if the clients are not both the same type */
-			// if (!client1Type.equals(client2Type)) {
-			// if (client1Type.equalsIgnoreCase("master")) {
-			// masterHandler = new MasterHandler(client1input,
-			// client2.getOutputStream());
-			// normalHandler = new NormalHandler(client1input,
-			// client2.getOutputStream());
-			// } else {
-			// masterHandler = new MasterHandler(client2input,
-			// client1.getOutputStream());
-			// normalHandler = new NormalHandler(client2input,
-			// client1.getOutputStream());
-			// }
 
 			masterHandler.start();
 			normalHandler.start();
-			// }
+
+			// /*
+			// * Tell the master client that the other client connected
+			// * successfully ==> Start the game!
+			// */
+			// client1.getOutputStream().write("start\r\n".getBytes());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

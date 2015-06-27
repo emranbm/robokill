@@ -38,18 +38,18 @@ public class GamePanel extends JPanel {
 	// //////////////////////////////phase////////////////////////
 
 	private static GamePanel This;
-	private static boolean isMultiPlayer;
+	private static boolean isMaster;
 
 	/**
 	 * Creates an instance of {@link robokill.GamePanel GamePanel}. This method
-	 * should just be called once, for instantiating based on the game strategy.
+	 * should just be called once, at the beginning of the game.
 	 * 
 	 * @param isMultiPlayer
 	 *            To check if the game is multi player or not.
 	 * @return The instantiated {@link robokill.GamePanel GamePanel}.
 	 */
 	public static GamePanel instantiate(boolean isMultiPlayer) {
-		GamePanel.isMultiPlayer = isMultiPlayer;
+		GamePanel.isMaster = isMultiPlayer;
 		return This = new GamePanel();
 	}
 
@@ -81,8 +81,8 @@ public class GamePanel extends JPanel {
 	 * 
 	 * @return true if multi player. false if single player.
 	 */
-	public static boolean isMultiPlayer() {
-		return isMultiPlayer;
+	public static boolean isMaster() {
+		return isMaster;
 	}
 
 	// /////////////////////////End of static/////////////////

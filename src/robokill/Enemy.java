@@ -167,10 +167,15 @@ public class Enemy extends Robot implements Runnable, Damagable {
 		}
 	}
 
+	/**
+	 * Starts to manner smartly. (If it is master client. If not, nothing
+	 * happens)
+	 */
 	public void go() {
-
-		Thread enemyRobot = new Thread(this);
-		enemyRobot.start();
+		if (isMaster()) {
+			Thread enemyRobot = new Thread(this);
+			enemyRobot.start();
+		}
 	}
 
 	@Override

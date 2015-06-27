@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 
 import robokill.Enemy;
 import robokill.GamePanel;
+import robokill.MainMenu;
 import robokill.Prize;
 import useful.Direction;
 
@@ -60,9 +61,9 @@ public class ClientCore extends Thread {
 			output = new PrintWriter(socket.getOutputStream());
 			return input.readLine();
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 		return null;
@@ -71,16 +72,20 @@ public class ClientCore extends Thread {
 	int c = 1;
 
 	/**
-	 * Sends a command to the server.
+	 * Sends a command to the server, if possible. If not, nothing happens!
 	 * 
 	 * @param command
 	 *            The command to be sent.
 	 */
 	public synchronized void sendCommand(String command) {
 		/* for test: the output is commented */
-		System.out.println(c++ + ": " + command);
+		// System.out.println(c++ + ": " + command);
 		// TODO just uncomment below line:
-		// output.println(command);
+		try {
+			output.println(command);
+		} catch (Exception e) {
+			System.out.println(c++ + ": " + command);
+		}
 	}
 
 	/**
@@ -131,6 +136,8 @@ public class ClientCore extends Thread {
 						enemy.move(Direction.valueOf(attr[3]), true);
 					}
 					break;
+				case "start":
+					MainMenu.getMainMenu().playGame(true);
 				}
 
 			} catch (IOException e) {

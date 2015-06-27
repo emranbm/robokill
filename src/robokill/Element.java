@@ -24,7 +24,7 @@ public abstract class Element extends JPanel {
 	private static final long serialVersionUID = 2L;
 
 	// TODO use this boolean! :
-	private boolean isMultiPlayer = GamePanel.isMultiPlayer();
+	private boolean isMaster = GamePanel.isMaster();
 
 	private transient Image defaultImage;
 	private Animation animation;
@@ -98,8 +98,8 @@ public abstract class Element extends JPanel {
 	 * 
 	 * @return true if multi player. false if single player.
 	 */
-	public boolean isMultiPlayer() {
-		return isMultiPlayer;
+	public boolean isMaster() {
+		return isMaster;
 	}
 
 	/**
