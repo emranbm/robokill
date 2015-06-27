@@ -90,6 +90,7 @@ public class GamePanel extends JPanel {
 
 	public Player playerRobot1; // the panel of playerRobot!
 	public Player playerRobot2; // the second player (used in multiplayer!)
+	private GameMap map;
 	private BufferedImage background;
 
 	private boolean isShooting = false;
@@ -117,6 +118,9 @@ public class GamePanel extends JPanel {
 
 		setSize(new Dimension(1024, 768));
 		setLayout(null);
+
+		map = new GameMap();
+		add(map);
 
 		/** status bar **/
 		add(statusPanel);
@@ -556,6 +560,11 @@ public class GamePanel extends JPanel {
 			if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_W
 					|| keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_D)
 				keys.add(keyCode);
+
+			// adding key listener for show and hiding map
+			if (keyCode == KeyEvent.VK_M) {
+				map.showHideMap();
+			}
 
 		}
 

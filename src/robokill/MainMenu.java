@@ -10,7 +10,14 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class MainMenu extends JPanel {
+
+/**
+ * 
+ * @author HRM_SHAMS
+ * @version 1.1
+ */
+
+public class MainMenu extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 
@@ -40,7 +47,9 @@ public class MainMenu extends JPanel {
 			System.out.println("error in reading file!");
 		}
 	}
-
+/**
+ * add buttons to panel!
+ */
 	private void setButtons() {
 		singlePlayerGameBtn = new Btn(0, 325, "playgame", this);
 		multiPlayerBtn = new Btn(0, 384, "multiplayer", this);
@@ -55,7 +64,11 @@ public class MainMenu extends JPanel {
 		add(exitBtn);
 	}
 
-	public void playGame() {
+	/**
+	 * this method remove this panel and add GamePanel to Frame!
+	 */
+	public void playGame()
+	{
 		gameFrameRef.remove(this);
 		gameFrameRef.add(GamePanel.instantiate(false), BorderLayout.CENTER);
 		gameFrameRef.repaint();
