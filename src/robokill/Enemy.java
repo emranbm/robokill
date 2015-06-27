@@ -136,7 +136,7 @@ public class Enemy extends Robot implements Runnable, Damagable {
 		Thread enemyRobot = new Thread(this);
 		enemyRobot.start();
 	}
-
+	
 	@Override
 	public void collidedWith(Element element) {
 		if (element instanceof Player) {
@@ -147,8 +147,7 @@ public class Enemy extends Robot implements Runnable, Damagable {
 
 	@Override
 	public void shoot(Point target) {
-		// TODO Auto-generated method stub
-
+		// TODO Auto-generated method stub		
 	}
 
 	@Override

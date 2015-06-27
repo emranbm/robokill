@@ -42,7 +42,6 @@ public class GamePanel extends JPanel {
 
 	public Player playerRobot; // the panel of playerRobot!
 	private BufferedImage background;
-	private String backgroundAddress = "/images/rooms/0.png";
 	
 	private boolean isShooting = false;
 	private int curMouseX;
