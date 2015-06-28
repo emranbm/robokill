@@ -183,6 +183,7 @@ public class MainMenu extends JPanel {
 						} else if (result.equals("master")) {
 							GamePanel.instantiate(true, true);
 							ClientCore.getClientCore().start();
+							playGame(true, true);
 							// Waits and listens until get start command.
 							// TODO nothing. Just a graphical waiting!
 						}

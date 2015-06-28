@@ -104,6 +104,9 @@ public class ClientCore extends Thread {
 		while (true) {
 			try {
 				String command = input.readLine();
+
+				System.out.println("Client: Command received: " + command);
+
 				String[] attr = command.trim().split(" ");
 
 				int id = -2;
