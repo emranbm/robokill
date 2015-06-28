@@ -143,7 +143,7 @@ public class GamePanel extends JPanel {
 		/** adding playerRobot to gamePanel **/
 
 		if (isMaster) {
-			playerRobot1 = new Player(0, 320, 60, 60, 6, 0,
+			playerRobot1 = new Player(100, 320, 60, 60, 6, 0,
 					Player.Player_Type_1);
 			add(playerRobot1);
 
@@ -155,7 +155,7 @@ public class GamePanel extends JPanel {
 					Player.Player_Type_2);
 			add(playerRobot1);
 
-			playerRobot2 = new Player(0, 320, 60, 60, 6, 0,
+			playerRobot2 = new Player(100, 320, 60, 60, 6, 0,
 					Player.Player_Type_1);
 			add(playerRobot2);
 		}
