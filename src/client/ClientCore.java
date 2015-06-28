@@ -148,6 +148,8 @@ public class ClientCore extends Thread {
 				case "enemy":
 					// enemy command: shoot/move
 					Enemy enemy = gamePanel.getEnemyById(id);
+					if (enemy == null)
+						return;
 					switch (attr[2]) {
 					case "shoot":
 						int x = Integer.parseInt(attr[3]);
@@ -155,10 +157,7 @@ public class ClientCore extends Thread {
 						enemy.shoot(new Point(x, y), true);
 						break;
 					case "move":
-						try{
 						enemy.move(Direction.valueOf(attr[3]), true);
-						}catch (NullPointerException e){
-						}
 						break;
 					case "destroy":
 						enemy.damage(100, true);
