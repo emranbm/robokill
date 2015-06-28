@@ -9,6 +9,12 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+/**
+ * 
+ * @author HRM_SHAMS
+ * @version 1.1
+ */
+
 public class MainMenu extends JPanel{
 
 	private GameFrame gameFrameRef;
@@ -36,6 +42,9 @@ public class MainMenu extends JPanel{
 		}catch(Exception e){System.out.println("error in reading file!");}
 	}
 	
+	/**
+	 * add buttons to panel!
+	 */
 	private void setButtons()
 	{
 		playerGameBtn = new Btn(0,325,"playgame",this);
@@ -51,6 +60,9 @@ public class MainMenu extends JPanel{
 		add (exitBtn);
 	}
 	
+	/**
+	 * this method remove this panel and add GamePanel to Frame!
+	 */
 	public void playGame()
 	{
 		gameFrameRef.remove(this);
