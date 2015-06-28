@@ -12,7 +12,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -141,26 +143,6 @@ public class GamePanel extends JPanel {
 		add(statusPanel);
 		/**************/
 
-		/** adding playerRobot to gamePanel **/
-
-		if (isMaster) {
-			playerRobot1 = new Player(100, 320, 60, 60, 6, 0,
-					Player.Player_Type_1);
-			add(playerRobot1);
-
-			playerRobot2 = new Player(700, 320, 60, 60, 6, 1,
-					Player.Player_Type_2);
-			add(playerRobot2);
-		} else {
-			playerRobot1 = new Player(700, 320, 60, 60, 6, 1,
-					Player.Player_Type_2);
-			add(playerRobot1);
-
-			playerRobot2 = new Player(100, 320, 60, 60, 6, 0,
-					Player.Player_Type_1);
-			add(playerRobot2);
-		}
-
 		/** adding mouseListener (for rotating head of robot and shooting) **/
 		addMouseListenersForRobot();
 
@@ -169,6 +151,7 @@ public class GamePanel extends JPanel {
 
 		/** adding a new Thread for moving robot **/
 		Thread robotMovement = new Thread(new RobotMovementHandler());
+		robotMovement.setPriority(Thread.MAX_PRIORITY);
 		robotMovement.start();
 
 		/** adding a new thread for shooting bars **/
@@ -202,7 +185,7 @@ public class GamePanel extends JPanel {
 	 *            The room for applying new properties.
 	 */
 	public void rearrange(Room room) {
-		playerRobot1.setLocation(room.getPlayerLocation());
+		playerRobot1.setLocation(room.getMasterPlayerLocation());
 
 		background = room.getBackgroundImage();
 
@@ -241,71 +224,101 @@ public class GamePanel extends JPanel {
 	private void addElements() {
 
 		/** set roomId **/
-		int roomId = 1;
+		int roomId = 62;
 
-		/** Add Valleys **/
-		add(new Valley(81, 70, 295, 95));
-		add(new Valley(81, 163, 330, 55));
-		add(new Valley(163, 232, 215, 30));
-
-		add(new Valley(635, 70, 300, 95));
-		add(new Valley(585, 163, 336, 55));
-		add(new Valley(635, 232, 208, 50));
-
-		add(new Valley(163, 414, 205, 30));
-		add(new Valley(82, 469, 330, 55));
-		add(new Valley(79, 535, 285, 90));
-
-		add(new Valley(630, 411, 205, 58));
-		add(new Valley(580, 475, 336, 50));
-		add(new Valley(630, 535, 285, 87));
-
-		/** Add Block **/
-		/*
-		 * Block block = new Block(450, 300, Block.BLOCK_TYPE_1); add(block);
-		 */
-		/** Add Boxes **/
-		/*
-		 * add(new Box(96, 100)); add(new Box(153, 97)); add(new Box(103, 154));
-		 * add(new Box(152, 147));
-		 */
-
-		/** Add Enemies **/
-		Enemy enemy = new Enemy(460, 210, 80, 80, 2, Enemy.ENEMY_TYPE_2, 2);
-		add(enemy);
-		enemy.go();
-
-		Enemy enemy2 = new Enemy(300, 310, 80, 80, 1, Enemy.ENEMY_TYPE_3, 3);
-		add(enemy2);
-		enemy2.go();
-		/*
-		 * Enemy enemy2 = new Enemy(800, 450, 80, 80, 1, Enemy.ENEMY_TYPE_1);
-		 * add(enemy2); enemy2.go();
-		 */
+		/** set room background address **/
+		String roomBackgroundAddress = "/images/rooms/6.png";
 
 		/** Add doors **/
-		Door door1 = new Door(25, 301, "1", 61);
-		add(door1);
-		doors.add(door1);
+		// Door door1 = new Door(5, 300, "1", 62);
+		// add(door1);
+		// doors.add(door1);
+		//
+		// Door door2 = new Door(451, 5, "2", 32);
+		// add(door2);
+		// doors.add(door2);
 
-		Door door2 = new Door(451, 20, "2", 32);
-		add(door2);
-		doors.add(door2);
-
-		Door door3 = new Door(933, 301, "3", 62);
+		Door door3 = new Door(955, 150, "3", 1);
 		add(door3);
 		doors.add(door3);
 
-		Door door4 = new Door(451, 640, "4", 21);
-		add(door4);
-		doors.add(door4);
+		// Door door4 = new Door(453, 645, "4", 21);
+		// add(door4);
+		// doors.add(door4);
 
-		/** set playerRobot location **/
-		// Point playerLocation = new Point(451, 550);
-		// playerRobot1.setLocation(playerLocation);
+		/** Add Valleys **/
+		add(new Valley(400, 235, 206, 220));
+		// add(new Valley(0, 590, 1000, 110));
 
-		/** set room background address **/
-		String roomBackgroundAddress = "/images/rooms/1.png";
+		/** Add Blocks **/
+		// Block block1 = new Block(450, 300, Block.BLOCK_TYPE_1);
+		// add(block1);
+		// Block block2 = new Block(850, 550, Block.BLOCK_TYPE_2);
+		// add(block2);
+
+		/** Add Boxes **/
+		add(new Box(100, 550, null, 21));
+		add(new Box(200, 600, new Prize(PrizeType.Money, 52), 22));
+		add(new Box(900, 550, null, 23));
+		add(new Box(900, 600, new Prize(PrizeType.Energy, 54), 24));
+		add(new Box(850, 600, null, 25));
+		// add(new Box(100, 150, null, 26));
+		add(new Box(100, 100, new Prize(PrizeType.Money, 56), 26));
+		// add(new Box(50, 500, null, 28));
+		// add(new Box(50, 550, null, 29));
+		// add(new Box(100, 550, new Prize(PrizeType.Money, 54), 30));
+		// add(new Box(100, 600, null, 31));
+		// add(new Box(800, 600, new Prize(PrizeType.Sheild, 55), 32));
+		// add(new Box(900, 500, null, 33));
+
+		// /** AddPrizes **/
+		// No need yet!
+
+		/** Add playerRobot to gamePanel **/
+		// if (isMaster) {
+		playerRobot1 = new Player(880, 150, 60, 50, 6, 0, Player.Player_Type_1);
+		add(playerRobot1);
+
+		playerRobot2 = new Player(880, 250, 60, 50, 6, 1, Player.Player_Type_2);
+		add(playerRobot2);
+		// } else {
+		// playerRobot1 = new Player(700, 320, 60, 60, 6, 1,
+		// Player.Player_Type_2);
+		// add(playerRobot1);
+		//
+		// playerRobot2 = new Player(100, 320, 60, 60, 6, 0,
+		// Player.Player_Type_1);
+		// add(playerRobot2);
+		// }
+
+		/** Add Enemies **/
+		Enemy enemy11 = new Enemy(650, 550, 70, 70, 2, Enemy.ENEMY_TYPE_2, 11);
+		add(enemy11);
+		enemy11.go();
+
+		Enemy enemy12 = new Enemy(450, 550, 70, 70, 2, Enemy.ENEMY_TYPE_2, 12);
+		add(enemy12);
+		enemy12.go();
+
+		Enemy enemy13 = new Enemy(200, 500, 70, 70, 2, Enemy.ENEMY_TYPE_2, 13);
+		add(enemy13);
+		enemy13.go();
+
+		Enemy enemy2 = new Enemy(800, 400, 80, 80, 1, Enemy.ENEMY_TYPE_1, 14);
+		add(enemy2);
+		enemy2.go();
+
+		Enemy enemy3 = new Enemy(100, 400, 80, 80, 1, Enemy.ENEMY_TYPE_1, 15);
+		add(enemy3);
+		enemy3.go();
+
+		Enemy enemy4 = new Enemy(200, 100, 80, 80, 1, Enemy.ENEMY_TYPE_1, 16);
+		add(enemy4);
+		enemy4.go();
+		//
+		// Enemy enemy3 = new Enemy(800, 450, 80, 80, 1, Enemy.ENEMY_TYPE_1, 4);
+		// add(enemy3);
+		// enemy3.go();
 
 		try {
 			background = ImageIO.read(getClass().getResource(
@@ -324,20 +337,29 @@ public class GamePanel extends JPanel {
 		for (Element element : elements)
 			if (!(element instanceof Player))
 				room.addElement(element);
-
+		room.setEnemies(enemies);
 		room.setDoors(doors);
+		room.setPrizes(prizes);
+		room.setBoxes(boxes);
+
+		room.setMasterPlayerLocation(playerRobot1.getLocation());
+		room.setMasterPlayerId(playerRobot1.getId());
+		room.setNormalPlayerLocation(playerRobot2.getLocation());
+		room.setNormalPlayerId(playerRobot2.getId());
+
 		// room.setPlayerLocation(playerLocation);
 		room.setBackgroundImagePath(roomBackgroundAddress);
 
-		// try {
-		// ObjectOutputStream oos = new ObjectOutputStream(
-		// new
-		// FileOutputStream("C:/Users/h-noori/Desktop/rooms/room "+roomId+".dat"));
-		// oos.writeObject(room);
-		// oos.close();
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(
+					new FileOutputStream(
+							"C:/Users/Mr. Coder/Desktop/rooms/room " + roomId
+									+ ".dat"));
+			oos.writeObject(room);
+			oos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -507,6 +529,8 @@ public class GamePanel extends JPanel {
 	 * nothing.
 	 */
 	public void tryOpeningTheDoors() {
+		System.out.println("try opening the doors.");
+		System.out.println(enemies.size());
 		if (enemies.size() == 0)
 			for (Door door : doors)
 				door.open();

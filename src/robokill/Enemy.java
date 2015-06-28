@@ -174,6 +174,7 @@ public class Enemy extends Robot implements Runnable, Damagable {
 	public void go() {
 		if (isMaster() || !GamePanel.isMultiPlayer()) {
 			Thread enemyRobot = new Thread(this);
+			enemyRobot.setPriority(Thread.MIN_PRIORITY);
 			enemyRobot.start();
 		}
 	}

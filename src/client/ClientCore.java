@@ -83,7 +83,7 @@ public class ClientCore extends Thread {
 			output.println(command);
 			output.flush();
 		} catch (Exception e) {
-			System.out.println(c++ + ": " + command);
+			//System.out.println(c++ + ": " + command);
 		}
 	}
 
