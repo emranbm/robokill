@@ -101,9 +101,9 @@ public class MainMenu extends JPanel {
 	 */
 	public void playGame(boolean isMultiPlayer, boolean isMaster) {
 		gameFrameRef.remove(this);
-		gameFrameRef.add(GamePanel.getGamePanel(),
-				BorderLayout.CENTER);
+		gameFrameRef.add(GamePanel.getGamePanel(), BorderLayout.CENTER);
 		gameFrameRef.repaint();
+		System.out.println("GamePanel added to frame.");
 	}
 
 	public void paintComponent(Graphics g) {
@@ -170,6 +170,7 @@ public class MainMenu extends JPanel {
 										"Enter the server computer address! (The name diplayed in network)");
 						String result = ClientCore.getClientCore().connect(
 								hostAddress);
+						System.out.println("connected as: " + result);
 						if (result == null)
 							JOptionPane.showMessageDialog(mainMenuRef,
 									"Connection failed!");

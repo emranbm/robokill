@@ -53,6 +53,7 @@ public class GamePanel extends JPanel {
 	public static GamePanel instantiate(boolean isMultiPlayer, boolean isMaster) {
 		GamePanel.isMaster = isMaster;
 		GamePanel.isMultiPlayer = isMultiPlayer;
+		System.out.println("GamePanel instantiated.");
 		return This = new GamePanel();
 	}
 
@@ -124,6 +125,8 @@ public class GamePanel extends JPanel {
 
 	private GamePanel() {
 		super();
+		
+		System.out.println("Start of Game panel constructor.");
 
 		setBounds(0, 0, 1000, 700);
 
@@ -173,6 +176,9 @@ public class GamePanel extends JPanel {
 		// }
 
 		tryOpeningTheDoors();
+		
+
+		System.out.println("End of Game panel constructor.");
 
 	}// end of constructor !!
 

@@ -25,6 +25,7 @@ import java.net.Socket;
 public class Run {
 
 	public static void main(String[] args) {
+		System.out.println("::SERVER::");
 		try {
 			ServerSocket serverSocket = new ServerSocket(5050);
 
@@ -35,6 +36,8 @@ public class Run {
 			// String client1Type = client1input.readLine();
 			client1.getOutputStream().write("master\r\n".getBytes());
 
+			System.out.println("normal client connected");
+
 			/* Second client connects and sends its type: master OR normal */
 			Socket client2 = serverSocket.accept();
 			BufferedReader client2input = new BufferedReader(
@@ -42,7 +45,9 @@ public class Run {
 			// String client2Type = client2input.readLine();
 			client1.getOutputStream().write("normal\r\n".getBytes());
 
-			serverSocket.close();
+			System.out.println("normal client connected");
+
+			// serverSocket.close();
 
 			/* A thread to handle the master client */
 			MasterHandler masterHandler;
@@ -57,6 +62,8 @@ public class Run {
 
 			masterHandler.start();
 			normalHandler.start();
+
+			System.out.println("Handlers started!");
 
 			// /*
 			// * Tell the master client that the other client connected
