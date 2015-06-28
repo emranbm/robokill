@@ -34,7 +34,7 @@ public class GameFrame extends JFrame {
 		setUndecorated(true);
 
 		setLayout(new BorderLayout());
-		add(GamePanel.getGamePanel(), BorderLayout.CENTER);
+		add(new MainMenu(this), BorderLayout.CENTER); //GamePanel.getGamePanel()
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
