@@ -9,7 +9,7 @@ import useful.Direction;
 /**
  * 
  * @author HRM_SHAMS
- * @version 1.1
+ * @version 1.3
  */
 public class Enemy extends Robot implements Runnable, Damagable {
 
