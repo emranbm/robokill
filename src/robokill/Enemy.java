@@ -183,7 +183,7 @@ public class Enemy extends Robot implements Runnable, Damagable {
 
 		// TODO Implement bar power.
 		Bar bar = new Bar(new Point(firstBarLoction[0], firstBarLoction[1]),
-				PC, Bar.BAR_TYPE_1 , Bar.BAR_POWER_LIGHT);
+				PC, Bar.BAR_TYPE_1 , Bar.BAR_POWER_LIGHT , Bar.ENEMY_BAR_OWNED);
 
 		GamePanel.getGamePanel().add(bar);
 		bar.start();

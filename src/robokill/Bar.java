@@ -15,19 +15,22 @@ public class Bar extends Element implements Runnable, Damagable {
 	private static final long serialVersionUID = 1L;
 
 	public static final int SPEED = 15;
+	public static final boolean ENEMY_BAR_OWNED = false , PLAYER_BAR_OWNED = true;
 	public static final int BAR_TYPE_1 = 1, BAR_TYPE_2 = 2;
-	public static final int BAR_POWER_LIGHT = 10, BAR_POWER_MEDIUM = 20,
-			BAR_POWER_HEAVEY = 30;
+	public static final int BAR_POWER_LIGHT = 10, BAR_POWER_MEDIUM = 20,BAR_POWER_HEAVEY = 30;
 
 	private Vector speedVector;
 	private int type, power;
+	private boolean barOwner;
 
-	public Bar(Point initilalLocation, Vector vector, int type, int power) {
+	public Bar(Point initilalLocation, Vector vector, int type, int power , boolean barOwner) {
 		super(initilalLocation.x, initilalLocation.y, 11, 11);
+		
 		this.speedVector = vector.getParallelVector(SPEED);
 		this.type = type;
 		this.power = power;
-
+		this.barOwner = barOwner;
+		
 		String imagePath = "images/";
 
 		if (type == BAR_TYPE_2)
@@ -38,9 +41,12 @@ public class Bar extends Element implements Runnable, Damagable {
 		setImage(imagePath);
 	}
 
-	public Bar(Point initialLocation, Point targetLocation, int type, int power) {
-		this(initialLocation, new Vector(targetLocation.x - initialLocation.x,
-				targetLocation.y - initialLocation.y), type, power);
+	public Bar(Point initialLocation, Point targetLocation, int type, int power , boolean barOwner) {
+		this(initialLocation,
+				new Vector(targetLocation.x - initialLocation.x, targetLocation.y - initialLocation.y),
+				type,
+				power,
+				barOwner);
 	}
 
 	public int getType() {
@@ -84,7 +90,17 @@ public class Bar extends Element implements Runnable, Damagable {
 				damageAmount += 6;
 				break;
 			}
-			((Damagable) collidedElement).damage(damageAmount);
+			
+			// we first check that collided element and bar has not a same owner!
+			if (collidedElement instanceof Player && this.barOwner == this.PLAYER_BAR_OWNED)
+			{/*Do Nothing*/}
+			else if (collidedElement instanceof Enemy && this.barOwner == this.ENEMY_BAR_OWNED)
+			{/*Do Nothing*/}
+			else
+			{
+				// calling method damage that is in collided element 
+				((Damagable) collidedElement).damage(damageAmount);
+			}
 		}
 	}
 

@@ -570,7 +570,14 @@ public class GamePanel extends JPanel {
 					int mouseY = curMouseY;
 
 					// rotating the head of Robot!!
-					playerRobot1.shoot(new Point(mouseX, mouseY));
+					Point target = new Point(mouseX, mouseY);
+					
+					//checking that bar is inside of robot Panel or not!?
+					if ( (target.x <= playerRobot1.getX()+playerRobot1.getWidth()) && (target.x >= playerRobot1.getX()) )
+						if ( (target.y <= playerRobot1.getY()+playerRobot1.getHeight()) && (target.y >= playerRobot1.getY()))
+							continue ;
+					
+					playerRobot1.shoot(target);
 
 					try {
 						Thread.sleep(50);
