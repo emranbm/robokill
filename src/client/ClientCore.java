@@ -106,7 +106,11 @@ public class ClientCore extends Thread {
 				String command = input.readLine();
 				String[] attr = command.trim().split(" ");
 
-				int id = Integer.parseInt(attr[1]);
+				int id = -2;
+				try {
+					id = Integer.parseInt(attr[1]);
+				} catch (ArrayIndexOutOfBoundsException e) {
+				}
 
 				switch (attr[0]) {
 				case "prize":

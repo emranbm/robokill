@@ -8,16 +8,17 @@ package robokill;
 /**
  *
  * @author HRM_Shmas
- * @version : 1
+ * @version 1.0
  */
 public class RoboKill {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        new GameFrame();
-    }
-    
+	/**
+	 * @param args
+	 *            the command line arguments
+	 */
+	public static void main(String[] args) {
+		// TODO code application logic here
+		new GameFrame();
+	}
+
 }

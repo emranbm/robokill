@@ -101,7 +101,7 @@ public class MainMenu extends JPanel {
 	 */
 	public void playGame(boolean isMultiPlayer, boolean isMaster) {
 		gameFrameRef.remove(this);
-		gameFrameRef.add(GamePanel.instantiate(isMultiPlayer, isMaster),
+		gameFrameRef.add(GamePanel.getGamePanel(),
 				BorderLayout.CENTER);
 		gameFrameRef.repaint();
 	}
@@ -174,9 +174,11 @@ public class MainMenu extends JPanel {
 									"Connection failed!");
 						else if (result.equals("normal")) {
 							ClientCore.getClientCore().sendCommand("start");
+							GamePanel.instantiate(true, false);
 							ClientCore.getClientCore().start();
 							playGame(true, false);
 						} else if (result.equals("master")) {
+							GamePanel.instantiate(true, true);
 							ClientCore.getClientCore().start();
 							// Waits and listens until get start command.
 							// TODO nothing. Just a graphical waiting!
