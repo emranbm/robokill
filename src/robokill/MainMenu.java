@@ -159,6 +159,7 @@ public class MainMenu extends JPanel {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if (e.getSource() == mainMenuRef.singlePlayerGameBtn) {
+						GamePanel.instantiate(false, true);
 						mainMenuRef.playGame(false, true);
 					} else if (e.getSource() == mainMenuRef.exitBtn) {
 						System.exit(0);
