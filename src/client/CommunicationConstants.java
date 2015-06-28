@@ -36,4 +36,16 @@ public abstract class CommunicationConstants {
 			Direction moveDirection) {
 		return "enemy " + enemyId + " move " + moveDirection.toString();
 	}
+
+	public static final String enemyDestroyCommand(int enemyId) {
+		return "enemy " + enemyId + " destroy";
+	}
+
+	public static final String boxDestroyCommand(int boxId) {
+		return "box " + boxId + " destroy";
+	}
+
+	public static final String playerDestroyCommand(int playerId) {
+		return "player " + playerId + " destroy";
+	}
 }

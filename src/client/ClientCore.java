@@ -13,6 +13,7 @@ import robokill.Enemy;
 import robokill.GamePanel;
 import robokill.MainMenu;
 import robokill.Prize;
+import robokill.Valley;
 import useful.Direction;
 
 /**
@@ -77,10 +78,7 @@ public class ClientCore extends Thread {
 	 * @param command
 	 *            The command to be sent.
 	 */
-	public synchronized void sendCommand(String command) {
-		/* for test: the output is commented */
-		// System.out.println(c++ + ": " + command);
-		// TODO just uncomment below line:
+	public void sendCommand(String command) {
 		try {
 			output.println(command);
 			output.flush();
@@ -95,6 +93,7 @@ public class ClientCore extends Thread {
 	 */
 	@Override
 	public synchronized void start() {
+		// TODO uncomment below line!
 		// if (socket != null && socket.isConnected() && !socket.isClosed())
 		super.start();
 	}
@@ -123,26 +122,44 @@ public class ClientCore extends Thread {
 					Prize prize = gamePanel.getPrizeById(id);
 					gamePanel.remove(prize);
 					break;
+				case "box":
+					// box destroy.
+					gamePanel.getBoxById(id).damage(100, true);
+					break;
 				case "player":
 					// player command: shoot/move
-					if (attr[2].equals("shoot")) {
+					switch (attr[2]) {
+					case "shoot":
 						int x = Integer.parseInt(attr[3]);
 						int y = Integer.parseInt(attr[4]);
 						gamePanel.playerRobot2.shoot(new Point(x, y), true);
-					} else {
+						break;
+					case "move":
 						gamePanel.playerRobot2.move(Direction.valueOf(attr[3]),
 								true);
+						break;
+					case "destroy":
+						// TODO better logic!
+						gamePanel.playerRobot2.collidedWith(new Valley(0, 0, 0,
+								0));
+						break;
 					}
 					break;
 				case "enemy":
 					// enemy command: shoot/move
 					Enemy enemy = gamePanel.getEnemyById(id);
-					if (attr[2].equals("shoot")) {
+					switch (attr[2]) {
+					case "shoot":
 						int x = Integer.parseInt(attr[3]);
 						int y = Integer.parseInt(attr[4]);
 						enemy.shoot(new Point(x, y), true);
-					} else {
+						break;
+					case "move":
 						enemy.move(Direction.valueOf(attr[3]), true);
+						break;
+					case "destroy":
+						enemy.damage(100, true);
+						break;
 					}
 					break;
 				case "start":

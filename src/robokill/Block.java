@@ -29,7 +29,7 @@ public class Block extends Element implements Damagable{
 	}
 
 	@Override
-	public void damage(int amount) {
+	public void damage(int amount, boolean isServerCommand) {
 		// Nothing happens!
 	}
 

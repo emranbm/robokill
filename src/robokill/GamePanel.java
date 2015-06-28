@@ -113,6 +113,7 @@ public class GamePanel extends JPanel {
 	private ArrayList<Door> doors = new ArrayList<Door>();
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	private ArrayList<Prize> prizes = new ArrayList<Prize>();
+	private ArrayList<Box> boxes = new ArrayList<Box>();
 	private Room currentRoom;
 
 	private final Set<Integer> keys = new HashSet<Integer>(); // related to
@@ -300,8 +301,8 @@ public class GamePanel extends JPanel {
 		doors.add(door4);
 
 		/** set playerRobot location **/
-//		Point playerLocation = new Point(451, 550);
-//		playerRobot1.setLocation(playerLocation);
+		// Point playerLocation = new Point(451, 550);
+		// playerRobot1.setLocation(playerLocation);
 
 		/** set room background address **/
 		String roomBackgroundAddress = "/images/rooms/1.png";
@@ -325,7 +326,7 @@ public class GamePanel extends JPanel {
 				room.addElement(element);
 
 		room.setDoors(doors);
-//		room.setPlayerLocation(playerLocation);
+		// room.setPlayerLocation(playerLocation);
 		room.setBackgroundImagePath(roomBackgroundAddress);
 
 		// try {
@@ -359,6 +360,8 @@ public class GamePanel extends JPanel {
 				tryOpeningTheDoors();
 			} else if (comp instanceof Prize)
 				prizes.remove(comp);
+			else if (comp instanceof Box)
+				boxes.remove(comp);
 		}
 	}
 
@@ -372,6 +375,8 @@ public class GamePanel extends JPanel {
 				enemies.add((Enemy) comp);
 			else if (comp instanceof Prize)
 				prizes.add((Prize) comp);
+			else if (comp instanceof Box)
+				boxes.add((Box) comp);
 		}
 
 		return super.add(comp);
@@ -466,6 +471,14 @@ public class GamePanel extends JPanel {
 		for (Prize p : prizes)
 			if (p.getId() == id)
 				return p;
+
+		return null;
+	}
+
+	public Box getBoxById(int id) {
+		for (Box b : boxes)
+			if (b.getId() == id)
+				return b;
 
 		return null;
 	}

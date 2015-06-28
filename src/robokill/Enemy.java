@@ -181,8 +181,8 @@ public class Enemy extends Robot implements Runnable, Damagable {
 	@Override
 	public void collidedWith(Element element) {
 		if (element instanceof Player) {
-			this.damage(100);
-			((Player) element).damage(20);
+			this.damage(100, false);
+			((Player) element).damage(20, false);
 		}
 	}
 
@@ -210,20 +210,35 @@ public class Enemy extends Robot implements Runnable, Damagable {
 	}
 
 	@Override
-	public void damage(int amount) {
+	public void damage(int amount, boolean isServerCommand) {
 		health = health - amount;
 		if (health <= 0) {
-			robotIsDied = true;
 
-			//
-			Animation fireExplosion = new Animation(this.getLocation(),
-					new Dimension(85, 85), "/images/explosion2/", 7, 30, 1,
-					true);
-			GamePanel.getGamePanel().add(fireExplosion);
-			fireExplosion.start();
-			//
+			if (isMaster()) {
+				if (!isServerCommand) {
+					robotIsDied = true;
 
-			GamePanel.getGamePanel().remove(this);
+					Animation fireExplosion = new Animation(this.getLocation(),
+							new Dimension(85, 85), "/images/explosion2/", 7,
+							30, 1, true);
+					GamePanel.getGamePanel().add(fireExplosion);
+					fireExplosion.start();
+
+					GamePanel.getGamePanel().remove(this);
+				}
+			} else {
+				if (isServerCommand) {
+					robotIsDied = true;
+
+					Animation fireExplosion = new Animation(this.getLocation(),
+							new Dimension(85, 85), "/images/explosion2/", 7,
+							30, 1, true);
+					GamePanel.getGamePanel().add(fireExplosion);
+					fireExplosion.start();
+
+					GamePanel.getGamePanel().remove(this);
+				}
+			}
 		}
 	}
 

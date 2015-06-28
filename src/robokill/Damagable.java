@@ -8,5 +8,5 @@ public interface Damagable {
 	 * @param amount
 	 *            The amount of energy/health to be reduced.
 	 */
-	void damage(int amount);
+	void damage(int amount, boolean isServerCommand);
 }

@@ -51,7 +51,8 @@ public class Player extends Robot implements Damagable {
 	}
 
 	@Override
-	public void damage(int amount) {
+	public void damage(int amount, boolean isServerCommand) {
+		//TODO DIE!
 		GamePanel.getGamePanel().statusPanel.reduceHealth(amount);
 	}
 
@@ -131,8 +132,8 @@ public class Player extends Robot implements Damagable {
 			((Door) element).passToNextRoom();
 
 		} else if (element instanceof Enemy) {
-			((Enemy) element).damage(100);
-			this.damage(20);
+			((Enemy) element).damage(100, false);
+			this.damage(20, false);
 		}
 	}
 
