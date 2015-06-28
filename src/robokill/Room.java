@@ -12,18 +12,21 @@ import javax.imageio.ImageIO;
  * A class to save the properties of a room.
  * 
  * @author Mr. Coder
- * @version 1.2
+ * @version 1.3
  */
 public class Room implements Serializable {
 
-	private static final long serialVersionUID = 3L;
+	private static final long serialVersionUID = 4L;
 
 	private int id;
 	private ArrayList<Element> elements = new ArrayList<Element>();
 	private ArrayList<Door> doors = new ArrayList<Door>();
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-	private Point playerLocation;
+	private ArrayList<Prize> prizes = new ArrayList<Prize>();
+	private ArrayList<Box> boxes = new ArrayList<Box>();
+	private Point masterPlayerLocation, normalPlayerLocation;
 	private String backgroundImagePath;
+	private int masterPlayerId, normalPlayerId;
 
 	/**
 	 * 
@@ -46,16 +49,24 @@ public class Room implements Serializable {
 		return doors;
 	}
 
-	public Point getPlayerLocation() {
-		return playerLocation;
+	public Point getMasterPlayerLocation() {
+		return masterPlayerLocation;
+	}
+
+	public Point getNormalPlayerLocation() {
+		return normalPlayerLocation;
+	}
+
+	public int getMasterPlayerId() {
+		return masterPlayerId;
+	}
+
+	public int getNormalPlayerId() {
+		return normalPlayerId;
 	}
 
 	public ArrayList<Enemy> getEnemies() {
 		return enemies;
-	}
-
-	public void addElement(Element element) {
-		elements.add(element);
 	}
 
 	public BufferedImage getBackgroundImage() {
@@ -71,6 +82,10 @@ public class Room implements Serializable {
 		return null;
 	}
 
+	public void addElement(Element element) {
+		elements.add(element);
+	}
+
 	public void setElements(ArrayList<Element> elements) {
 		this.elements = elements;
 	}
@@ -83,12 +98,44 @@ public class Room implements Serializable {
 		this.doors = doors;
 	}
 
-	public void setPlayerLocation(int x, int y) {
-		playerLocation = new Point(x, y);
+	public void addPrize(Prize prize) {
+		prizes.add(prize);
 	}
 
-	public void setPlayerLocation(Point playerLocation) {
-		this.playerLocation = playerLocation;
+	public void setPrizes(ArrayList<Prize> prizes) {
+		this.prizes = prizes;
+	}
+
+	public void addBox(Box box) {
+		boxes.add(box);
+	}
+
+	public void setBoxes(ArrayList<Box> boxes) {
+		this.boxes = boxes;
+	}
+
+	public void setMasterPlayerLocation(int x, int y) {
+		masterPlayerLocation = new Point(x, y);
+	}
+
+	public void setMasterPlayerLocation(Point playerLocation) {
+		masterPlayerLocation = playerLocation;
+	}
+
+	public void setNormalPlayerLocation(int x, int y) {
+		normalPlayerLocation = new Point(x, y);
+	}
+
+	public void setNormalPlayerLocation(Point playerLocation) {
+		normalPlayerLocation = playerLocation;
+	}
+
+	public void setMasterPlayerId(int masterPlayerId) {
+		this.masterPlayerId = masterPlayerId;
+	}
+
+	public void setNormalPlayerId(int normalPlayerId) {
+		this.normalPlayerId = normalPlayerId;
 	}
 
 	/**
