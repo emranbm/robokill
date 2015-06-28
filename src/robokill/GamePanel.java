@@ -68,7 +68,7 @@ public class GamePanel extends JPanel {
 
 	private GamePanel() {
 		super();
-
+		
 		setBounds(0, 0, 1000, 700);
 
 		setSize(new Dimension(1024, 768));
