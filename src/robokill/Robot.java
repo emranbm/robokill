@@ -9,6 +9,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import client.ClientCore;
+import client.CommunicationConstants;
 import useful.Direction;
 
 /**
@@ -225,24 +227,32 @@ public abstract class Robot extends Element {
 				x, y));
 
 		if (collidedElement == null) {
-			changeBody();
-			curMoveDirection = null;
 
-			if (gamePanel.isElementInside(new Point(x, y), getSize()))
-			{
+			changeBody();
+
+			if (gamePanel.isElementInside(new Point(x, y), getSize())) {
 				this.setLocation(x, y);
-				return true;
+
+				if (this instanceof Enemy)
+					ClientCore.getClientCore().sendCommand(
+							CommunicationConstants.enemyMoveCommand(
+									this.getId(), curMoveDirection));
+				else
+					ClientCore.getClientCore().sendCommand(
+							CommunicationConstants.playerMoveCommand(
+									this.getId(), curMoveDirection));
+
+				curMoveDirection = null;
 			}
-			return false;
-		} 
-		else 
-		{
+			return true;
+		} else {
+
 			collidedWith(collidedElement);
 			return false;
 		}
 
 	}
-	
+
 	/**
 	 * for setting first location of bar while it is shooting!
 	 * 
@@ -293,7 +303,6 @@ public abstract class Robot extends Element {
 		int[] firstBarLocation = { finalX, finalY };
 		return firstBarLocation;
 	}
-
 
 	public abstract void collidedWith(Element element);
 

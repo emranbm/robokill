@@ -16,6 +16,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import client.ClientCore;
+import client.CommunicationConstants;
 import useful.Animation;
 
 /**
@@ -30,17 +32,20 @@ public class Player extends Robot implements Damagable {
 
 	public static String Player_Type_1 = "1";
 	public static String Player_Type_2 = "2";
-	
+
 	public RobotHead robotHead;
 
 	private int barType = Bar.BAR_TYPE_1;
 
-	public Player(int x, int y, int width, int height, int speed, int id , String type) {
-		super(x, y, width, height, speed, "/images/playerRobot/" + type + "/", 12);
+	public Player(int x, int y, int width, int height, int speed, int id,
+			String type) {
+		super(x, y, width, height, speed, "/images/playerRobot/" + type + "/",
+				12);
 
 		setId(id);
 
-		robotHead = new RobotHead("images/playerRobot/" + type + "/RobotH.png", this);
+		robotHead = new RobotHead("images/playerRobot/" + type + "/RobotH.png",
+				this);
 		robotHead.setBounds(0, 0, 60, 60);
 		add(robotHead);
 	}
@@ -60,6 +65,11 @@ public class Player extends Robot implements Damagable {
 	@Override
 	public void shoot(Point target) {
 
+		ClientCore.getClientCore()
+				.sendCommand(
+						CommunicationConstants.playerShootCommand(this.getId(),
+								target));
+
 		int[] firstBarLoction = super.setFirstBarLocation(target);
 
 		// TODO Implement bar power.
@@ -69,7 +79,6 @@ public class Player extends Robot implements Damagable {
 		GamePanel.getGamePanel().add(bar);
 		bar.start();
 	}
-
 
 	private void fallRobot() {
 		GamePanel.getGamePanel().remove(this);
@@ -90,7 +99,7 @@ public class Player extends Robot implements Damagable {
 			GamePanel.getGamePanel().gameEnded = true;
 			this.fallRobot();
 			GamePanel.getGamePanel().statusPanel.reduceHealth(100);
-		
+
 		} else if (element instanceof Prize) {
 			Prize prize = (Prize) element;
 			PrizeType prizeType = prize.achievePrize();
@@ -116,10 +125,10 @@ public class Player extends Robot implements Damagable {
 				barType = Bar.BAR_TYPE_2;
 				break;
 			}
-		
+
 		} else if (element instanceof Door) {
 			((Door) element).passToNextRoom();
-		
+
 		} else if (element instanceof Enemy) {
 			((Enemy) element).damage(100);
 			this.damage(20);

@@ -12,11 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -50,6 +46,7 @@ public class GamePanel extends JPanel {
 	private ArrayList<Element> elements = new ArrayList<Element>();
 	private ArrayList<Door> doors = new ArrayList<Door>();
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	private ArrayList<Prize> prizes = new ArrayList<Prize>();
 	private Room currentRoom;
 
 	private final Set<Integer> keys = new HashSet<Integer>(); // related to
@@ -290,12 +287,14 @@ public class GamePanel extends JPanel {
 
 		repaint();
 
-		if (comp instanceof Element)
+		if (comp instanceof Element) {
 			elements.remove(comp);
 
-		if (comp instanceof Enemy) {
-			enemies.remove(comp);
-			tryOpeningTheDoors();
+			if (comp instanceof Enemy) {
+				enemies.remove(comp);
+				tryOpeningTheDoors();
+			} else if (comp instanceof Prize)
+				prizes.remove(comp);
 		}
 	}
 
@@ -307,6 +306,8 @@ public class GamePanel extends JPanel {
 
 			if (comp instanceof Enemy)
 				enemies.add((Enemy) comp);
+			else if (comp instanceof Prize)
+				prizes.add((Prize) comp);
 		}
 
 		return super.add(comp);
@@ -387,6 +388,39 @@ public class GamePanel extends JPanel {
 			return true;
 		else
 			return false;
+	}
+
+	/**
+	 * Returns the prize that has the given id.
+	 * 
+	 * @param id
+	 *            The id of a prize to search for.
+	 * @return The prize that its id is equal to the given id. If such prize is
+	 *         not found the return value will be null.
+	 */
+	public Prize getPrizeById(int id) {
+		for (Prize p : prizes)
+			if (p.getId() == id)
+				return p;
+
+		return null;
+	}
+
+	/**
+	 * Returns the enemy that has the given id.
+	 * 
+	 * @param id
+	 *            The id of an enemy to serach for.
+	 * @return The enemy that its id is equal to the given id. If such enemy is
+	 *         not found the return value will be null.
+	 */
+	public Enemy getEnemyById(int id) {
+
+		for (Enemy en : enemies)
+			if (en.getId() == id)
+				return en;
+
+		return null;
 	}
 
 	// TODO Check if the key is achieved, then open.

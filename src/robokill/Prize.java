@@ -1,5 +1,8 @@
 package robokill;
 
+import client.ClientCore;
+import client.CommunicationConstants;
+
 /**
  * An element representing the prize concept to be added into
  * {@link robokill.Box Box}
@@ -70,6 +73,8 @@ public class Prize extends Element {
 	 */
 	public synchronized PrizeType achievePrize() {
 		GamePanel.getGamePanel().remove(this);
+		ClientCore.getClientCore().sendCommand(
+				CommunicationConstants.prizeAchievedCommand(this.getId()));
 		return type;
 	}
 

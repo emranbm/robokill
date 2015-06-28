@@ -1,5 +1,6 @@
 package client;
 
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,6 +8,11 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
+import robokill.Enemy;
+import robokill.GamePanel;
+import robokill.Prize;
+import useful.Direction;
 
 /**
  * A class to handle the communication with the server.
@@ -17,29 +23,36 @@ import java.net.UnknownHostException;
  */
 public class ClientCore extends Thread {
 
-	private String serverName;
+	private static ClientCore This;
+
+	/**
+	 * Returns the client core, if exists. Otherwise, an instance of ClientCore
+	 * will be created and returned.
+	 * 
+	 * @return The client core instance.
+	 */
+	public static ClientCore getClientCore() {
+		if (This == null)
+			This = new ClientCore();
+
+		return This;
+	}
+
 	private Socket socket;
 	private BufferedReader input;
 	private PrintWriter output;
 
-	/**
-	 * Creates an instance of {@link client.ClientCore ClientCore} with the
-	 * given server name.
-	 * 
-	 * @param serverName
-	 *            The name of the server that is shown in the network.
-	 */
-	public ClientCore(String serverName) {
-		this.serverName = serverName;
+	private ClientCore() {
 	}
 
 	/**
 	 * Connects to the server and receives the client type: master/normal.
 	 * 
+	 * @param serverName
+	 *            The name of the server that is shown in the network.
 	 * @return Client type. Returns null if connecting fails.
 	 */
-	public String connect() {
-
+	public String connect(String serverName) {
 		try {
 			socket = new Socket(InetAddress.getByName(serverName), 5050);
 			input = new BufferedReader(new InputStreamReader(
@@ -55,14 +68,19 @@ public class ClientCore extends Thread {
 		return null;
 	}
 
+	int c = 1;
+
 	/**
 	 * Sends a command to the server.
 	 * 
 	 * @param command
 	 *            The command to be sent.
 	 */
-	public void sendCommand(String command) {
-		output.println(command);
+	public synchronized void sendCommand(String command) {
+		/* for test: the output is commented */
+		System.out.println(c++ + ": " + command);
+		// TODO just uncomment below line:
+		// output.println(command);
 	}
 
 	/**
@@ -77,10 +95,43 @@ public class ClientCore extends Thread {
 
 	@Override
 	public void run() {
+		GamePanel gamePanel = GamePanel.getGamePanel();
 		while (true) {
 			try {
 				String command = input.readLine();
-				// TODO switch on command.
+				String[] attr = command.trim().split(" ");
+
+				int id = Integer.parseInt(attr[1]);
+
+				switch (attr[0]) {
+				case "prize":
+					// prize achieved.
+					Prize prize = gamePanel.getPrizeById(id);
+					gamePanel.remove(prize);
+					break;
+				case "player":
+					// player command: shoot/move
+					if (attr[2].equals("shoot")) {
+						int x = Integer.parseInt(attr[3]);
+						int y = Integer.parseInt(attr[4]);
+						gamePanel.playerRobot2.shoot(new Point(x, y));
+					} else {
+						gamePanel.playerRobot2.move(Direction.valueOf(attr[3]));
+					}
+					break;
+				case "enemy":
+					// enemy command: shoot/move
+					Enemy enemy = gamePanel.getEnemyById(id);
+					if (attr[2].equals("shoot")) {
+						int x = Integer.parseInt(attr[3]);
+						int y = Integer.parseInt(attr[4]);
+						enemy.shoot(new Point(x, y));
+					} else {
+						enemy.move(Direction.valueOf(attr[3]));
+					}
+					break;
+				}
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

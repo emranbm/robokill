@@ -18,7 +18,7 @@ import useful.ImageFactory;
 /**
  *
  * @author HRM_Shams
- * @version 1.1
+ * @version 1.2
  */
 public class GameFrame extends JFrame {
 

@@ -3,6 +3,8 @@ package robokill;
 import java.awt.Dimension;
 import java.awt.Point;
 
+import client.ClientCore;
+import client.CommunicationConstants;
 import useful.Animation;
 import useful.Direction;
 
@@ -20,8 +22,13 @@ public class Enemy extends Robot implements Runnable, Damagable {
 	public static final String ENEMY_TYPE_3 = "3";
 
 	private String enemyType;
-	private static final int[] imageNumbers = {29,20,29}; //this variable needed for the constructor of this class!
-	
+	private static final int[] imageNumbers = { 29, 20, 29 }; // this variable
+																// needed for
+																// the
+																// constructor
+																// of this
+																// class!
+
 	private int health = 100;
 	public boolean robotIsDied = false;
 
@@ -29,8 +36,9 @@ public class Enemy extends Robot implements Runnable, Damagable {
 
 	String enemyType, int id) {
 		super(x, y, width, height, speed, "/images/enemies/" + enemyType + "/",
-				imageNumbers [ Integer.valueOf (enemyType) - 1 ] ); //some strange works!
-		
+				imageNumbers[Integer.valueOf(enemyType) - 1]); // some strange
+																// works!
+
 		this.enemyType = enemyType;
 		setId(id);
 	}
@@ -135,26 +143,27 @@ public class Enemy extends Robot implements Runnable, Damagable {
 		while (!GamePanel.isGamePanelReady())
 			Thread.yield();
 
-		int counter = 1 ;
-		
+		int counter = 1;
+
 		while (!robotIsDied) {
 			selectDirectionAndMove();
 
-			if (this.enemyType.equals(this.ENEMY_TYPE_3)) //if enemy type == 3 -> do shooting!
+			if (this.enemyType.equals(ENEMY_TYPE_3)) // if enemy type == 3
+														// -> do shooting!
 			{
-				counter ++ ;
-				
-				if (counter == 20)
-				{
+				counter++;
+
+				if (counter == 20) {
 					shoot(null);
 					counter = 0;
 				}
-	
+
 			}
 
-			try{
+			try {
 				Thread.sleep(20);
-			}catch(Exception e){}
+			} catch (Exception e) {
+			}
 		}
 	}
 
@@ -174,20 +183,23 @@ public class Enemy extends Robot implements Runnable, Damagable {
 
 	@Override
 	public void shoot(Point target) {
-		
-		//discovering best direction for shooting!
+
+		// discovering best direction for shooting!
 		Point rLocation = GamePanel.getGamePanel().playerRobot1.getLocation();
-		Point PC = new Point ( rLocation.x + 30 , rLocation.y + 30) ;
-		
+		Point PC = new Point(rLocation.x + 30, rLocation.y + 30);
+
+		ClientCore.getClientCore().sendCommand(
+				CommunicationConstants.enemyShootCommand(this.getId(), PC));
+
 		int[] firstBarLoction = super.setFirstBarLocation(PC);
 
 		// TODO Implement bar power.
 		Bar bar = new Bar(new Point(firstBarLoction[0], firstBarLoction[1]),
-				PC, Bar.BAR_TYPE_1 , Bar.BAR_POWER_LIGHT , Bar.ENEMY_BAR_OWNED);
+				PC, Bar.BAR_TYPE_1, Bar.BAR_POWER_LIGHT, Bar.ENEMY_BAR_OWNED);
 
 		GamePanel.getGamePanel().add(bar);
 		bar.start();
-		
+
 	}
 
 	@Override
