@@ -61,10 +61,10 @@ public class GameMap extends JPanel{
 				isMoving = true;
 				while (getY() != 140)
 				{
-					setLocation(188	, getY() + 1);
+					setLocation(188	, getY() + 3);
 					
 					try{
-					Thread.sleep(1);
+					Thread.sleep(4);
 					}catch(Exception e){System.out.println("Erron in sleeping!");}
 				}
 				isMoving = false;
@@ -85,10 +85,10 @@ public class GameMap extends JPanel{
 				isMoving = true;
 				while (getY() != -421)
 				{
-					setLocation(188	, getY() - 1);
+					setLocation(188	, getY() - 3);
 
 					try{
-					Thread.sleep(1);
+					Thread.sleep(4);
 					}catch(Exception e){System.out.println("Erron in sleeping!");}
 				}
 				isMoving = false;
