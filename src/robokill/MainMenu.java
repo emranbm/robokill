@@ -1,14 +1,21 @@
 package robokill;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import client.ClientCore;
 
@@ -111,6 +118,226 @@ public class MainMenu extends JPanel {
 		g.drawImage(background, 0, 0, null);
 	}
 
+	/**
+	 * this class used in Btn class!
+	 */
+	/** class multiplayer Panel **/
+	class MultiPlayerPanel extends JPanel{
+		BufferedImage image ;
+		JTextField serverAddress;
+		JLabel state;
+		MultiPlayerPanel mppRef = this;
+		
+		MultiPlayerPanel()
+		{
+			setSize(549,230);
+			setLocation(225,235);
+			setOpaque(false);
+			setLayout(null);
+			
+			/** adding JLabel state!**/
+			state = new JLabel("");
+			state.setForeground(Color.black);
+			state.setLocation(17,208);
+			state.setSize(200, 10);
+			add(state);
+			
+			/** adding JTextField**/
+			serverAddress = new JTextField("");
+			serverAddress.setBounds(28,106,496,23);
+			serverAddress.setOpaque(false);
+			serverAddress.setBorder(null);
+			serverAddress.setForeground(Color.white);
+			add(serverAddress);
+			
+			/** adding toolbar **/
+			ToolBar toolbar = new ToolBar(this);
+			add(toolbar);
+			
+			/** adding connectBtn **/
+			add (new ConnectBtn());
+			
+			/**close btn**/
+			JPanel cancelBtn;
+			cancelBtn = new JPanel();
+			cancelBtn.setOpaque(false);
+			cancelBtn.setSize(173,34);
+			cancelBtn.setLocation(287, 160);
+			cancelBtn.addMouseListener(new MouseListener() {
+				@Override
+				public void mouseReleased(MouseEvent e) {}
+				
+				@Override
+				public void mousePressed(MouseEvent e) {}
+				
+				@Override
+				public void mouseExited(MouseEvent e) {}
+				
+				@Override
+				public void mouseEntered(MouseEvent e) {}
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					MainMenu.getMainMenu().remove(mppRef);
+					MainMenu.getMainMenu().repaint();
+				}
+			});
+			add(cancelBtn);
+			/**end of adding close BTN**/
+			
+			try{
+			image = ImageIO.read(getClass().getResource("/images/mainMenu/multiplayerPanel.png"));
+			}catch(Exception e){System.out.println("error in reading file!");}
+		}
+		
+		@Override
+		public void paintComponent(Graphics g)
+		{
+			g.drawImage(image , 0 , 0 , null);
+		}
+		
+		/**
+		 * this class is a panel that by clicking try to connect to server
+		 */
+		class ConnectBtn extends JPanel{
+			public ConnectBtn()
+			{
+				setSize(173,34);
+				setLocation(96,160);
+				setOpaque(false);
+				
+				addMouseListener(new MouseListener() {
+				
+				@Override
+				public void mouseReleased(MouseEvent e) {}
+				
+				@Override
+				public void mousePressed(MouseEvent e) {}
+				
+				@Override
+				public void mouseExited(MouseEvent e) {}
+				
+				@Override
+				public void mouseEntered(MouseEvent e) {}
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					String hostAddress = serverAddress.getText();
+					
+					state.setText("Trying to connect to server...");
+					System.out.println("Trying to connect to server...");
+					
+					String result = ClientCore.getClientCore().connect(
+					hostAddress);
+					
+					System.out.println("connected as: " + result);
+					
+					if (result == null)
+						state.setText("Connection failed!");
+
+					else if (result.equals("normal")) 
+					{
+					ClientCore.getClientCore().sendCommand("start");
+					GamePanel.instantiate(gameFrameRef,true, false);
+					ClientCore.getClientCore().start();
+					playGame();
+					} 
+					
+					else if (result.equals("master")) 
+					{
+					GamePanel.instantiate(gameFrameRef,true, true);
+					ClientCore.getClientCore().start();
+				// Waits and listens until get start command.
+				// TODO nothing. Just a graphical waiting!
+					}
+					
+				}
+			});	
+			}
+			
+		}
+		
+		/**
+		 * this class used for closing panel and moving it!
+		 */
+		class ToolBar extends JPanel{
+
+			private Point initialClick;
+			private MultiPlayerPanel mppRef;
+			private JPanel closeBtn;
+			
+			public ToolBar(MultiPlayerPanel mppRef){
+				this.mppRef = mppRef;
+				
+				setOpaque(false);
+				setLocation(0, 0);
+				setSize(547,44);
+				setLayout(null);
+				
+				/**close btn**/
+				closeBtn = new JPanel();
+				closeBtn.setOpaque(false);
+				closeBtn.setSize(15,15);
+				closeBtn.setLocation(520, 14);
+				closeBtn.addMouseListener(new MouseListener() {
+					@Override
+					public void mouseReleased(MouseEvent e) {}
+					
+					@Override
+					public void mousePressed(MouseEvent e) {}
+					
+					@Override
+					public void mouseExited(MouseEvent e) {}
+					
+					@Override
+					public void mouseEntered(MouseEvent e) {}
+					
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						MainMenu.getMainMenu().remove(mppRef);
+						MainMenu.getMainMenu().repaint();
+					}
+				});
+				add(closeBtn);
+				/**end of adding close BTN**/
+				
+		        /***add mouse listeners***/
+		        this.addMouseListener(new MouseAdapter() {
+		        	
+		        public void mousePressed(MouseEvent e) {
+		            initialClick = e.getPoint();
+		            getComponentAt(initialClick);
+		        }
+		        });
+
+		        addMouseMotionListener(new MouseMotionAdapter() {
+
+	        	@Override
+		        public void mouseDragged(MouseEvent e) {
+
+	        		// get location of Window
+		            int thisX = mppRef.getLocation().x;
+		            int thisY = mppRef.getLocation().y;
+
+		            // Determine how much the mouse moved since the initial click
+		            int xMoved = (thisX + e.getX()) - (thisX + initialClick.x);
+		            int yMoved = (thisY + e.getY()) - (thisY + initialClick.y);
+
+		            // Move window to this position
+		            int X = thisX + xMoved;
+		            int Y = thisY + yMoved;
+		            mppRef.setLocation(X, Y);
+		            mppRef.repaint();
+		        }
+		    });        
+				
+			}
+			
+		}
+		
+	}
+	/**end of class MultiPlayerPanel**/
+	
 	/** class Btn **/
 	class Btn extends JPanel {
 
@@ -159,33 +386,37 @@ public class MainMenu extends JPanel {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if (e.getSource() == mainMenuRef.singlePlayerGameBtn) {
-						GamePanel.instantiate(false, true);
+						GamePanel.instantiate(gameFrameRef,false, true);
 						mainMenuRef.playGame();
+						
 					} else if (e.getSource() == mainMenuRef.exitBtn) {
 						System.exit(0);
+					
 					} else if (e.getSource() == mainMenuRef.multiPlayerBtn) {
 						// TODO toooooooooooooo weak graphics!
-						String hostAddress = JOptionPane
-								.showInputDialog(mainMenuRef,
-										"Enter the server computer address! (The name diplayed in network)");
-						System.out.println("Trying to connect to server...");
-						String result = ClientCore.getClientCore().connect(
-								hostAddress);
-						System.out.println("connected as: " + result);
-						if (result == null)
-							JOptionPane.showMessageDialog(mainMenuRef,
-									"Connection failed!");
-						else if (result.equals("normal")) {
-							ClientCore.getClientCore().sendCommand("start");
-							GamePanel.instantiate(true, false);
-							ClientCore.getClientCore().start();
-							playGame();
-						} else if (result.equals("master")) {
-							GamePanel.instantiate(true, true);
-							ClientCore.getClientCore().start();
-							// Waits and listens until get start command.
-							// TODO nothing. Just a graphical waiting!
-						}
+						mainMenuRef.add (new MultiPlayerPanel());
+						mainMenuRef.repaint();
+//						String hostAddress = JOptionPane
+//								.showInputDialog(mainMenuRef,
+//										"Enter the server computer address! (The name diplayed in network)");
+//						System.out.println("Trying to connect to server...");
+//						String result = ClientCore.getClientCore().connect(
+//								hostAddress);
+//						System.out.println("connected as: " + result);
+//						if (result == null)
+//							JOptionPane.showMessageDialog(mainMenuRef,
+//									"Connection failed!");
+//						else if (result.equals("normal")) {
+//							ClientCore.getClientCore().sendCommand("start");
+//							GamePanel.instantiate(gameFrameRef,true, false);
+//							ClientCore.getClientCore().start();
+//							playGame();
+//						} else if (result.equals("master")) {
+//							GamePanel.instantiate(gameFrameRef,true, true);
+//							ClientCore.getClientCore().start();
+//							// Waits and listens until get start command.
+//							// TODO nothing. Just a graphical waiting!
+//						}
 					}
 				}
 			});

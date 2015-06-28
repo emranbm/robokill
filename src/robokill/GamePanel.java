@@ -22,6 +22,7 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import useful.Animation;
 import useful.Direction;
 import useful.GlobalKeyListenerFactory;
 
@@ -52,11 +53,11 @@ public class GamePanel extends JPanel {
 	 * @param isMaster
 	 * @return The instantiated {@link robokill.GamePanel GamePanel}.
 	 */
-	public static GamePanel instantiate(boolean isMultiPlayer, boolean isMaster) {
+	public static GamePanel instantiate(GameFrame gameFrame , boolean isMultiPlayer, boolean isMaster) {
 		GamePanel.isMaster = isMaster;
 		GamePanel.isMultiPlayer = isMultiPlayer;
 		System.out.println("GamePanel instantiated.");
-		return This = new GamePanel();
+		return This = new GamePanel(gameFrame);
 	}
 
 	public static GamePanel getGamePanel() {
@@ -102,9 +103,12 @@ public class GamePanel extends JPanel {
 	// /////////////////////////End of static/////////////////
 	// /////////////////////////phase////////////////////////
 
+	private GameFrame gameFrameRef;
+
 	public Player playerRobot1; // the panel of playerRobot!
 	public Player playerRobot2; // the second player (used in multiplayer!)
 	private GameMap map;
+	private Animation gameOver;
 	private BufferedImage background;
 
 	private boolean isShooting = false;
@@ -126,22 +130,37 @@ public class GamePanel extends JPanel {
 
 	public StatusPanel statusPanel = new StatusPanel();
 
-	private GamePanel() {
+	private GamePanel(GameFrame gameFrameRef) {
 		super();
 
 		System.out.println("Start of Game panel constructor.");
 
+		this.gameFrameRef = gameFrameRef;
+		
 		setBounds(0, 0, 1000, 700);
 
 		setSize(new Dimension(1024, 768));
 		setLayout(null);
 
+		/** GameMap **/
 		map = new GameMap();
 		add(map);
+
+
+		/** add GameOver Animation panel to GamePanel **/
+		gameOver = new Animation(new Point(1, 0),
+				new Dimension(1000,700),
+				"/images/GameOverAnimation/",
+				20,
+				40,
+				1,
+				false);
+		add(gameOver);
 
 		/** status bar **/
 		add(statusPanel);
 		/**************/
+
 
 		/** adding mouseListener (for rotating head of robot and shooting) **/
 		addMouseListenersForRobot();
@@ -363,6 +382,23 @@ public class GamePanel extends JPanel {
 
 	}
 
+	/**
+	 * when health of robot<=0 this method will be called by statusPanel method!
+	 */
+	public void gameOver()
+	{
+		gameOver.start();
+		
+		try{
+		Thread.sleep(3000);
+		}catch(Exception e){}
+		
+		gameFrameRef.remove(this);
+		gameFrameRef.add(MainMenu.getMainMenu());
+		
+		gameFrameRef.repaint();
+	}
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		g.drawImage(background, 0, 0, this);

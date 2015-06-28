@@ -1,6 +1,7 @@
 package robokill;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -10,6 +11,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import useful.Animation;
 
 /**
  * 
@@ -22,7 +25,7 @@ public class StatusPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private int health = 100;
-	private int shield = 0;
+	private int shield = 100;
 	private int money = 0;
 	private int keys = 0; // this field saves number of keys!
 
@@ -63,6 +66,33 @@ public class StatusPanel extends JPanel {
 	}
 
 	/**
+	 * when Robot damage method (in class Player) then this method will be called!
+	 * this method try to reduce from shield and health together!
+	 */
+	public synchronized void doReducing(int reducePercent)
+	{
+		int healthReducePercent ;
+		int shieldReducePercent ;
+
+		shieldReducePercent = (int) (reducePercent * 0.6) ;
+		healthReducePercent = (int) (reducePercent * 0.4) ;
+		
+		if (shield >= shieldReducePercent)
+		{
+			reduceShield(shieldReducePercent);
+			reduceHealth(healthReducePercent);
+		}
+		else
+		{
+			shieldReducePercent = shield;
+			healthReducePercent = reducePercent - shield;
+
+			reduceShield(shieldReducePercent);
+			reduceHealth(healthReducePercent);
+		}
+	}
+	
+	/**
 	 * Reduces the health of the player.
 	 * 
 	 * @param reducePercent
@@ -72,9 +102,6 @@ public class StatusPanel extends JPanel {
 		new Thread() {
 			public void run() {
 				health -= reducePercent;
-				if (health < 0)
-					health = 0;
-
 				int reduceAmount = (int) ((double) (reducePercent / 100.0) * 117);
 
 				int curX = healthBar.getX();
@@ -89,6 +116,11 @@ public class StatusPanel extends JPanel {
 					} catch (Exception e) {
 						System.out.println("error in sleeping");
 					}
+				}
+				if (health <= 0)
+				{
+					//TODO die
+					GamePanel.getGamePanel().gameOver();
 				}
 			}
 		}.start();
@@ -139,11 +171,12 @@ public class StatusPanel extends JPanel {
 	public synchronized void reduceShield(int reducePercent) {
 		new Thread() {
 			public void run() {
+
 				shield -= reducePercent;
 				if (shield < 0)
 					shield = 0;
 
-				int reduceAmount = (int) ((double) (reducePercent / 100) * 117);
+				int reduceAmount = (int) ((double) (reducePercent / 100.0) * 117);
 
 				int curX = shieldBar.getX();
 				int curY = shieldBar.getY();
