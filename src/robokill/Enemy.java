@@ -216,6 +216,11 @@ public class Enemy extends Robot implements Runnable, Damagable {
 
 			if (isMaster()) {
 				if (!isServerCommand) {
+
+					ClientCore.getClientCore().sendCommand(
+							CommunicationConstants.enemyDestroyCommand(this
+									.getId()));
+
 					robotIsDied = true;
 
 					Animation fireExplosion = new Animation(this.getLocation(),
