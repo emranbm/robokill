@@ -149,7 +149,7 @@ public class ClientCore extends Thread {
 					// enemy command: shoot/move
 					Enemy enemy = gamePanel.getEnemyById(id);
 					if (enemy == null)
-						return;
+						continue;
 					switch (attr[2]) {
 					case "shoot":
 						int x = Integer.parseInt(attr[3]);
