@@ -35,17 +35,19 @@ public class Run {
 					new InputStreamReader(client1.getInputStream()));
 			// String client1Type = client1input.readLine();
 			client1.getOutputStream().write("master\r\n".getBytes());
+			client1.getOutputStream().flush();
 
-			System.out.println("normal client connected");
+			System.out.println("master client connected: "+ client1.getInetAddress());
 
 			/* Second client connects and sends its type: master OR normal */
 			Socket client2 = serverSocket.accept();
 			BufferedReader client2input = new BufferedReader(
 					new InputStreamReader(client2.getInputStream()));
 			// String client2Type = client2input.readLine();
-			client1.getOutputStream().write("normal\r\n".getBytes());
+			client2.getOutputStream().write("normal\r\n".getBytes());
+			client2.getOutputStream().flush();
 
-			System.out.println("normal client connected");
+			System.out.println("normal client connected: "+ client2.getInetAddress());
 
 			// serverSocket.close();
 

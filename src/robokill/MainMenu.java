@@ -168,6 +168,7 @@ public class MainMenu extends JPanel {
 						String hostAddress = JOptionPane
 								.showInputDialog(mainMenuRef,
 										"Enter the server computer address! (The name diplayed in network)");
+						System.out.println("Trying to connect to server...");
 						String result = ClientCore.getClientCore().connect(
 								hostAddress);
 						System.out.println("connected as: " + result);
