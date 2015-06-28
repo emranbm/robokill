@@ -60,7 +60,7 @@ public class Run {
 			masterHandler = new MasterHandler(client1input,
 					client2.getOutputStream());
 			normalHandler = new NormalHandler(client2input,
-					client2.getOutputStream());
+					client1.getOutputStream());
 
 			masterHandler.start();
 			normalHandler.start();

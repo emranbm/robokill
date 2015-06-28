@@ -56,9 +56,9 @@ public class ClientCore extends Thread {
 	public String connect(String serverName) {
 		try {
 			socket = new Socket(InetAddress.getByName(serverName), 5050);
+			output = new PrintWriter(socket.getOutputStream());
 			input = new BufferedReader(new InputStreamReader(
 					socket.getInputStream()));
-			output = new PrintWriter(socket.getOutputStream());
 			return input.readLine();
 		} catch (UnknownHostException e) {
 			// e.printStackTrace();
@@ -95,13 +95,14 @@ public class ClientCore extends Thread {
 	 */
 	@Override
 	public synchronized void start() {
-		//if (socket != null && socket.isConnected() && !socket.isClosed())
-			super.start();
+		// if (socket != null && socket.isConnected() && !socket.isClosed())
+		super.start();
 	}
 
 	@Override
 	public void run() {
 		GamePanel gamePanel = GamePanel.getGamePanel();
+		System.out.println("Client core started!");
 		while (true) {
 			try {
 				String command = input.readLine();

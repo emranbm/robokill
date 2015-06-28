@@ -38,7 +38,7 @@ public class NormalHandler extends Thread {
 			try {
 				masterOutput.println(normalInput.readLine());
 				masterOutput.flush();
-				System.out.println("normal handler command.");
+				//System.out.println("normal handler command.");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

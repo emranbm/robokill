@@ -125,7 +125,7 @@ public class GamePanel extends JPanel {
 
 	private GamePanel() {
 		super();
-		
+
 		System.out.println("Start of Game panel constructor.");
 
 		setBounds(0, 0, 1000, 700);
@@ -142,11 +142,23 @@ public class GamePanel extends JPanel {
 
 		/** adding playerRobot to gamePanel **/
 
-		playerRobot1 = new Player(0, 320, 60, 60, 6, 0, Player.Player_Type_1);
-		add(playerRobot1);
+		if (isMaster) {
+			playerRobot1 = new Player(0, 320, 60, 60, 6, 0,
+					Player.Player_Type_1);
+			add(playerRobot1);
 
-		playerRobot2 = new Player(700, 320, 60, 60, 6, 1, Player.Player_Type_2);
-		add(playerRobot2);
+			playerRobot2 = new Player(700, 320, 60, 60, 6, 1,
+					Player.Player_Type_2);
+			add(playerRobot2);
+		} else {
+			playerRobot1 = new Player(700, 320, 60, 60, 6, 1,
+					Player.Player_Type_2);
+			add(playerRobot1);
+
+			playerRobot2 = new Player(0, 320, 60, 60, 6, 0,
+					Player.Player_Type_1);
+			add(playerRobot2);
+		}
 
 		/** adding mouseListener (for rotating head of robot and shooting) **/
 		addMouseListenersForRobot();
@@ -176,7 +188,6 @@ public class GamePanel extends JPanel {
 		// }
 
 		tryOpeningTheDoors();
-		
 
 		System.out.println("End of Game panel constructor.");
 
