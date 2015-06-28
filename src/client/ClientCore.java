@@ -83,6 +83,7 @@ public class ClientCore extends Thread {
 		// TODO just uncomment below line:
 		try {
 			output.println(command);
+			output.flush();
 		} catch (Exception e) {
 			System.out.println(c++ + ": " + command);
 		}
@@ -94,7 +95,7 @@ public class ClientCore extends Thread {
 	 */
 	@Override
 	public synchronized void start() {
-		if (socket != null && socket.isConnected() && !socket.isClosed())
+		//if (socket != null && socket.isConnected() && !socket.isClosed())
 			super.start();
 	}
 
