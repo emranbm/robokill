@@ -145,7 +145,7 @@ public class ClientCore extends Thread {
 					}
 					break;
 				case "start":
-					MainMenu.getMainMenu().playGame(true, true);
+					MainMenu.getMainMenu().playGame();
 				}
 
 			} catch (IOException e) {

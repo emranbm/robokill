@@ -99,7 +99,7 @@ public class MainMenu extends JPanel {
 	 * 
 	 * @param isMultiPlayer
 	 */
-	public void playGame(boolean isMultiPlayer, boolean isMaster) {
+	public void playGame() {
 		gameFrameRef.remove(this);
 		gameFrameRef.add(GamePanel.getGamePanel(), BorderLayout.CENTER);
 		gameFrameRef.repaint();
@@ -160,7 +160,7 @@ public class MainMenu extends JPanel {
 				public void mouseClicked(MouseEvent e) {
 					if (e.getSource() == mainMenuRef.singlePlayerGameBtn) {
 						GamePanel.instantiate(false, true);
-						mainMenuRef.playGame(false, true);
+						mainMenuRef.playGame();
 					} else if (e.getSource() == mainMenuRef.exitBtn) {
 						System.exit(0);
 					} else if (e.getSource() == mainMenuRef.multiPlayerBtn) {
@@ -179,7 +179,7 @@ public class MainMenu extends JPanel {
 							ClientCore.getClientCore().sendCommand("start");
 							GamePanel.instantiate(true, false);
 							ClientCore.getClientCore().start();
-							playGame(true, false);
+							playGame();
 						} else if (result.equals("master")) {
 							GamePanel.instantiate(true, true);
 							ClientCore.getClientCore().start();
