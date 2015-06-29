@@ -17,7 +17,8 @@ public class RoboKill {
 	 *            the command line arguments
 	 */
 	public static void main(String[] args) {
-		new GameFrame();
+		//new GameFrame();
+		GameFrame.getGameFrame();
 	}
 
 }

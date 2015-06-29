@@ -20,7 +20,16 @@ public class GameFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	public GameFrame() {
+	private static GameFrame This;
+
+	public static GameFrame getGameFrame() {
+		if (This == null)
+			This = new GameFrame();
+
+		return This;
+	}
+
+	private GameFrame() {
 		setResizable(false);
 
 		setSize(new Dimension(1000, 700));

@@ -231,11 +231,12 @@ public abstract class Robot extends Element {
 
 		if (this instanceof Player)
 			changeBody();
-		if (collidedElement == null) {
+		if (collidedElement == null
+				|| (collidedElement instanceof Prize && this instanceof Enemy)) {
 
 			if (this instanceof Enemy)
 				changeBody();
-			
+
 			if (gamePanel.isElementInside(new Point(x, y), getSize())) {
 				this.setLocation(x, y);
 

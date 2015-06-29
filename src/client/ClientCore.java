@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import robokill.Enemy;
+import robokill.GameFrame;
 import robokill.GamePanel;
 import robokill.MainMenu;
 import robokill.Prize;
@@ -83,7 +84,7 @@ public class ClientCore extends Thread {
 			output.println(command);
 			output.flush();
 		} catch (Exception e) {
-			//System.out.println(c++ + ": " + command);
+			// System.out.println(c++ + ": " + command);
 		}
 	}
 
@@ -165,6 +166,7 @@ public class ClientCore extends Thread {
 					}
 					break;
 				case "start":
+					GamePanel.instantiate(GameFrame.getGameFrame(), true, true);
 					MainMenu.getMainMenu().playGame();
 				}
 
