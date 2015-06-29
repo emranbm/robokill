@@ -143,7 +143,7 @@ public class GamePanel extends JPanel {
 		/** adding playerRobot to gamePanel **/
 
 		if (isMaster) {
-			playerRobot1 = new Player(100, 320, 60, 60, 6, 0,
+			playerRobot1 = new Player(0, 320, 60, 60, 6, 0,
 					Player.Player_Type_1);
 			add(playerRobot1);
 
@@ -155,7 +155,7 @@ public class GamePanel extends JPanel {
 					Player.Player_Type_2);
 			add(playerRobot1);
 
-			playerRobot2 = new Player(100, 320, 60, 60, 6, 0,
+			playerRobot2 = new Player(0, 320, 60, 60, 6, 0,
 					Player.Player_Type_1);
 			add(playerRobot2);
 		}
@@ -300,8 +300,8 @@ public class GamePanel extends JPanel {
 		doors.add(door4);
 
 		/** set playerRobot location **/
-		Point playerLocation = new Point(451, 550);
-		playerRobot1.setLocation(playerLocation);
+//		Point playerLocation = new Point(451, 550);
+//		playerRobot1.setLocation(playerLocation);
 
 		/** set room background address **/
 		String roomBackgroundAddress = "/images/rooms/1.png";
@@ -325,7 +325,7 @@ public class GamePanel extends JPanel {
 				room.addElement(element);
 
 		room.setDoors(doors);
-		room.setPlayerLocation(playerLocation);
+//		room.setPlayerLocation(playerLocation);
 		room.setBackgroundImagePath(roomBackgroundAddress);
 
 		// try {
