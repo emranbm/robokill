@@ -52,7 +52,6 @@ public class Player extends Robot implements Damagable {
 
 	@Override
 	public void damage(int amount, boolean isServerCommand) {
-		//TODO DIE!
 		GamePanel.getGamePanel().statusPanel.reduceHealth(amount);
 	}
 
@@ -113,8 +112,6 @@ public class Player extends Robot implements Damagable {
 				gamePanel.statusPanel.increaseHealth(10);
 				break;
 			case Key:
-				// TODO instead of this method, the key should be placed in
-				// status panel.
 				gamePanel.statusPanel.keyPanel.addKey();
 				break;
 			case Money:

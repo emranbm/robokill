@@ -73,8 +73,10 @@ public class StatusPanel extends JPanel {
 			public void run() {
 				health -= reducePercent;
 				if (health < 0)
+				{
+					//TODO die
 					health = 0;
-
+				}
 				int reduceAmount = (int) ((double) (reducePercent / 100.0) * 117);
 
 				int curX = healthBar.getX();

@@ -96,8 +96,6 @@ public class Door extends Element {
 		if (!isOpened)
 			return false;
 
-		// TODO Go to next room.
-
 		Animation changeRoom = new Animation(new Point(0, 0), new Dimension(
 				1000, 700), "/images/changeRoom/", 26, 35, 1, true);
 
@@ -120,7 +118,6 @@ public class Door extends Element {
 			gamePanel.rearrange(newRoom);
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
-			// TODO handle end of the Game!
 		}
 
 		return true;
