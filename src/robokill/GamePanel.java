@@ -227,8 +227,18 @@ public class GamePanel extends JPanel {
 		playerRobot1.setLocation(room.getMasterPlayerLocation());
 
 		if (isMultiPlayer) {
-			playerRobot2.setId(room.getNormalPlayerId());
-			playerRobot2.setLocation(room.getNormalPlayerLocation());
+			if (isMaster) {
+				playerRobot1.setId(room.getMasterPlayerId());
+				playerRobot1.setLocation(room.getMasterPlayerLocation());
+				playerRobot2.setId(room.getNormalPlayerId());
+				playerRobot2.setLocation(room.getNormalPlayerLocation());
+			} else {
+
+				playerRobot2.setId(room.getMasterPlayerId());
+				playerRobot2.setLocation(room.getMasterPlayerLocation());
+				playerRobot1.setId(room.getNormalPlayerId());
+				playerRobot1.setLocation(room.getNormalPlayerLocation());
+			}
 		}
 
 		background = room.getBackgroundImage();
@@ -267,7 +277,7 @@ public class GamePanel extends JPanel {
 		/** changing map **/
 		map.setCurrentRoom(room.getId());
 		map.setHomeOccupied(room.getId());
-		
+
 		repaint();
 
 		tryOpeningTheDoors();
