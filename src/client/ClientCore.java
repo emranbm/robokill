@@ -175,7 +175,10 @@ public class ClientCore extends Thread {
 					}
 					break;
 				case "room":
-					gamePanel.getDoorByRoomId(id).passToNextRoom();
+					try {
+						gamePanel.getDoorByRoomId(id).passToNextRoom();
+					} catch (Exception e) {
+					}
 					break;
 				case "start":
 					GamePanel.instantiate(GameFrame.getGameFrame(), true, true);
