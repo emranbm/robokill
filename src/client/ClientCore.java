@@ -101,6 +101,15 @@ public class ClientCore extends Thread {
 
 	@Override
 	public void run() {
+		if (GamePanel.isMaster())
+			try {
+				System.out.println(input.readLine());
+				GamePanel.instantiate(GameFrame.getGameFrame(), true, true);
+				MainMenu.getMainMenu().playGame();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+
 		GamePanel gamePanel = GamePanel.getGamePanel();
 		System.out.println("Client core started!");
 		while (true) {

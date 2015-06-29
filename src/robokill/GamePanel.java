@@ -44,7 +44,7 @@ public class GamePanel extends JPanel {
 	// //////////////////////////////phase////////////////////////
 
 	private static GamePanel This;
-	private static boolean isMaster;
+	private static boolean isMaster = true;
 	private static boolean isMultiPlayer;
 
 	/**
@@ -124,6 +124,7 @@ public class GamePanel extends JPanel {
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	private ArrayList<Prize> prizes = new ArrayList<Prize>();
 	private ArrayList<Box> boxes = new ArrayList<Box>();
+	private ArrayList<Integer> seenIds = new ArrayList<Integer>();
 	private Room currentRoom;
 
 	private final Set<Integer> keys = new HashSet<Integer>(); // related to
@@ -209,6 +210,8 @@ public class GamePanel extends JPanel {
 		tryOpeningTheDoors();
 	}// end of constructor !!
 
+	private boolean rearranging = false;
+
 	/**
 	 * Removes all the elements from the game panel and applies the given room
 	 * properties.
@@ -217,7 +220,9 @@ public class GamePanel extends JPanel {
 	 *            The room for applying new properties.
 	 */
 	public void rearrange(Room room) {
+		rearranging = true;
 		currentRoom = room;
+
 		playerRobot1.setId(room.getMasterPlayerId());
 		playerRobot1.setLocation(room.getMasterPlayerLocation());
 
@@ -227,6 +232,8 @@ public class GamePanel extends JPanel {
 		}
 
 		background = room.getBackgroundImage();
+
+		boolean roomIsSeen = seenIds.contains(room.getId());
 
 		/* Remove all elements from gamePanel */
 		int a = this.getComponentCount();
@@ -243,7 +250,13 @@ public class GamePanel extends JPanel {
 		for (Door door : doors)
 			door.revalidateImage();
 
+		for (Prize prize : prizes)
+			prize.revalidateImage();
+
 		for (Element element : room.getElements()) {
+			if (roomIsSeen && element instanceof Enemy)
+				continue;
+
 			add(element);
 			element.revalidateImage();
 
@@ -254,6 +267,10 @@ public class GamePanel extends JPanel {
 		repaint();
 
 		tryOpeningTheDoors();
+
+		seenIds.add(room.getId());
+
+		rearranging = false;
 	}
 
 	/**
@@ -424,6 +441,9 @@ public class GamePanel extends JPanel {
 			else if (comp instanceof Door)
 				doors.remove(comp);
 		}
+
+		if (!rearranging && currentRoom != null)
+			currentRoom.setElements(elements);
 	}
 
 	@Override
@@ -444,6 +464,9 @@ public class GamePanel extends JPanel {
 		}
 
 		repaint();
+
+		if (!rearranging && currentRoom != null)
+			currentRoom.setElements(elements);
 
 		return super.add(comp);
 	}
