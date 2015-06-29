@@ -35,9 +35,11 @@ public class Box extends Element implements Damagable {
 	public Box(int x, int y, Prize prize, int id) {
 		super(x, y, BOX_WIDTH, BOX_HEIGHT);
 		setImage("images/Box.png");
-		prize.setLocation(getX() + getWidth() / 2 - 15, getY() + getHeight()
-				/ 2 - 15);
-		this.prize = prize;
+		if (prize != null) {
+			prize.setLocation(getX() + getWidth() / 2 - 15, getY()
+					+ getHeight() / 2 - 15);
+			this.prize = prize;
+		}
 		setId(id);
 	}
 

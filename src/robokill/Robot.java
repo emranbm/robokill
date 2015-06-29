@@ -229,10 +229,13 @@ public abstract class Robot extends Element {
 		Element collidedElement = gamePanel.getCollidedElement(this, new Point(
 				x, y));
 
+		if (this instanceof Player)
+			changeBody();
 		if (collidedElement == null) {
 
-			changeBody();
-
+			if (this instanceof Enemy)
+				changeBody();
+			
 			if (gamePanel.isElementInside(new Point(x, y), getSize())) {
 				this.setLocation(x, y);
 
