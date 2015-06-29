@@ -195,19 +195,19 @@ public class GamePanel extends JPanel {
 		shootingBars.start();
 
 		/** adding elements to GamePanel **/
-		// addElements();
+//		addElements();
 
-		try {
-			InputStream in = getClass().getResourceAsStream("/data/room 0.dat");
-			ObjectInputStream ois = new ObjectInputStream(in);
-			currentRoom = (Room) ois.readObject();
-			ois.close();
-			rearrange(currentRoom);
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		tryOpeningTheDoors();
+		 try {
+		 InputStream in = getClass().getResourceAsStream("/data/room 0.dat");
+		 ObjectInputStream ois = new ObjectInputStream(in);
+		 currentRoom = (Room) ois.readObject();
+		 ois.close();
+		 rearrange(currentRoom);
+		 } catch (IOException | ClassNotFoundException e) {
+		 e.printStackTrace();
+		 }
+		
+		 tryOpeningTheDoors();
 	}// end of constructor !!
 
 	private boolean rearranging = false;
@@ -316,7 +316,7 @@ public class GamePanel extends JPanel {
 		// add(block);
 
 		/** Add Boxes **/
-		add(new Box(580, 100, new Prize(PrizeType.Money, 51), 21));
+		add(new Box(580, 100, new Prize(PrizeType.Weapon, 51), 21));
 		add(new Box(580, 150, null, 22));
 		add(new Box(580, 550, new Prize(PrizeType.Money, 52), 23));
 		add(new Box(630, 550, null, 24));
