@@ -427,6 +427,7 @@ public class GamePanel extends JPanel {
 
 	@Override
 	public Component add(Component comp) {
+	
 		if (comp instanceof Element) {
 			if (!(comp instanceof Bar))
 				elements.add((Element) comp);
@@ -441,6 +442,8 @@ public class GamePanel extends JPanel {
 				doors.add((Door) comp);
 		}
 
+		repaint();
+		
 		return super.add(comp);
 	}
 

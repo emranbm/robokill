@@ -44,6 +44,13 @@ public class Box extends Element implements Damagable {
 	}
 
 	@Override
+	public void revalidateImage() {
+		super.revalidateImage();
+		if (prize != null)
+			prize.revalidateImage();
+	}
+
+	@Override
 	public synchronized void damage(int amount, boolean isServerCommand) {
 		health -= amount;
 		if (health <= 0) {
@@ -54,10 +61,11 @@ public class Box extends Element implements Damagable {
 					ClientCore.getClientCore().sendCommand(
 							CommunicationConstants.boxDestroyCommand(this
 									.getId()));
-				if (prize != null)
-					GamePanel.getGamePanel().add(prize);
 
 				GamePanel.getGamePanel().remove(this);
+
+				if (prize != null)
+					GamePanel.getGamePanel().add(prize);
 			} else {
 				if (isServerCommand) {
 					if (prize != null)
