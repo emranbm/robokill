@@ -134,7 +134,10 @@ public class ClientCore extends Thread {
 					break;
 				case "box":
 					// box destroy.
-					gamePanel.getBoxById(id).damage(100, true);
+					try {
+						gamePanel.getBoxById(id).damage(100, true);
+					} catch (Exception e) {
+					}
 					break;
 				case "player":
 					// player command: shoot/move
