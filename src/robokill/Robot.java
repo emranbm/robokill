@@ -183,9 +183,12 @@ public abstract class Robot extends Element {
 	 * location (according to the given direction) is passable.
 	 * 
 	 * @param dir
+	 * @param isServerCommand
+	 *            To take care if it is a server command, so there is no need to
+	 *            resend move command to the server.
 	 * @return true if move is done (no collision) and false else!
 	 */
-	public boolean move(Direction dir) {
+	public boolean move(Direction dir, boolean isServerCommand) {
 		curMoveDirection = dir;
 
 		int x = this.getX();
@@ -233,14 +236,17 @@ public abstract class Robot extends Element {
 			if (gamePanel.isElementInside(new Point(x, y), getSize())) {
 				this.setLocation(x, y);
 
-				if (this instanceof Enemy)
-					ClientCore.getClientCore().sendCommand(
-							CommunicationConstants.enemyMoveCommand(
-									this.getId(), curMoveDirection));
-				else
-					ClientCore.getClientCore().sendCommand(
-							CommunicationConstants.playerMoveCommand(
-									this.getId(), curMoveDirection));
+				// send server command
+				if (!isServerCommand) {
+					if (this instanceof Enemy)
+						ClientCore.getClientCore().sendCommand(
+								CommunicationConstants.enemyMoveCommand(
+										this.getId(), curMoveDirection));
+					else
+						ClientCore.getClientCore().sendCommand(
+								CommunicationConstants.playerMoveCommand(
+										this.getId(), curMoveDirection));
+				}
 
 				curMoveDirection = null;
 			}
@@ -307,11 +313,14 @@ public abstract class Robot extends Element {
 	public abstract void collidedWith(Element element);
 
 	/**
-	 * this method will be implements in classes Player and Enemy based on their
-	 * specifics!
+	 * this method will be implemented in classes Player and Enemy based on
+	 * their specifics!
 	 * 
+	 * @param isServerCommand
+	 *            To take care if it is a server command, so there is no need to
+	 *            resend shoot command to the server.
 	 * @param target
 	 */
-	public abstract void shoot(Point target);
+	public abstract void shoot(Point target, boolean isServerCommand);
 
 }

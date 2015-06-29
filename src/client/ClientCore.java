@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 
 import robokill.Enemy;
 import robokill.GamePanel;
+import robokill.MainMenu;
 import robokill.Prize;
 import useful.Direction;
 
@@ -60,9 +61,9 @@ public class ClientCore extends Thread {
 			output = new PrintWriter(socket.getOutputStream());
 			return input.readLine();
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 		return null;
@@ -71,16 +72,20 @@ public class ClientCore extends Thread {
 	int c = 1;
 
 	/**
-	 * Sends a command to the server.
+	 * Sends a command to the server, if possible. If not, nothing happens!
 	 * 
 	 * @param command
 	 *            The command to be sent.
 	 */
 	public synchronized void sendCommand(String command) {
 		/* for test: the output is commented */
-		System.out.println(c++ + ": " + command);
+		// System.out.println(c++ + ": " + command);
 		// TODO just uncomment below line:
-		// output.println(command);
+		try {
+			output.println(command);
+		} catch (Exception e) {
+			System.out.println(c++ + ": " + command);
+		}
 	}
 
 	/**
@@ -114,9 +119,10 @@ public class ClientCore extends Thread {
 					if (attr[2].equals("shoot")) {
 						int x = Integer.parseInt(attr[3]);
 						int y = Integer.parseInt(attr[4]);
-						gamePanel.playerRobot2.shoot(new Point(x, y));
+						gamePanel.playerRobot2.shoot(new Point(x, y), true);
 					} else {
-						gamePanel.playerRobot2.move(Direction.valueOf(attr[3]));
+						gamePanel.playerRobot2.move(Direction.valueOf(attr[3]),
+								true);
 					}
 					break;
 				case "enemy":
@@ -125,11 +131,13 @@ public class ClientCore extends Thread {
 					if (attr[2].equals("shoot")) {
 						int x = Integer.parseInt(attr[3]);
 						int y = Integer.parseInt(attr[4]);
-						enemy.shoot(new Point(x, y));
+						enemy.shoot(new Point(x, y), true);
 					} else {
-						enemy.move(Direction.valueOf(attr[3]));
+						enemy.move(Direction.valueOf(attr[3]), true);
 					}
 					break;
+				case "start":
+					MainMenu.getMainMenu().playGame(true, true);
 				}
 
 			} catch (IOException e) {

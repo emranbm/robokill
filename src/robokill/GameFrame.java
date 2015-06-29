@@ -7,13 +7,9 @@ package robokill;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Point;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
-
-import useful.Animation;
-import useful.ImageFactory;
 
 /**
  *
@@ -24,8 +20,6 @@ public class GameFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	
-
 	public GameFrame() {
 		setResizable(false);
 
@@ -34,17 +28,17 @@ public class GameFrame extends JFrame {
 		setUndecorated(true);
 
 		setLayout(new BorderLayout());
-		add(new MainMenu(this), BorderLayout.CENTER); //GamePanel.getGamePanel()
-		
+		add(MainMenu.instantiate(this), BorderLayout.CENTER); // GamePanel.getGamePanel()
+
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
-	
-	private void setInCenter()
-    {
-        /**set the frame in center of window**/
-        Dimension d = new Dimension();
-        d = Toolkit.getDefaultToolkit().getScreenSize();
-        setLocation( (d.width/2)-(getWidth()/2) , (d.height/2)-(getHeight()/2)-20  );        
-    }
+
+	private void setInCenter() {
+		/** set the frame in center of window **/
+		Dimension d = new Dimension();
+		d = Toolkit.getDefaultToolkit().getScreenSize();
+		setLocation((d.width / 2) - (getWidth() / 2), (d.height / 2)
+				- (getHeight() / 2) - 20);
+	}
 }

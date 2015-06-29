@@ -96,7 +96,7 @@ public class Enemy extends Robot implements Runnable, Damagable {
 		Direction[] directions = Direction.values();
 		Direction selectedD = directions[d - 1];
 
-		boolean moveResult = this.move(selectedD);
+		boolean moveResult = this.move(selectedD, false);
 		if (moveResult == true) // if move is done
 			return;
 
@@ -111,7 +111,7 @@ public class Enemy extends Robot implements Runnable, Damagable {
 
 			selectedD = directions[nd - 1];
 
-			moveResult = this.move(selectedD);
+			moveResult = this.move(selectedD, false);
 			if (moveResult == true) // if move is done
 				return;
 
@@ -122,7 +122,7 @@ public class Enemy extends Robot implements Runnable, Damagable {
 
 			selectedD = directions[nd - 1];
 
-			moveResult = this.move(selectedD);
+			moveResult = this.move(selectedD, false);
 			if (moveResult == true) // if move is done
 				return;
 		}
@@ -130,7 +130,7 @@ public class Enemy extends Robot implements Runnable, Damagable {
 		int fd = (d + 4) % 8;
 		selectedD = directions[fd];
 
-		moveResult = this.move(selectedD);
+		moveResult = this.move(selectedD, false);
 		if (moveResult == true) // if move is done
 			return;
 		else
@@ -154,7 +154,7 @@ public class Enemy extends Robot implements Runnable, Damagable {
 				counter++;
 
 				if (counter == 20) {
-					shoot(null);
+					shoot(null, false);
 					counter = 0;
 				}
 
@@ -167,10 +167,15 @@ public class Enemy extends Robot implements Runnable, Damagable {
 		}
 	}
 
+	/**
+	 * Starts to manner smartly. (If it is master client. If not, nothing
+	 * happens)
+	 */
 	public void go() {
-
-		Thread enemyRobot = new Thread(this);
-		enemyRobot.start();
+		if (isMaster() || !GamePanel.isMultiPlayer()) {
+			Thread enemyRobot = new Thread(this);
+			enemyRobot.start();
+		}
 	}
 
 	@Override
@@ -182,14 +187,16 @@ public class Enemy extends Robot implements Runnable, Damagable {
 	}
 
 	@Override
-	public void shoot(Point target) {
+	public void shoot(Point target, boolean isServerCommand) {
 
 		// discovering best direction for shooting!
 		Point rLocation = GamePanel.getGamePanel().playerRobot1.getLocation();
 		Point PC = new Point(rLocation.x + 30, rLocation.y + 30);
 
-		ClientCore.getClientCore().sendCommand(
-				CommunicationConstants.enemyShootCommand(this.getId(), PC));
+		// send server command
+		if (!isServerCommand)
+			ClientCore.getClientCore().sendCommand(
+					CommunicationConstants.enemyShootCommand(this.getId(), PC));
 
 		int[] firstBarLoction = super.setFirstBarLocation(PC);
 

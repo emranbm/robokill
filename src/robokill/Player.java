@@ -63,18 +63,19 @@ public class Player extends Robot implements Damagable {
 	 */
 
 	@Override
-	public void shoot(Point target) {
+	public void shoot(Point target, boolean isServerCommand) {
 
-		ClientCore.getClientCore()
-				.sendCommand(
-						CommunicationConstants.playerShootCommand(this.getId(),
-								target));
+		// send server command
+		if (!isServerCommand)
+			ClientCore.getClientCore().sendCommand(
+					CommunicationConstants.playerShootCommand(this.getId(),
+							target));
 
 		int[] firstBarLoction = super.setFirstBarLocation(target);
 
 		// TODO Implement bar power.
 		Bar bar = new Bar(new Point(firstBarLoction[0], firstBarLoction[1]),
-				target, barType, Bar.BAR_POWER_LIGHT , Bar.PLAYER_BAR_OWNED);
+				target, barType, Bar.BAR_POWER_LIGHT, Bar.PLAYER_BAR_OWNED);
 
 		GamePanel.getGamePanel().add(bar);
 		bar.start();

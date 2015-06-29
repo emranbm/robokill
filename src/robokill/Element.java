@@ -23,6 +23,9 @@ public abstract class Element extends JPanel {
 
 	private static final long serialVersionUID = 2L;
 
+	// TODO use this boolean! :
+	private boolean isMaster = GamePanel.isMaster();
+
 	private transient Image defaultImage;
 	private Animation animation;
 	private String imagePath;
@@ -88,6 +91,15 @@ public abstract class Element extends JPanel {
 		setBounds(x, y, width, height);
 		setOpaque(false);
 
+	}
+
+	/**
+	 * Determines if the game is multi player or single player.
+	 * 
+	 * @return true if multi player. false if single player.
+	 */
+	public boolean isMaster() {
+		return isMaster;
 	}
 
 	/**

@@ -28,7 +28,7 @@ public abstract class CommunicationConstants {
 	}
 
 	public static final String enemyShootCommand(int enemyId, Point targetPoint) {
-		return "player " + enemyId + " shoot " + targetPoint.x + " "
+		return "enemy " + enemyId + " shoot " + targetPoint.x + " "
 				+ targetPoint.y;
 	}
 
