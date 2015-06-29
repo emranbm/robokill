@@ -140,15 +140,13 @@ public class GamePanel extends JPanel {
 		setSize(new Dimension(1024, 768));
 		setLayout(null);
 
+		/** GameMap **/
 		map = new GameMap();
 		add(map);
 
-		/** status bar **/
-		add(statusPanel);
-		/**************/
 
 		/** add GameOver Animation panel to GamePanel **/
-		gameOver = new Animation(new Point(0, 0),
+		gameOver = new Animation(new Point(1, 0),
 				new Dimension(1000,700),
 				"/images/GameOverAnimation/",
 				20,
@@ -156,6 +154,10 @@ public class GamePanel extends JPanel {
 				1,
 				false);
 		add(gameOver);
+
+		/** status bar **/
+		add(statusPanel);
+		/**************/
 
 		/** adding playerRobot to gamePanel **/
 
