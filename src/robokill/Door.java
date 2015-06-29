@@ -99,29 +99,32 @@ public class Door extends Element {
 	public boolean passToNextRoom() {
 		if (!isOpened)
 			return false;
+		
+		GamePanel gamePanel = GamePanel.getGamePanel();
+		
+		InputStream newRoomInputStream = getClass().getResourceAsStream(
+				"/data/room " + this.roomId + ".dat"); // (currentId + 1)
+		Room newRoom = null;
+		try {
+			ObjectInputStream ois = new ObjectInputStream(newRoomInputStream);
+			newRoom = (Room) ois.readObject();
+			ois.close();
+			//gamePanel.rearrange(newRoom);
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 
 		Animation changeRoom = new Animation(new Point(0, 0), new Dimension(
 				1000, 700), "/images/changeRoom/", 26, 35, 1, true);
 
 		GamePanel.getGamePanel().add(changeRoom);
 		changeRoom.start();
+		
+		gamePanel.rearrange(newRoom);
 
 		try {
 			Thread.sleep(20);
 		} catch (Exception e) {
-		}
-
-		GamePanel gamePanel = GamePanel.getGamePanel();
-
-		InputStream newRoomInputStream = getClass().getResourceAsStream(
-				"/data/room " + this.roomId + ".dat"); // (currentId + 1)
-		try {
-			ObjectInputStream ois = new ObjectInputStream(newRoomInputStream);
-			Room newRoom = (Room) ois.readObject();
-			ois.close();
-			gamePanel.rearrange(newRoom);
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
 		}
 
 		return true;
