@@ -44,7 +44,7 @@ public class GamePanel extends JPanel {
 	// //////////////////////////////phase////////////////////////
 
 	private static GamePanel This;
-	private static boolean isMaster = true;
+	public static boolean isMaster = true;
 	private static boolean isMultiPlayer;
 
 	/**
