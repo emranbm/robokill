@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 
+import client.ClientCore;
 import useful.Animation;
 import useful.Sound;
 
@@ -76,7 +77,7 @@ public class Door extends Element {
 	public void open() {
 		isOpened = true;
 		startAnimation();
-		
+
 		Sound shootSound = new Sound("src/sounds/doorOpened.wav", false);
 		shootSound.playSound();
 	}
@@ -99,9 +100,11 @@ public class Door extends Element {
 	public boolean passToNextRoom() {
 		if (!isOpened)
 			return false;
-		
+
 		GamePanel gamePanel = GamePanel.getGamePanel();
-		
+
+		ClientCore.getClientCore().sendCommand("room " + roomId);
+
 		InputStream newRoomInputStream = getClass().getResourceAsStream(
 				"/data/room " + this.roomId + ".dat"); // (currentId + 1)
 		Room newRoom = null;
@@ -109,7 +112,7 @@ public class Door extends Element {
 			ObjectInputStream ois = new ObjectInputStream(newRoomInputStream);
 			newRoom = (Room) ois.readObject();
 			ois.close();
-			//gamePanel.rearrange(newRoom);
+			// gamePanel.rearrange(newRoom);
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -119,7 +122,7 @@ public class Door extends Element {
 
 		GamePanel.getGamePanel().add(changeRoom);
 		changeRoom.start();
-		
+
 		gamePanel.rearrange(newRoom);
 
 		try {

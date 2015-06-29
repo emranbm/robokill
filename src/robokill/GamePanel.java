@@ -287,6 +287,14 @@ public class GamePanel extends JPanel {
 		rearranging = false;
 	}
 
+	public Door getDoorByRoomId(int roomId) {
+		for (Door d : doors)
+			if (d.getRoomId() == roomId)
+				return d;
+
+		return null;
+	}
+
 	/**
 	 * Adds the elements to the game panel.
 	 */
