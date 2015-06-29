@@ -159,7 +159,7 @@ public class MainMenu extends JPanel {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if (e.getSource() == mainMenuRef.singlePlayerGameBtn) {
-						GamePanel.instantiate(false, true);
+						GamePanel.instantiate(gameFrameRef,false, true);
 						mainMenuRef.playGame();
 					} else if (e.getSource() == mainMenuRef.exitBtn) {
 						System.exit(0);
@@ -177,11 +177,11 @@ public class MainMenu extends JPanel {
 									"Connection failed!");
 						else if (result.equals("normal")) {
 							ClientCore.getClientCore().sendCommand("start");
-							GamePanel.instantiate(true, false);
+							GamePanel.instantiate(gameFrameRef,true, false);
 							ClientCore.getClientCore().start();
 							playGame();
 						} else if (result.equals("master")) {
-							GamePanel.instantiate(true, true);
+							GamePanel.instantiate(gameFrameRef,true, true);
 							ClientCore.getClientCore().start();
 							// Waits and listens until get start command.
 							// TODO nothing. Just a graphical waiting!

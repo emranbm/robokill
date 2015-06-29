@@ -1,6 +1,7 @@
 package robokill;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -10,6 +11,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import useful.Animation;
 
 /**
  * 
@@ -99,11 +102,6 @@ public class StatusPanel extends JPanel {
 		new Thread() {
 			public void run() {
 				health -= reducePercent;
-				if (health < 0)
-				{
-					//TODO die
-					health = 0;
-				}
 				int reduceAmount = (int) ((double) (reducePercent / 100.0) * 117);
 
 				int curX = healthBar.getX();
@@ -118,6 +116,11 @@ public class StatusPanel extends JPanel {
 					} catch (Exception e) {
 						System.out.println("error in sleeping");
 					}
+				}
+				if (health <= 0)
+				{
+					//TODO die
+					GamePanel.getGamePanel().gameOver();
 				}
 			}
 		}.start();
