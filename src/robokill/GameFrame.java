@@ -51,3 +51,4 @@ public class GameFrame extends JFrame {
 				- (getHeight() / 2) - 20);
 	}
 }
+

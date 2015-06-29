@@ -7,6 +7,7 @@ import client.ClientCore;
 import client.CommunicationConstants;
 import useful.Animation;
 import useful.Direction;
+import useful.Sound;
 
 /**
  * 
@@ -206,6 +207,10 @@ public class Enemy extends Robot implements Runnable, Damagable {
 				PC, Bar.BAR_TYPE_1, Bar.BAR_POWER_LIGHT, Bar.ENEMY_BAR_OWNED);
 
 		GamePanel.getGamePanel().add(bar);
+		
+		Sound shootSound = new Sound("src/sounds/shoot2.wav", false);
+		shootSound.playSound();
+		
 		bar.start();
 
 	}
@@ -230,6 +235,9 @@ public class Enemy extends Robot implements Runnable, Damagable {
 					GamePanel.getGamePanel().add(fireExplosion);
 					fireExplosion.start();
 
+					Sound shootSound = new Sound("src/sounds/explosion.wav", false);
+					shootSound.playSound();					
+					
 					GamePanel.getGamePanel().remove(this);
 				}
 			} else {
@@ -242,6 +250,9 @@ public class Enemy extends Robot implements Runnable, Damagable {
 					GamePanel.getGamePanel().add(fireExplosion);
 					fireExplosion.start();
 
+					Sound shootSound = new Sound("src/sounds/explosion.wav", false);
+					shootSound.playSound();					
+					
 					GamePanel.getGamePanel().remove(this);
 				}
 			}

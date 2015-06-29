@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import client.ClientCore;
 import client.CommunicationConstants;
 import useful.Animation;
+import useful.Sound;
 
 /**
  *
@@ -37,6 +38,7 @@ public class Player extends Robot implements Damagable {
 
 	private int barType = Bar.BAR_TYPE_1;
 
+	
 	public Player(int x, int y, int width, int height, int speed, int id,
 			String type) {
 		super(x, y, width, height, speed, "/images/playerRobot/" + type + "/",
@@ -78,6 +80,10 @@ public class Player extends Robot implements Damagable {
 				target, barType, Bar.BAR_POWER_LIGHT, Bar.PLAYER_BAR_OWNED);
 
 		GamePanel.getGamePanel().add(bar);
+		
+		Sound shootSound = new Sound("src/sounds/shoot.wav", false);
+		shootSound.playSound();
+				
 		bar.start();
 	}
 
