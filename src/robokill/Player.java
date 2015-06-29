@@ -52,7 +52,7 @@ public class Player extends Robot implements Damagable {
 
 	@Override
 	public void damage(int amount, boolean isServerCommand) {
-		GamePanel.getGamePanel().statusPanel.reduceHealth(amount);
+		GamePanel.getGamePanel().statusPanel.doReducing(amount);
 	}
 
 	/**

@@ -22,7 +22,7 @@ public class StatusPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private int health = 100;
-	private int shield = 0;
+	private int shield = 100;
 	private int money = 0;
 	private int keys = 0; // this field saves number of keys!
 
@@ -62,6 +62,33 @@ public class StatusPanel extends JPanel {
 		moneyPanel.setMoneyLabel(money);
 	}
 
+	/**
+	 * when Robot damage method (in class Player) then this method will be called!
+	 * this method try to reduce from shield and health together!
+	 */
+	public synchronized void doReducing(int reducePercent)
+	{
+		int healthReducePercent ;
+		int shieldReducePercent ;
+
+		shieldReducePercent = (int) (reducePercent * 0.6) ;
+		healthReducePercent = (int) (reducePercent * 0.4) ;
+		
+		if (shield >= shieldReducePercent)
+		{
+			reduceShield(shieldReducePercent);
+			reduceHealth(healthReducePercent);
+		}
+		else
+		{
+			shieldReducePercent = shield;
+			healthReducePercent = reducePercent - shield;
+
+			reduceShield(shieldReducePercent);
+			reduceHealth(healthReducePercent);
+		}
+	}
+	
 	/**
 	 * Reduces the health of the player.
 	 * 
@@ -141,11 +168,12 @@ public class StatusPanel extends JPanel {
 	public synchronized void reduceShield(int reducePercent) {
 		new Thread() {
 			public void run() {
+
 				shield -= reducePercent;
 				if (shield < 0)
 					shield = 0;
 
-				int reduceAmount = (int) ((double) (reducePercent / 100) * 117);
+				int reduceAmount = (int) ((double) (reducePercent / 100.0) * 117);
 
 				int curX = shieldBar.getX();
 				int curY = shieldBar.getY();
