@@ -1,5 +1,6 @@
 package robokill;
 
+import useful.Sound;
 import client.ClientCore;
 import client.CommunicationConstants;
 
@@ -62,6 +63,9 @@ public class Prize extends Element {
 	public synchronized PrizeType achievePrize(boolean isServerCommand) {
 		GamePanel.getGamePanel().remove(this);
 
+		Sound shootSound = new Sound("src/sounds/achivePrize.wav", false);
+		shootSound.playSound();
+		
 		// send server command
 		if (!isServerCommand)
 			ClientCore.getClientCore().sendCommand(

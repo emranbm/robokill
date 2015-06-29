@@ -43,12 +43,14 @@ public class GameMap extends JPanel{
 	public static Point Room_Location_8 = new Point(397,164);
 	public static Point Room_Location_72 = new Point(397,217);
 	public static Point Room_Location_22 = new Point(470,164);
-	public static Point Room_Location_000000 = new Point(396,113);
+	public static Point Room_Location_23 = new Point(396,113);
 	
 	public GameMap(){
 		setLocation(188,-421);
 		setSize(624, 421);
 		setOpaque(false);
+		
+		add(currentHome);
 		
 		try{
 		mapImage = ImageIO.read(getClass().getResource("/images/map.png"));
@@ -126,12 +128,84 @@ public class GameMap extends JPanel{
 	}
 
 	/**
+	 * 
+	 */
+	private Point convertIdToLocation(int homeID)
+	{
+		Point homeLocation;
+		switch(homeID)
+		{
+		case 0 :
+			homeLocation = this.Room_Location_0;
+		break;
+
+		case 5 :
+			homeLocation = this.Room_Location_5;
+		break;
+		
+		case 21 :
+			homeLocation = this.Room_Location_21;
+		break;
+		
+		case 31 :
+			homeLocation = this.Room_Location_31;
+		break;
+
+		case 61 :
+			homeLocation = this.Room_Location_61;
+		break;
+		
+		case 1 :
+			homeLocation = this.Room_Location_1;
+		break;
+		
+		case 62 :
+			homeLocation = this.Room_Location_62;
+		break;
+		
+		case 32 :
+			homeLocation = this.Room_Location_32;
+		break;
+		
+		case 71 :
+			homeLocation = this.Room_Location_71;
+		break;
+		
+		case 63 :
+			homeLocation = this.Room_Location_63;
+		break;
+		
+		case 8 :
+			homeLocation = this.Room_Location_8;
+		break;
+		
+		case 72 :
+			homeLocation = this.Room_Location_72;
+		break;
+		
+		case 23 :
+			homeLocation = this.Room_Location_23;
+		break;
+		
+		case 22 :
+			homeLocation = this.Room_Location_22;
+		break;
+
+		default:
+			homeLocation = new Point();
+			System.out.println("invalid home id!");
+		}
+		return homeLocation;
+	}	
+
+	/**
 	 * in the map must be shown the current room that player is there!
 	 * @param homeLocation
 	 */
-	public void showCurrentRoom(Point homeLocation)
+	public void setCurrentRoom(int homeID)
 	{
-		
+		Point location = convertIdToLocation(homeID);
+		currentHome.setLocation(location);
 	}
 	
 	/**
@@ -139,9 +213,11 @@ public class GameMap extends JPanel{
 	 * this method do this work!!
 	 * @param homeLocation
 	 */
-	public void showOccupiedHome(Point homeLocation)
+	public void setHomeOccupied(int homeID)
 	{
-		HomeOccupied a = new HomeOccupied(homeLocation);
+		Point location = convertIdToLocation(homeID);
+		System.out.println(location);
+		HomeOccupied a = new HomeOccupied(location);
 		add (a);
 	}
 	

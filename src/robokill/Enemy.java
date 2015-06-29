@@ -134,9 +134,7 @@ public class Enemy extends Robot implements Runnable, Damagable {
 		moveResult = this.move(selectedD, false);
 		if (moveResult == true) // if move is done
 			return;
-		else
-			System.out.println("it can't be moved!");
-
+			
 	}
 
 	@Override
