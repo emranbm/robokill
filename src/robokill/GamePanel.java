@@ -194,7 +194,7 @@ public class GamePanel extends JPanel {
 		shootingBars.start();
 
 		/** adding elements to GamePanel **/
-//		 addElements();
+		// addElements();
 
 		try {
 			InputStream in = getClass().getResourceAsStream("/data/room 0.dat");
@@ -217,6 +217,7 @@ public class GamePanel extends JPanel {
 	 *            The room for applying new properties.
 	 */
 	public void rearrange(Room room) {
+		currentRoom = room;
 		playerRobot1.setId(room.getMasterPlayerId());
 		playerRobot1.setLocation(room.getMasterPlayerLocation());
 
@@ -236,8 +237,8 @@ public class GamePanel extends JPanel {
 					remove(comp);
 		}
 
-//		doors = room.getDoors();
-//		enemies = room.getEnemies();
+		// doors = room.getDoors();
+		// enemies = room.getEnemies();
 
 		for (Door door : doors)
 			door.revalidateImage();
@@ -316,21 +317,21 @@ public class GamePanel extends JPanel {
 		// enemy3.go();
 
 		/** Add doors **/
-//		Door door1 = new Door(25, 301, "1", 61);
-//		add(door1);
-//		doors.add(door1);
+		// Door door1 = new Door(25, 301, "1", 61);
+		// add(door1);
+		// doors.add(door1);
 
-//		Door door2 = new Door(451, 20, "2", 32);
-//		add(door2);
-//		doors.add(door2);
-//
+		// Door door2 = new Door(451, 20, "2", 32);
+		// add(door2);
+		// doors.add(door2);
+		//
 		Door door3 = new Door(933, 256, "3", 5);
 		add(door3);
 		doors.add(door3);
-//
-//		Door door4 = new Door(451, 640, "4", 21);
-//		add(door4);
-//		doors.add(door4);
+		//
+		// Door door4 = new Door(451, 640, "4", 21);
+		// add(door4);
+		// doors.add(door4);
 
 		/** set playerRobot location **/
 		// Point playerLocation = new Point(451, 550);
@@ -387,7 +388,7 @@ public class GamePanel extends JPanel {
 
 		Sound shootSound = new Sound("src/sounds/gameOver.wav", false);
 		shootSound.playSound();
-		
+
 		try {
 			Thread.sleep(5000);
 		} catch (Exception e) {
@@ -427,7 +428,7 @@ public class GamePanel extends JPanel {
 
 	@Override
 	public Component add(Component comp) {
-	
+
 		if (comp instanceof Element) {
 			if (!(comp instanceof Bar))
 				elements.add((Element) comp);
@@ -443,8 +444,17 @@ public class GamePanel extends JPanel {
 		}
 
 		repaint();
-		
+
 		return super.add(comp);
+	}
+
+	/**
+	 * Returns the current room of the game.
+	 * 
+	 * @return Current room
+	 */
+	public Room getCurrentRoom() {
+		return currentRoom;
 	}
 
 	/**
