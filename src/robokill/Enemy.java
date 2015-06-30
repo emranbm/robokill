@@ -183,8 +183,8 @@ public class Enemy extends Robot implements Runnable, Damagable {
 	@Override
 	public void collidedWith(Element element) {
 		if (element instanceof Player) {
-			this.damage(100, false);
-			((Player) element).damage(20, false);
+//			this.damage(100, false);
+//			((Player) element).damage(20, false);
 		}
 	}
 
