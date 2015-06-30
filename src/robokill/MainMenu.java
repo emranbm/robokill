@@ -67,6 +67,8 @@ public class MainMenu extends JPanel {
 	public Btn settingBtn;
 	public Btn aboutBtn;
 	public Btn exitBtn;
+	
+	private Sound backgroundSound;
 
 	private MainMenu(GameFrame gameFrameRef) {
 		this.gameFrameRef = gameFrameRef;
@@ -84,8 +86,8 @@ public class MainMenu extends JPanel {
 			System.out.println("error in reading file!");
 		}
 		
-//		Sound backgroundSound = new Sound(audioAddress);
-//		backgroundSound.playSound();
+		backgroundSound = new Sound("src/sounds/backgroundSound.wav" , true);
+		backgroundSound.playSound();
 	}
 
 	/**
@@ -498,6 +500,8 @@ public class MainMenu extends JPanel {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if (e.getSource() == mainMenuRef.singlePlayerGameBtn) {
+						mainMenuRef.backgroundSound.stopSound();
+						
 						GamePanel.instantiate(gameFrameRef,false, true);
 						mainMenuRef.playGame();
 						
