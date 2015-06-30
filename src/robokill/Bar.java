@@ -77,7 +77,8 @@ public class Bar extends Element implements Runnable, Damagable {
 
 		Element collidedElement = GamePanel.getGamePanel().getCollidedElement(
 				this);
-		if (collidedElement != null && collidedElement instanceof Damagable) {
+		if (collidedElement != null && collidedElement instanceof Damagable
+				&& (!(collidedElement instanceof Player) || !barOwner)) {
 			this.damage(0, false);
 			int damageAmount = (type == BAR_TYPE_1) ? 10 : 20;
 			switch (power) {

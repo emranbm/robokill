@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import useful.Sound;
 import client.ClientCore;
 
 /**
@@ -82,6 +83,9 @@ public class MainMenu extends JPanel {
 		} catch (Exception e) {
 			System.out.println("error in reading file!");
 		}
+		
+//		Sound backgroundSound = new Sound(audioAddress);
+//		backgroundSound.playSound();
 	}
 
 	/**
@@ -118,6 +122,114 @@ public class MainMenu extends JPanel {
 		g.drawImage(background, 0, 0, null);
 	}
 
+	/**
+	 * 
+	 */
+	class AboutPanel extends JPanel{
+		
+		BufferedImage image;
+		
+		public AboutPanel()
+		{
+			
+			setSize(611 , 504);
+			setLocation(200, 50);
+			setLayout(null);
+			setOpaque(false);
+			
+			try{
+			image = ImageIO.read(getClass().getResource("/images/about.png"));
+			}catch(Exception e){System.out.println("error in reading image!!");}
+			
+			add (new ToolBar(this));
+		}
+		@Override
+		public void paintComponent(Graphics g)
+		{
+			g.drawImage(image, 0, 0, null);
+		}
+		
+		/**
+		 * this class used for closing panel and moving it!
+		 */
+		class ToolBar extends JPanel{
+
+			private Point initialClick;
+			private AboutPanel aboutRef;
+			private JPanel closeBtn;
+			
+			public ToolBar(AboutPanel aboutRef){
+				this.aboutRef = aboutRef;
+				
+				setOpaque(false);
+				setLocation(1,1);
+				setSize(602,446);
+				setLayout(null);
+				
+				/**close btn**/
+				closeBtn = new JPanel();
+				closeBtn.setOpaque(false);
+				closeBtn.setSize(15,15);
+				closeBtn.setLocation(581, 19);
+				closeBtn.addMouseListener(new MouseListener() {
+					@Override
+					public void mouseReleased(MouseEvent e) {}
+					
+					@Override
+					public void mousePressed(MouseEvent e) {}
+					
+					@Override
+					public void mouseExited(MouseEvent e) {}
+					
+					@Override
+					public void mouseEntered(MouseEvent e) {}
+					
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						MainMenu.getMainMenu().remove(aboutRef);
+						MainMenu.getMainMenu().repaint();
+					}
+				});
+				add(closeBtn);
+				/**end of adding close BTN**/
+				
+		        /***add mouse listeners***/
+		        this.addMouseListener(new MouseAdapter() {
+		        	
+		        public void mousePressed(MouseEvent e) {
+		            initialClick = e.getPoint();
+		            getComponentAt(initialClick);
+		        }
+		        });
+
+		        addMouseMotionListener(new MouseMotionAdapter() {
+
+	        	@Override
+		        public void mouseDragged(MouseEvent e) {
+
+	        		// get location of Window
+		            int thisX = aboutRef.getLocation().x;
+		            int thisY = aboutRef.getLocation().y;
+
+		            // Determine how much the mouse moved since the initial click
+		            int xMoved = (thisX + e.getX()) - (thisX + initialClick.x);
+		            int yMoved = (thisY + e.getY()) - (thisY + initialClick.y);
+
+		            // Move window to this position
+		            int X = thisX + xMoved;
+		            int Y = thisY + yMoved;
+		            aboutRef.setLocation(X, Y);
+		            aboutRef.repaint();
+		        }
+		    });        
+				
+			}
+			
+		}
+
+		
+	}
+	
 	/**
 	 * this class used in Btn class!
 	 */
@@ -417,6 +529,12 @@ public class MainMenu extends JPanel {
 //							// Waits and listens until get start command.
 //							// TODO nothing. Just a graphical waiting!
 //						}
+					}
+					
+					else if (e.getSource() == mainMenuRef.aboutBtn)
+					{
+						mainMenuRef.add(new AboutPanel());
+						mainMenuRef.repaint();
 					}
 				}
 			});

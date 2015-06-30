@@ -12,7 +12,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -51,7 +55,8 @@ public class GamePanel extends JPanel {
 	 * @param isMaster
 	 * @return The instantiated {@link robokill.GamePanel GamePanel}.
 	 */
-	public static GamePanel instantiate(GameFrame gameFrame , boolean isMultiPlayer, boolean isMaster) {
+	public static GamePanel instantiate(GameFrame gameFrame,
+			boolean isMultiPlayer, boolean isMaster) {
 		GamePanel.isMaster = isMaster;
 		GamePanel.isMultiPlayer = isMultiPlayer;
 		System.out.println("GamePanel instantiated.");
@@ -134,7 +139,7 @@ public class GamePanel extends JPanel {
 		System.out.println("Start of Game panel constructor.");
 
 		this.gameFrameRef = gameFrameRef;
-		
+
 		setBounds(0, 0, 1000, 700);
 
 		setSize(new Dimension(1024, 768));
@@ -144,31 +149,26 @@ public class GamePanel extends JPanel {
 		map = new GameMap();
 		add(map);
 
-
 		/** add GameOver Animation panel to GamePanel **/
-		gameOver = new Animation(new Point(1, 0),
-				new Dimension(1000,700),
-				"/images/GameOverAnimation/",
-				20,
-				40,
-				1,
-				false);
+		gameOver = new Animation(new Point(1, 0), new Dimension(1000, 700),
+				"/images/GameOverAnimation/", 20, 40, 1, false);
 		add(gameOver);
 
 		/** status bar **/
 		add(statusPanel);
 		/**************/
 
-		/** adding playerRobot to gamePanel **/
-
+		/** Add playerRobot to gamePanel **/
 		if (isMaster) {
-			playerRobot1 = new Player(100, 320, 60, 60, 6, 0,
+			playerRobot1 = new Player(410, 580, 60, 50, 6, 0,
 					Player.Player_Type_1);
 			add(playerRobot1);
 
-			playerRobot2 = new Player(700, 320, 60, 60, 6, 1,
-					Player.Player_Type_2);
-			add(playerRobot2);
+			if (isMultiPlayer) {
+				playerRobot2 = new Player(540, 580, 60, 50, 6, 1,
+						Player.Player_Type_2);
+				add(playerRobot2);
+			}
 		} else {
 			playerRobot1 = new Player(700, 320, 60, 60, 6, 1,
 					Player.Player_Type_2);
@@ -178,7 +178,7 @@ public class GamePanel extends JPanel {
 					Player.Player_Type_1);
 			add(playerRobot2);
 		}
-		
+
 		/** adding mouseListener (for rotating head of robot and shooting) **/
 		addMouseListenersForRobot();
 
@@ -187,6 +187,7 @@ public class GamePanel extends JPanel {
 
 		/** adding a new Thread for moving robot **/
 		Thread robotMovement = new Thread(new RobotMovementHandler());
+		robotMovement.setPriority(Thread.MAX_PRIORITY);
 		robotMovement.start();
 
 		/** adding a new thread for shooting bars **/
@@ -194,17 +195,17 @@ public class GamePanel extends JPanel {
 		shootingBars.start();
 
 		/** adding elements to GamePanel **/
-		addElements();
+		// addElements();
 
-		// try {
-		// InputStream in = getClass().getResourceAsStream("/data/room 0.dat");
-		// ObjectInputStream ois = new ObjectInputStream(in);
-		// currentRoom = (Room) ois.readObject();
-		// ois.close();
-		// rearrange(currentRoom);
-		// } catch (IOException | ClassNotFoundException e) {
-		// e.printStackTrace();
-		// }
+		try {
+			InputStream in = getClass().getResourceAsStream("/data/room 0.dat");
+			ObjectInputStream ois = new ObjectInputStream(in);
+			currentRoom = (Room) ois.readObject();
+			ois.close();
+			rearrange(currentRoom);
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 
 		tryOpeningTheDoors();
 
@@ -220,7 +221,13 @@ public class GamePanel extends JPanel {
 	 *            The room for applying new properties.
 	 */
 	public void rearrange(Room room) {
-//		playerRobot1.setLocation(room.getPlayerLocation());
+		playerRobot1.setId(room.getMasterPlayerId());
+		playerRobot1.setLocation(room.getMasterPlayerLocation());
+
+		if (isMultiPlayer) {
+			playerRobot2.setId(room.getNormalPlayerId());
+			playerRobot2.setLocation(room.getNormalPlayerLocation());
+		}
 
 		background = room.getBackgroundImage();
 
@@ -233,9 +240,10 @@ public class GamePanel extends JPanel {
 					remove(comp);
 		}
 
-		doors = room.getDoors();
+//		doors = room.getDoors();
+//		enemies = room.getEnemies();
 
-		enemies = room.getEnemies();
+		System.out.println("Enemy size: " + enemies.size());
 
 		for (Door door : doors)
 			door.revalidateImage();
@@ -259,71 +267,100 @@ public class GamePanel extends JPanel {
 	private void addElements() {
 
 		/** set roomId **/
-		int roomId = 1;
+		int roomId = 71;
 
-		/** Add Valleys **/
-		add(new Valley(81, 70, 295, 95));
-		add(new Valley(81, 163, 330, 55));
-		add(new Valley(163, 232, 215, 30));
-
-		add(new Valley(635, 70, 300, 95));
-		add(new Valley(585, 163, 336, 55));
-		add(new Valley(635, 232, 208, 50));
-
-		add(new Valley(163, 414, 205, 30));
-		add(new Valley(82, 469, 330, 55));
-		add(new Valley(79, 535, 285, 90));
-
-		add(new Valley(630, 411, 205, 58));
-		add(new Valley(580, 475, 336, 50));
-		add(new Valley(630, 535, 285, 87));
-
-		/** Add Block **/
-		/*
-		 * Block block = new Block(450, 300, Block.BLOCK_TYPE_1); add(block);
-		 */
-		/** Add Boxes **/
-		/*
-		 * add(new Box(96, 100)); add(new Box(153, 97)); add(new Box(103, 154));
-		 * add(new Box(152, 147));
-		 */
-
-		/** Add Enemies **/
-		Enemy enemy = new Enemy(460, 210, 80, 80, 2, Enemy.ENEMY_TYPE_2, 2);
-		add(enemy);
-		enemy.go();
-
-		Enemy enemy2 = new Enemy(300, 310, 80, 80, 1, Enemy.ENEMY_TYPE_3, 3);
-		add(enemy2);
-		enemy2.go();
-		/*
-		 * Enemy enemy2 = new Enemy(800, 450, 80, 80, 1, Enemy.ENEMY_TYPE_1);
-		 * add(enemy2); enemy2.go();
-		 */
+		/** set room background address **/
+		String roomBackgroundAddress = "/images/rooms/7.png";
 
 		/** Add doors **/
-		Door door1 = new Door(25, 301, "1", 61);
-		add(door1);
-		doors.add(door1);
+		// Door door1 = new Door(5, 300, "1", 5);
+		// add(door1);
+		// doors.add(door1);
 
-		Door door2 = new Door(451, 20, "2", 32);
-		add(door2);
-		doors.add(door2);
+		// Door door2 = new Door(451, 32, "2", 21);
+		// add(door2);
+		// doors.add(door2);
 
-		Door door3 = new Door(933, 301, "3", 62);
-		add(door3);
-		doors.add(door3);
+		// Door door3 = new Door(955, 300, "3", 21);
+		// add(door3);
+		// doors.add(door3);
 
-		Door door4 = new Door(451, 640, "4", 21);
+		Door door4 = new Door(453, 655, "4", 32);
 		add(door4);
 		doors.add(door4);
 
-		/** set playerRobot location **/
-		// Point playerLocation = new Point(451, 550);
-		// playerRobot1.setLocation(playerLocation);
+		/** Add Valleys **/
+		add(new Valley(390, 180, 240, 26));
+		add(new Valley(390, 480, 240, 26));
 
-		/** set room background address **/
-		String roomBackgroundAddress = "/images/rooms/1.png";
+		/** Add Blocks **/
+		// Block block1 = new Block(450, 300, Block.BLOCK_TYPE_1);
+		// add(block1);
+		// Block block2 = new Block(850, 550, Block.BLOCK_TYPE_2);
+		// add(block2);
+
+		/** Add Boxes **/
+		add(new Box(800, 100, null, 21));
+		add(new Box(850, 150, new Prize(PrizeType.Money, 51), 22));
+		add(new Box(50, 50, new Prize(PrizeType.Sheild, 52), 23));
+		add(new Box(200, 50, null, 24));
+		add(new Box(150, 100, null, 25));
+		add(new Box(100, 150, null, 26));
+		add(new Box(50, 200, new Prize(PrizeType.Money, 53), 27));
+		add(new Box(50, 500, null, 28));
+		add(new Box(50, 550, null, 29));
+		add(new Box(100, 550, new Prize(PrizeType.Money, 54), 30));
+		add(new Box(100, 600, null, 31));
+		add(new Box(800, 600, new Prize(PrizeType.Sheild, 55), 32));
+		add(new Box(900, 500, null, 33));
+
+		// /** AddPrizes **/
+		// No need yet!
+
+		/** Add playerRobot to gamePanel **/
+		// if (isMaster) {
+		playerRobot1 = new Player(410, 580, 60, 50, 6, 0, Player.Player_Type_1);
+		add(playerRobot1);
+
+		playerRobot2 = new Player(540, 580, 60, 50, 6, 1, Player.Player_Type_2);
+		add(playerRobot2);
+		// } else {
+		// playerRobot1 = new Player(700, 320, 60, 60, 6, 1,
+		// Player.Player_Type_2);
+		// add(playerRobot1);
+		//
+		// playerRobot2 = new Player(100, 320, 60, 60, 6, 0,
+		// Player.Player_Type_1);
+		// add(playerRobot2);
+		// }
+
+		/** Add Enemies **/
+		// Enemy enemy11 = new Enemy(600, 100, 70, 70, 2, Enemy.ENEMY_TYPE_2,
+		// 11);
+		// add(enemy11);
+		// enemy11.go();
+		//
+		// Enemy enemy12 = new Enemy(400, 100, 70, 70, 2, Enemy.ENEMY_TYPE_2,
+		// 12);
+		// add(enemy12);
+		// enemy12.go();
+		//
+		// Enemy enemy13 = new Enemy(450, 450, 70, 70, 2, Enemy.ENEMY_TYPE_2,
+		// 13);
+		// add(enemy13);
+		// enemy13.go();
+
+		Enemy enemy2 = new Enemy(500, 120, 80, 80, 1, Enemy.ENEMY_TYPE_3, 11);
+		add(enemy2);
+		enemy2.go();
+
+		Enemy enemy3 = new Enemy(200, 250, 80, 80, 1, Enemy.ENEMY_TYPE_3, 12);
+		add(enemy3);
+		enemy3.go();
+
+		Enemy enemy4 = new Enemy(800, 250, 80, 80, 1, Enemy.ENEMY_TYPE_3, 13);
+		add(enemy4);
+		enemy4.go();
 
 		try {
 			background = ImageIO.read(getClass().getResource(
@@ -342,40 +379,49 @@ public class GamePanel extends JPanel {
 		for (Element element : elements)
 			if (!(element instanceof Player))
 				room.addElement(element);
-
+		room.setEnemies(enemies);
 		room.setDoors(doors);
+		room.setPrizes(prizes);
+		room.setBoxes(boxes);
+
+		room.setMasterPlayerLocation(playerRobot1.getLocation());
+		room.setMasterPlayerId(playerRobot1.getId());
+		room.setNormalPlayerLocation(playerRobot2.getLocation());
+		room.setNormalPlayerId(playerRobot2.getId());
+
 		// room.setPlayerLocation(playerLocation);
 		room.setBackgroundImagePath(roomBackgroundAddress);
 
-		// try {
-		// ObjectOutputStream oos = new ObjectOutputStream(
-		// new
-		// FileOutputStream("C:/Users/h-noori/Desktop/rooms/room "+roomId+".dat"));
-		// oos.writeObject(room);
-		// oos.close();
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(
+					new FileOutputStream(
+							"C:/Users/Mr. Coder/Desktop/rooms/room " + roomId
+									+ ".dat"));
+			oos.writeObject(room);
+			oos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 
 	/**
 	 * when health of robot<=0 this method will be called by statusPanel method!
 	 */
-	public void gameOver()
-	{
+	public void gameOver() {
 		gameOver.start();
-		
-		try{
-		Thread.sleep(3000);
-		}catch(Exception e){}
-		
+
+		try {
+			Thread.sleep(3000);
+		} catch (Exception e) {
+		}
+
 		gameFrameRef.remove(this);
 		gameFrameRef.add(MainMenu.getMainMenu());
-		
+
 		gameFrameRef.repaint();
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		g.drawImage(background, 0, 0, this);
@@ -397,6 +443,8 @@ public class GamePanel extends JPanel {
 				prizes.remove(comp);
 			else if (comp instanceof Box)
 				boxes.remove(comp);
+			else if (comp instanceof Door)
+				doors.remove(comp);
 		}
 	}
 
@@ -412,6 +460,8 @@ public class GamePanel extends JPanel {
 				prizes.add((Prize) comp);
 			else if (comp instanceof Box)
 				boxes.add((Box) comp);
+			else if (comp instanceof Door)
+				doors.add((Door) comp);
 		}
 
 		return super.add(comp);
@@ -542,6 +592,8 @@ public class GamePanel extends JPanel {
 	 * nothing.
 	 */
 	public void tryOpeningTheDoors() {
+		System.out.println("try opening the doors.");
+		System.out.println(enemies.size());
 		if (enemies.size() == 0)
 			for (Door door : doors)
 				door.open();
