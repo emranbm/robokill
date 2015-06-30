@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 import useful.Animation;
 import useful.Direction;
 import useful.GlobalKeyListenerFactory;
+import useful.Sound;
 
 /**
  * 
@@ -411,8 +412,11 @@ public class GamePanel extends JPanel {
 	public void gameOver() {
 		gameOver.start();
 
+		Sound shootSound = new Sound("src/sounds/gameOver.wav", false);
+		shootSound.playSound();
+		
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(5000);
 		} catch (Exception e) {
 		}
 

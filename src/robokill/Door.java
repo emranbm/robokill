@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 
 import useful.Animation;
+import useful.Sound;
 
 /**
  * The door element.
@@ -75,6 +76,9 @@ public class Door extends Element {
 	public void open() {
 		isOpened = true;
 		startAnimation();
+		
+		Sound shootSound = new Sound("src/sounds/doorOpened.wav", false);
+		shootSound.playSound();
 	}
 
 	/**

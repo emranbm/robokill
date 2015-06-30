@@ -51,4 +51,8 @@ public class Sound {
 		 }).start();
 	}
 	
+	public boolean isActive()
+	{
+		return clip.isActive();
+	}
 }
