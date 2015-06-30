@@ -251,6 +251,10 @@ public class GamePanel extends JPanel {
 				((Enemy) element).go();
 		}
 
+		/** changing map **/
+		map.setCurrentRoom(room.getId());
+		map.setHomeOccupied(room.getId());
+		
 		repaint();
 
 		tryOpeningTheDoors();
