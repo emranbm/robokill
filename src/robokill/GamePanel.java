@@ -220,7 +220,7 @@ public class GamePanel extends JPanel {
 	 *            The room for applying new properties.
 	 */
 	public void rearrange(Room room) {
-		playerRobot1.setLocation(room.getPlayerLocation());
+//		playerRobot1.setLocation(room.getPlayerLocation());
 
 		background = room.getBackgroundImage();
 
